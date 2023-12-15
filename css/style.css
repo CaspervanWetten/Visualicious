@@ -1,0 +1,9 @@
+.navbar {
+    background-color: #007bff; /* Bright blue */
+}
+.navbar {
+    margin-left: auto;
+}
+.navbar .nav-link {
+    color: #fff; /* White text */
+}
