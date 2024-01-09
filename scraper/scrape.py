@@ -20,15 +20,15 @@ from bs4 import BeautifulSoup as bs4
 # # Display the DataFrame
 # print(df)
 
-# df1 = pd.read_csv("scraper/misdrijf1.csv", delimiter=";")
-# df2 = pd.read_csv("scraper/misdrijf2.csv", delimiter=";")
+df1 = pd.read_csv("scraper/archive/misdrijf1.csv", delimiter=";", na_values='NA')
+df2 = pd.read_csv("scraper/archive/misdrijf2.csv", delimiter=";", na_values='NA')
+df1.dropna(inplace=True)
+df2.dropna(inplace=True)
+df1["Wijken en buurten"] = df1["Wijken en buurten"].str.replace(",", "")
+df1["Geregistreerde misdrijven (aantal)"] = df1["Geregistreerde misdrijven (aantal)"].astype(int)
+df2["Wijken en buurten"] = df2["Wijken en buurten"].str.replace(",", "")
+df2["Geregistreerde misdrijven (aantal)"] = df2["Geregistreerde misdrijven (aantal)"].astype(int)
 
-# print(df1.head())
-# print(df2.head())
 
-
-# combined = pd.concat([df1, df2], ignore_index=False, sort=True)
-
-# print(combined.head())
-
-# combined.to_csv("dataset.csv",sep=";", index=False)
+combined = pd.concat([df1, df2], ignore_index=False, sort=True)
+combined.to_csv("scraper/dataset.csv",sep=",", index=False)
