@@ -1,56 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Visualicious</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <!-- You might need additional meta tags or links for Bootstrap depending on your specific needs -->
-</head>
-<body>
-    
+  </head>
+  <body>
     <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">Visualicious</a>
-            <button class="navbar-toggler" type="button">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+      <div class="container">
+        <a class="navbar-brand" href="#">Visualicious</a>
+        <button class="navbar-toggler" type="button">
+          <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbar">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-            </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
         </div>
-    </div>
-</nav>
-<br>
-<br>
-<div id="container">
-    <div id="bar-chart-container">
+      </div>
+    </nav>
+    <br />
+    <br />
+    <div id="container">
+      <div id="bar-chart-container">
         <select id="order-select">
-            <option value="ascending-letter">Alphabetical</option>
-            <option value="descending-letter">Reverse Alphabetical</option>
-            <option value="ascending-frequency">Ascending Order (Frequency)</option>
-            <option value="descending-frequency">Descending Order (Frequency)</option>
+          <option value="ascending-letter">Alphabetical</option>
+          <option value="descending-letter">Reverse Alphabetical</option>
+          <option value="ascending-frequency">Ascending Order (Frequency)</option>
+          <option value="descending-frequency">Descending Order (Frequency)</option>
         </select>
+      </div>
+      <div id="chart">
+      </div>
     </div>
-</div>
 
-<script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/index.js"></script>
-<!-- You might need additional scripts or Bootstrap JavaScript depending on your specific needs -->
-
-</body>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/functions.js" , type="module"></script>
+    <script src="js/index.js" , type="module"></script>
+    <!-- You might need additional scripts or Bootstrap JavaScript depending on your specific needs -->
+  </body>
 </html>
