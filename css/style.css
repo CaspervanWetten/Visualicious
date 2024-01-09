@@ -7,3 +7,16 @@
 .navbar .nav-link {
     color: #fff; /* White text */
 }
+
+/* Little styling bar chart */
+#container {
+  text-align: center;
+}
+
+#order-select {
+  margin-bottom: 20px;
+}
+
+#bar-chart-container {
+  display: inline-block;
+}
