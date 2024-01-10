@@ -1,20 +1,3 @@
-// Specify the chart’s dimensions.
-const width = 640;
-const height = 400;
-const marginTop = 20;
-const marginRight = 0;
-const marginBottom = 30;
-const marginLeft = 40;
-
-// het inladen van data datasets
-// d3.csv("scraper/archive/totaalMisdrijvenUtrecht.csv").then((data) => {
-//   console.log(data);
-// });
-// d3.csv("scraper/test.csv").then((data) => {
-//   console.log(data);
-//   barChart2(data);
-// });
-
 function barChart2(data) {
   const margin = { top: 20, right: 20, bottom: 50, left: 50 };
   const width = 600 - margin.left - margin.right;
@@ -22,7 +5,7 @@ function barChart2(data) {
 
   // SVG element
   const svg = d3
-    .select("#chart")
+    .select("#bar-chart-2")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -85,3 +68,7 @@ function barChart2(data) {
     .attr("height", (d) => height - y(+d.aantal))
     .attr("fill", "steelblue");
 }
+
+d3.csv("scraper/test.csv").then((data) => {
+  barChart2(data);
+});
