@@ -1,22 +1,57 @@
 .navbar {
-    background-color: #007bff; /* Bright blue */
+  background-color: #007bff;
+  /* Bright blue */
 }
+
 .navbar {
-    margin-left: auto;
+  margin-left: auto;
 }
+
 .navbar .nav-link {
-    color: #fff; /* White text */
+  color: #fff;
+}
+
+.container{
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
 }
 
 /* Little styling bar chart */
-#container {
-  text-align: center;
-}
-
 #order-select {
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 #bar-chart-container {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+}
+
+.map-chart { 
+  display: flex;
+  justify-content: center;
+}
+
+.red-square {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  margin: 0 auto;
+}
+
+.orange-square {
+  width: 50px;
+  height: 50px;
+  background-color: orange;
+  margin: 10px;
+}
+
+.centre {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
 }

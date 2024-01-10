@@ -12,45 +12,50 @@
     <nav class="navbar navbar-expand-lg">
       <div class="container">
         <a class="navbar-brand" href="#">Visualicious</a>
-        <button class="navbar-toggler" type="button">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
-          </ul>
-        </div>
       </div>
     </nav>
     <br />
     <br />
-    <div id="container">
-      <div id="bar-chart-container">
-        <select id="order-select">
-          <option value="ascending-letter">Alphabetical</option>
-          <option value="descending-letter">Reverse Alphabetical</option>
-          <option value="ascending-frequency">Ascending Order (Frequency)</option>
-          <option value="descending-frequency">Descending Order (Frequency)</option>
-        </select>
+
+    <div class="container-fluid">
+      <div class="row">
+        <!-- De dynamische kaart -->
+        <div class="col-5 align-self-center">
+          <div class="map-chart">map</div>
+        </div>
+        <!-- De kolom wat de 4 grafieken vasthoudt-->
+        <div class="col-7 align-self-center">
+          <div class="row">
+            <!-- Bar chart 1-->
+            <div class="col-6 align-self-center">
+              <div id="bar-chart-container"></div> <!--Test grafiek 1-->
+              <select id="order-select">
+                <option value="ascending-letter">Alphabetical</option>
+                <option value="descending-letter">Reverse Alphabetical</option>
+                <option value="ascending-frequency">Ascending Order</option>
+                <option value="descending-frequency">Descending Order</option>
+              </select>
+            </div>
+            <!-- Bar chart 2-->
+            <div class="col-6 align-self-center">
+              <div class="orange-square">bar chart 2</div>
+            </div>
+            <!-- Bar chart 3-->
+            <div class="col-6 align-self-center">
+              <div class="orange-square">bar chart 3</div>
+            </div>
+            <!-- Bar chart 4-->
+            <div class="col-6 align-self-center">
+              <div class="orange-square">bar chart 4</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div id="chart">  </div>
     </div>
 
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/functions.js" , type="module"></script>
     <script src="js/index.js" , type="module"></script>
-    <!-- You might need additional scripts or Bootstrap JavaScript depending on your specific needs -->
   </body>
 </html>
