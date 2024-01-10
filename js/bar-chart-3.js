@@ -37,6 +37,7 @@ function functieTotaalMisdrijvenUtrecht(data) {
     .attr("viewBox", `0 0 600 300`)
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`)
+    .style("font", "40px times")
     .call(responsivefy);
 
   const x = d3
