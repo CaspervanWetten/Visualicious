@@ -12,6 +12,16 @@ function barChart2(data) {
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
+  // Title
+  svg
+    .append("text")
+    .attr("x", width / 2)
+    .attr("y", 15)
+    .attr("text-anchor", "middle")
+    .style("font-size", "16px")
+    .style("font-weight", "bold")
+    .text("Huizen-prijsindex for the last 6 months");
+
   // X and Y scales
   const x = d3
     .scaleBand()
@@ -50,7 +60,7 @@ function barChart2(data) {
     .attr("dy", "-1em")
     .attr("fill", "#000")
     .attr("text-anchor", "middle")
-    .text("Aantal misdrijven");
+    .text("Huizen-prijsindex");
 
   svg.append("g").attr("transform", `translate(0,${height})`).call(xAxis);
   svg.append("g").call(yAxis);

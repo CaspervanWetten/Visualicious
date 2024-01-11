@@ -40,6 +40,15 @@ function functieTotaalMisdrijvenUtrecht(data) {
     .style("font", "40px times")
     .call(responsivefy);
 
+  svg
+    .append("text")
+    .attr("x", width / 2)
+    .attr("y", 15)
+    .attr("text-anchor", "middle")
+    .style("font-size", "16px")
+    .style("font-weight", "bold")
+    .text("Totale hoeveelheid misdrijven in Utrecht");
+
   const x = d3
     .scaleBand()
     .domain(data.map((d) => d.Perioden))

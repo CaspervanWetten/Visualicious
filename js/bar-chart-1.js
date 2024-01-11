@@ -60,7 +60,6 @@ function createBarChart (data) {
     // Create a bar for each letter.
     const bar = svg
       .append("g")
-      .attr("fill", "steelblue")
       .selectAll("rect")
       .data(data)
       .join("rect")
@@ -103,10 +102,10 @@ function createBarChart (data) {
     svg
       .append("text")
       .attr("x", width / 2)
-      .attr("y", marginTop / 2)
+      .attr("y", 15)
       .attr("text-anchor", "middle")
       .style("font-size", "16px")
-      .text("Bar chart example");
+      .text("Example of ordering");
   
     // Function to update the chart based on the selected order
     function updateChart(orderFunction) {
