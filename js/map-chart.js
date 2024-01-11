@@ -12,21 +12,21 @@ const projection = d3.geoMercator()
     .scale(7000) // This is like the zoom
     .translate([ width/2, height/2 ]);
 
-// Load external data and boot
+// Load external data and boot for the base map
 d3.json("netherlands.geojson").then(function(data){
-    // Draw the map
+    // Draw the base map
     svg.append("g")
         .selectAll("path")
         .data(data.features)
         .enter()
         .append("path")
-            .attr("fill", "#6DD100")
+            .attr("fill", "#00BFFF") // Base map color
             .attr("d", d3.geoPath().projection(projection))
             .style("stroke", "#fff")
-            .style("stroke-width", 1);
+            .style("stroke-width", 0.5);
 });
 
-// Load external data for the second drawing of municipalities
+// Load external data and boot for the municipalities
 d3.json("netherlands2.geojson").then(function(data){
     // Draw the municipalities
     const municipalities = svg.append("g")
@@ -34,18 +34,18 @@ d3.json("netherlands2.geojson").then(function(data){
         .data(data.features)
         .enter()
         .append("path")
-            .attr("fill", "transparent") // Initially invisible
+            .attr("fill", "#6DD100") // Municipalities color
             .attr("d", d3.geoPath().projection(projection))
             .style("stroke", "#fff")
-            .style("stroke-width", 1);
+            .style("stroke-width", 0.5);
 
-    // Hover interaction
+    // Hover interaction for municipalities
     municipalities
         .on("mouseover", function(event, d) {
             d3.select(this).attr("fill", "#006400"); // Dark green on hover
         })
-        .on("mouseout", function() {
-            d3.select(this).attr("fill", "transparent"); // Reset on mouseout
+        .on("mouseout", function(event, d) {
+            d3.select(this).attr("fill", "#6DD100"); // Reset to original color on mouseout
         });
 
     // Load and overlay provinces
