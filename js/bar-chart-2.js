@@ -15,13 +15,13 @@ function barChart2(data) {
   // X and Y scales
   const x = d3
     .scaleBand()
-    .domain(data.map((d) => d.periode))
+    .domain(data.map((d) => d.Periode))
     .range([0, width])
     .padding(0.1);
 
   const y = d3
     .scaleLinear()
-    .domain([0, d3.max(data, (d) => +d.aantal)])
+    .domain([0, d3.max(data, (d) => +d["Prijsindex ((2015=100))"])])
     .nice()
     .range([height, 0]);
 
@@ -62,13 +62,13 @@ function barChart2(data) {
     .enter()
     .append("rect")
     .attr("class", "bar")
-    .attr("x", (d) => x(d.periode))
+    .attr("x", (d) => x(d.Periode))
     .attr("width", x.bandwidth())
-    .attr("y", (d) => y(+d.aantal))
-    .attr("height", (d) => height - y(+d.aantal))
-    .attr("fill", "steelblue");
+    .attr("y", (d) => y(+d["Prijsindex ((2015=100))"]))
+    .attr("height", (d) => height - y(+d["Prijsindex ((2015=100))"]));
 }
 
-d3.csv("scraper/test.csv").then((data) => {
-  barChart2(data);
+d3.csv("scraper/huizenprijzenupdated.csv").then((data) => {
+  const bottomRows = data.slice(-6);
+  barChart2(bottomRows);
 });
