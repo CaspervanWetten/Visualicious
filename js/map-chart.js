@@ -1,5 +1,5 @@
 // Set dimensions and margins for the graph
-const width = 960, height = 600;
+const width = 960, height = 700;
 
 // Append the svg object to the body of the page
 const svg = d3.select("svg")
@@ -25,4 +25,31 @@ d3.json("netherlands.geojson").then(function(data){
             .attr("d", d3.geoPath().projection(projection))
             .style("stroke", "#fff")
             .style("stroke-width", 1);
+});
+
+// Load external data and boot
+d3.json("netherlands.geojson").then(function(data){
+    // Draw the municipalities
+    svg.append("g")
+        .selectAll("path")
+        .data(data.features)
+        .enter()
+        .append("path")
+            .attr("fill", "#000000")
+            .attr("d", d3.geoPath().projection(projection))
+            .style("stroke", "#fff")
+            .style("stroke-width", 1);
+
+    // Load and overlay provinces
+    d3.json("netherlands_provinces.geojson").then(function(provinceData){
+        svg.append("g")
+            .selectAll("path")
+            .data(provinceData.features)
+            .enter()
+            .append("path")
+                .attr("fill", "none") // Set fill to none to make it an overlay
+                .attr("stroke", "#ff0000") // Stroke color for the provinces
+                .attr("stroke-width", 1.5) // Stroke width
+                .attr("d", d3.geoPath().projection(projection));
+    });
 });
