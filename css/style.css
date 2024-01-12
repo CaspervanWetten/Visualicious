@@ -29,6 +29,11 @@
   justify-content: center;
 }
 
+#bar-chart-2 {
+  display: flex;
+  justify-content: center;
+}
+
 .map-chart { 
   display: flex;
   justify-content: center;
