@@ -103,10 +103,48 @@ function barChart2(data) {
     .attr("x", (d) => x(d.Periode))
     .attr("width", x.bandwidth())
     .attr("y", (d) => y(+d["Prijsindex ((2015=100))"]))
-    .attr("height", (d) => height - y(+d["Prijsindex ((2015=100))"]));
+    .attr("height", (d) => height - y(+d["Prijsindex ((2015=100))"])).on("mouseover", function (event, d) {
+      const tooltip = d3.select("#tooltip");
+      tooltip.transition().duration(200).style("opacity", 0.9);
+      tooltip.html(`Prijsindex: ${d["Prijsindex ((2015=100))"]}`)
+        .style("left", event.pageX + "px")
+        .style("top", event.pageY - 28 + "px");
+    })
+    .on("mousemove", function (event, d) {
+      const bar = d3.select(this);
+      const tooltip = d3.select("#tooltip");
+
+      // Outline the hovered bar
+      bar.transition().duration(200).attr("stroke", "white").attr("stroke-width", 5);
+
+      // Fancy animation for the tooltip
+      tooltip.transition().duration(200).style("opacity", 0.9);
+
+      // Tooltip content
+      const tooltipContent = `Prijsindex: ${d["Prijsindex ((2015=100))"]}`;
+
+      // Position the tooltip
+      tooltip
+        .html(tooltipContent)
+        .style("left", event.pageX + "px")
+        .style("top", event.pageY - 28 + "px");
+    })
+    .on("mouseout", function () {
+      const bar = d3.select(this);
+      const tooltip = d3.select("#tooltip");
+
+      // Remove outline from the bar
+      bar.transition().duration(200).attr("stroke", "none");
+
+      // Fade out the tooltip
+      tooltip.transition().duration(500).style("opacity", 0);
+    });
 }
 
 d3.csv("scraper/huizenprijzenupdated.csv").then((data) => {
+  const filteredData = data.filter((d) => d.regio === "Nieuwegein");
+
+  
   const bottomRows = data.slice(-6);
   barChart2(bottomRows);
 });
