@@ -1,130 +1,143 @@
 function responsivefy(svg) {
-  // get container + svg aspect ratio
   var container = d3.select(svg.node().parentNode),
-    width = parseInt(svg.style("width")),
-    height = parseInt(svg.style("height")),
-    aspect = width / height;
+      width = parseInt(svg.style("width")),
+      height = parseInt(svg.style("height")),
+      aspect = width / height;
 
-  // add viewBox and preserveAspectRatio properties,
-  // and call resize so that svg resizes on inital page load
-  svg
-    .attr("viewBox", "0 0 " + width + " " + height)
-    .attr("perserveAspectRatio", "xMinYMid")
-    .call(resize);
+    svg.attr("viewBox", "0 0 " + width + " " + height)
+     .attr("preserveAspectRatio", "xMinYMid")
+     .call(resize);
+    d3.select(window).on("resize." + container.attr("id"), resize);
 
-  // to register multiple listeners for same event type,
-  // you need to add namespace, i.e., 'click.foo'
-  // necessary if you call invoke this function for multiple svgs
-  // api docs: https://github.com/mbostock/d3/wiki/Selections#on
-  d3.select(window).on("resize." + container.attr("id"), resize);
-
-  // get width of container and resize svg to fit it
-  function resize() {
+function resize() {
     var targetWidth = parseInt(container.style("width"));
     svg.attr("width", targetWidth);
     svg.attr("height", Math.round(targetWidth / aspect));
   }
 }
 
-// Set dimensions and margins for the graph
-const width = 960,
-  height = 700;
+const mapDiv = d3.select("#map-chart-container");
+const divWidth = mapDiv.node().clientWidth;
+const divHeight = mapDiv.node().clientHeight;
 
-// Append the svg object to the body of the page
-const svg = d3.select("svg").attr("width", width).attr("height", height).call(responsivefy);
+const svg = mapDiv.append("svg")
+              .attr("viewBox", `0 0 ${divWidth} ${divHeight}`)
+              .attr("preserveAspectRatio", "xMidYMid meet")
+              .attr("width", divWidth)
+              .attr("height", 550)
+              .call(responsivefy);
 
-// Map and projection
-const projection = d3
-  .geoMercator()
-  .center([5.3, 52.5]) // GPS of location to zoom on (roughly center of the Netherlands)
-  .scale(7000) // This is like the zoom
-  .translate([width / 3, height / 3]);
+// Set a light blue background and a black border for the SVG map
+svg.append("rect")
+  .attr("width", "100%")
+  .attr("height", "100%")
+  .attr("fill", "#6dd3f7")
 
-// Load external data and boot for the base map
-d3.json("outline.geojson").then(function (data) {
-  // Draw the base map
-  svg
-    .append("g")
-    .selectAll("path")
-    .data(data.features)
-    .enter()
-    .append("path")
-    .attr("fill", "#00BFFF") // Base map color = water blue
-    .attr("d", d3.geoPath().projection(projection))
-    .style("stroke", "#fff")
-    .style("stroke-width", 0.5);
+const projection = d3.geoMercator()
+              .center([5.3, 53.6])
+              .scale(divWidth * 9)
+              .translate([divWidth / 2, divHeight / 2]);
+
+const zoom = d3.zoom()
+               .scaleExtent([1, 8])
+               .on('zoom', (event) => {
+                   svg.selectAll('path').attr('transform', event.transform);
+               });
+
+svg.call(zoom);
+
+// Wrap your paths in a 'g' element
+const mapLayer = svg.append("g").classed("map-layer", true);
+
+d3.json("outline.geojson").then(function(data) {
+  // Draw the land areas with borders
+  svg.append("g")
+    .selectAll("path.land")
+    .data(data.features.filter(function(d) { return d.properties.type === "land"; })) // This filter assumes your features have a 'type' property
+    .enter().append("path")
+      .attr("class", "land")
+      .attr("fill", "#6DD100")
+      .attr("d", d3.geoPath().projection(projection))
+      .style("stroke", "#fff")
+      .style("stroke-width", 0.5);
+
+  // Draw the water areas without borders
+  svg.append("g")
+    .selectAll("path.water")
+    .data(data.features.filter(function(d) { return d.properties.type === "water"; })) // This filter assumes your features have a 'type' property
+    .enter().append("path")
+      .attr("class", "water")
+      .attr("fill", "#00BFFF")
+      .attr("d", d3.geoPath().projection(projection))
+      .style("stroke", "none"); // No border for water
 });
 
 let crimeDataByMunicipality = {};
 
-d3.csv("scraper/dataset.csv").then(function (data) {
-  data.forEach((d) => {
-    // Assuming the data is sorted by date for each municipality
+d3.csv("/scraper/dataset.csv").then(function(data) {
+  data.forEach(function(d) {
     crimeDataByMunicipality[d["Wijken en buurten"]] = d;
   });
 });
 
-// Load external data and boot for the municipalities
-d3.json("new_municipalities.geojson").then(function (data) {
-  // Draw the municipalities
-  const municipalities = svg
-    .append("g")
-    .selectAll("path")
-    .data(data.features)
-    .enter()
-    .append("path")
-    .attr("fill", "#6DD100") // Municipalities color
-    .attr("d", d3.geoPath().projection(projection))
-    .style("stroke", "#fff")
-    .style("stroke-width", 0.5);
-
-  const tooltip = d3.select("#tooltip");
-
-  // Hover interaction for municipalities
-  municipalities
-    .on("mouseover", function (event, d) {
-      d3.select(this).attr("fill", "#006400"); // Dark green on hover
-
-      tooltip.transition().duration(200).style("opacity", 0.9);
-      console.log(this.__data__);
-
-      const [x, y] = d3.pointer(event, svg.node()); // Get mouse position relative to the SVG
-
-      let municipalityName = this.__data__.properties.name;
-      let tooltipContent = municipalityName;
-
-      let crimeData = crimeDataByMunicipality[municipalityName];
-      console.log(crimeData);
-      if (crimeData) {
-        tooltipContent +=
-          "<br>Misdrijven (" +
-          crimeData["Perioden"] +
-          "): " +
-          crimeData["Geregistreerde misdrijven (aantal)"];
-      }
-
-      tooltip
-        .html(tooltipContent)
-        .style("left", x + 15 + "px") // Adjust these values as needed
-        .style("top", y + 75 + "px");
-    })
-    .on("mouseout", function (event, d) {
-      d3.select(this).attr("fill", "#6DD100"); // Reset to original color on mouseout
-
-      tooltip.transition().duration(500).style("opacity", 0);
-    });
-
-  // Load and overlay provinces
-  d3.json("provinces.geojson").then(function (provinceData) {
-    svg
-      .append("g")
-      .selectAll("path")
-      .data(provinceData.features)
-      .enter()
-      .append("path")
-      .attr("fill", "none") // Set fill to none to make it an overlay
-      .attr("stroke", "#999999") // Stroke color for the provinces
-      .attr("stroke-width", 1.5) // Stroke width
-      .attr("d", d3.geoPath().projection(projection));
-  });
+d3.json("new_municipalities.geojson").then(function(data) {
+  svg.append("g")
+     .selectAll("path")
+     .data(data.features)
+     .enter().append("path")
+        // Add class for styling and interaction
+        .attr("class", "municipality")
+        .attr("fill", "#6DD100")
+        .attr("d", d3.geoPath().projection(projection))
+        .style("stroke", "#fff")
+        .style("stroke-width", 0.5)
+        // Add click event listener for zoom
+        .on('click', (event, d) => {
+            zoomToArea(d);
+        });
 });
+
+function zoomToArea(featureData) {
+  const bounds = d3.geoPath().projection(projection).bounds(featureData);
+  const dx = bounds[1][0] - bounds[0][0];
+  const dy = bounds[1][1] - bounds[0][1];
+  const x = (bounds[0][0] + bounds[1][0]) / 2;
+  const y = (bounds[0][1] + bounds[1][1]) / 2;
+
+  let scale = .9 / Math.max(dx / divWidth, dy / divHeight);
+  let translate = [divWidth / 2 - scale * x, divHeight / 2 - scale * y];
+
+  svg.transition()
+    .duration(750)
+    .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
+}
+
+const provinceLayer = svg.append("g").classed("province-layer", true);
+
+d3.json("provinces.geojson").then(function(provinceData) {
+    provinceLayer.selectAll("path.province")
+      .data(provinceData.features)
+      .enter().append("path")
+        .attr("class", "province")
+        .attr("fill", "none") // No fill for the province borders
+        .attr("d", d3.geoPath().projection(projection))
+        .style("stroke", "#000000") // Black stroke for the province borders
+        .style("stroke-width", 1)
+        .on('click', function(event, d) {
+          zoomToArea(d);
+        });
+});
+
+const tooltip = d3.select("body").append("div")
+                  .attr("class", "tooltip")
+                  .style("opacity", 0);
+
+provinceLayer.selectAll("path.province")
+  .on('click', (event, d) => {
+      zoomToArea(d, divWidth, divHeight);
+  });
+
+svg.selectAll("path.municipality")
+  .on('click', (event, d) => {
+      zoomToArea(d, divWidth, divHeight);
+  });

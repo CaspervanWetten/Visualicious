@@ -85,3 +85,14 @@ function barChart2(data) {
     .attr("height", (d) => height - y(+d.aantal))
     .attr("fill", "steelblue");
 }
+
+function toggleSidebar() {
+  var sidebar = document.getElementById("mySidenav");
+  if (sidebar.style.width === '0px' || sidebar.style.width === '') {
+    sidebar.style.width = '250px'; // Width of sidebar when open
+  } else {
+    sidebar.style.width = '0px'; // Collapse sidebar
+  }
+}
+
+document.getElementById("hamburger-icon").addEventListener("click", toggleSidebar);

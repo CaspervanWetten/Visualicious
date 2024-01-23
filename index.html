@@ -15,17 +15,24 @@
   <nav class="navbar navbar-expand-lg">
       <div class="container">
         <a class="navbar-brand" href="#">Visualicious</a>
+          <!-- Hamburger Icon -->
+          <div id="hamburger-icon" onclick="toggleSidebar()">
+            &#9776;
+          </div>
+          <!-- The Side Navigation Bar -->
+          <div id="mySidenav" class="sidenav">
+            <!-- Add navigation links or other content here -->
+          </div>
       </div>
     </nav>
-    <br />
-    <br />
-
+    <br> <!-- even een white space -->
     <div class="container-fluid">
       <div class="row">
         <!-- De dynamische kaart -->
         <div class="col-5 align-self-center">
-          <div class="map-chart">map</div>
-          <svg width="960" height="700"></svg>
+          <div id="map-chart-container" class="map-chart">
+            <button id="resetButton">Reset Map</button>
+          </div>
         </div>
         <!-- De kolom wat de 4 grafieken vasthoudt-->
         <div class="col-7 align-self-center">
@@ -63,7 +70,7 @@
     <script src="js/bar-chart-2.js"></script>
     <script src="js/bar-chart-3.js"></script>
     <script src="js/bar-chart-4.js"></script>
-    <script src="js/map-chart.js"></script>
-    <script src="js/index.js" , type="module"></script>
+    <script src="js/map-chart2.js"></script>
+    <script src="js/index.js", type="module"></script>
   </body>
 </html>
