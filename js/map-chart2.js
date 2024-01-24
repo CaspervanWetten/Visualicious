@@ -67,7 +67,8 @@ var zoom = d3.zoom()
              .scaleExtent([1, 8])
              .on("zoom", zoomed);
 
-svg.call(zoom);
+svg.call(zoom)
+    .on("dblclick.zoom", null)
 
 function zoomed({transform}) {
     municipalitiesGroup.selectAll("path").attr("transform", transform);
@@ -75,7 +76,7 @@ function zoomed({transform}) {
 }
 
 // Load GeoJSON data for municipalities
-d3.json("new_municipalities.geojson").then(function(municipalities) {
+d3.json("newer_municipalities.geojson").then(function(municipalities) {
     municipalitiesGroup.selectAll("path")
         .data(municipalities.features)
         .enter()
