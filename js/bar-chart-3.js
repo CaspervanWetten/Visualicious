@@ -76,8 +76,70 @@ function functieTotaalMisdrijvenUtrecht(data) {
     .attr("class", "bar")
     .attr("x", (d) => x(d.Perioden))
     .attr("width", x.bandwidth())
+    .attr("y", height) // Start from the bottom
+    .attr("height", 0) // Initially have zero height
+    .transition()
+    .duration(1000)
     .attr("y", (d) => y(+d.aantal))
-    .attr("height", (d) => height - y(+d.aantal));
+    .attr("height", (d) => height - y(+d.aantal)) // Calculate height based on the data
+    .on("end", function () {
+      d3.select(this)
+        .on("mouseover", function (event, d) {
+          const bar = d3.select(this);
+          const tooltip = d3.select("#tooltip");
+          // Outline the hovered bar
+          bar
+            .transition()
+            .duration(150)
+            .attr("stroke", "white")
+            .attr("stroke-width", 5);
+
+          // Fancy animation for the tooltip
+          tooltip.transition().duration(150).style("opacity", 0.9);
+
+          // Tooltip content
+          const tooltipContent = `Totaal aantal misdaden: \n${d["aantal"]}`;
+
+          // Position the tooltip
+          tooltip
+            .html(tooltipContent)
+            .style("left", event.pageX + "px")
+            .style("top", event.pageY - 28 + "px");
+        })
+        .on("mousemove", function (event, d) {
+          const bar = d3.select(this);
+          const tooltip = d3.select("#tooltip");
+
+          // Outline the hovered bar
+          bar
+            .transition()
+            .duration(150)
+            .attr("stroke", "white")
+            .attr("stroke-width", 5);
+
+          // Fancy animation for the tooltip
+          tooltip.transition().duration(150).style("opacity", 0.9);
+
+          // Tooltip content
+          const tooltipContent = `Totaal aantal misdrijven: \n${d["aantal"]}`;
+
+          // Position the tooltip
+          tooltip
+            .html(tooltipContent)
+            .style("left", event.pageX + "px")
+            .style("top", event.pageY - 28 + "px");
+        })
+        .on("mouseout", function () {
+          const bar = d3.select(this);
+          const tooltip = d3.select("#tooltip");
+
+          // Remove outline from the bar
+          bar.transition().duration(200).attr("stroke", "none");
+
+          // Fade out the tooltip
+          tooltip.transition().duration(500).style("opacity", 0);
+        });
+    });
 }
 
 d3.csv("scraper/archive/totaalMisdrijvenUtrecht.csv").then(

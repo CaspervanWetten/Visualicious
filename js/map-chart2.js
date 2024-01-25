@@ -1,4 +1,7 @@
+import {focusArea, setFocusArea, hoverArea, setHoverArea, setMapSize} from "./index.js";
+
 const tooltip = d3.select("#tooltip");
+
 
 // Width and height for the SVG
 var width = 800, height = 600;
@@ -28,6 +31,10 @@ var provincesGroup = svg.append("g");
 // Initially hide the municipalities
 municipalitiesGroup.style("display", "none");
 
+
+
+
+
 // Click handler for provinces
 function onProvinceClick(event, d) {
     var bounds = path.bounds(d),
@@ -45,6 +52,10 @@ function onProvinceClick(event, d) {
     provinceClicked = true;
     provincesGroup.selectAll("path").attr("fill", "none");
     municipalitiesGroup.style("display", "block");
+
+    setFocusArea(d.properties.name)
+
+    setMapSize(false);
 }
 
 // Click handler for municipalities
@@ -61,12 +72,27 @@ function onMunicipalityClick(event, d) {
         svg.transition()
             .duration(750)
             .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
+
+        setFocusArea(d.properties.name)
     }
+
+    setMapSize(false);
 }
+
+
+
+
+svg.on("mousemove", function(event) {
+    const [x, y] = d3.pointer(event, svg.node());
+    d3.select("#tooltip")
+        .style("left", (x - 100) + "px") // Adjust these values as needed
+        .style("top", (y - 20) + "px");
+});
+
 
 // Zoom and pan settings
 var zoom = d3.zoom()
-    .scaleExtent([1, 8])
+    .scaleExtent([1, 2])
     .on("zoom", zoomed);
 
 svg.call(zoom)
@@ -76,6 +102,11 @@ function zoomed({transform}) {
     municipalitiesGroup.selectAll("path").attr("transform", transform);
     provincesGroup.selectAll("path").attr("transform", transform);
 }
+
+
+
+
+
 
 // Load GeoJSON data for municipalities
 d3.json("newer_municipalities.geojson").then(function(municipalities) {
@@ -87,22 +118,29 @@ d3.json("newer_municipalities.geojson").then(function(municipalities) {
         .attr("fill", "#6DD100")
         .attr("stroke", "#FFFFFF")
         .attr("stroke-width", 0.3)
-        // .on("mouseover", function (d) {
-        //     // Show the tooltip on hover
-        //     tooltip.transition()
-        //         .duration(200)
-        //         .style("opacity", 0.9);
-        //     tooltip.html(d.properties.name)
-        //         .style("left", (d3.event.pageX + 5) + "px")
-        //         .style("top", (d3.event.pageY - 20) + "px");
-        // })
-        // .on("mouseout", function (d) {
-        //     // Hide the tooltip when the mouse is out
-        //     tooltip.transition()
-        //         .duration(500)
-        //         .style("opacity", 0);
-        // })
+        .on("click", onMunicipalityClick)
         .each(function(d) {
+            // Add tooltip on hover for provinces
+            d3.select(this)
+                .on("mouseover", function () {
+                    // d3.select(this).attr("fill", "#006400");
+                    const [x, y] = d3.pointer(event, svg.node());
+                    setHoverArea(d.properties.name);
+
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", 1);
+                    tooltip.html(d.properties.name)
+                        .style("left", (x + 1020) + "px") // Adjust these values as needed
+                        .style("top", (y - 50) + "px");
+                })
+                .on("mouseout", function () {
+                    // d3.select(this).attr("fill", null);
+                    setHoverArea(null);
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
             // Append a title element to each path
             d3.select(this)
                 .append("title")
@@ -125,18 +163,20 @@ d3.json("provinces.geojson").then(function(provinces) {
             // Add tooltip on hover for provinces
             d3.select(this)
                 .on("mouseover", function () {
-                    d3.select(this).attr("fill", "#006400");
+                    // d3.select(this).attr("fill", "#006400");
                     const [x, y] = d3.pointer(event, svg.node());
+                    setHoverArea(d.properties.name);
 
                     tooltip.transition()
                         .duration(200)
                         .style("opacity", 1);
                     tooltip.html(d.properties.name)
-                        .style("left", (x + 0) + "px") // Adjust these values as needed
+                        .style("left", (x + 1020) + "px") // Adjust these values as needed
                         .style("top", (y - 50) + "px");
                 })
                 .on("mouseout", function () {
-                    d3.select(this).attr("fill", "#6DD100");
+                    // d3.select(this).attr("fill", null);
+                    setHoverArea(null);
                     tooltip.transition()
                         .duration(500)
                         .style("opacity", 0);
@@ -180,6 +220,27 @@ function resetMapView() {
     // Show provinces and hide municipalities
     provincesGroup.selectAll("path").attr("fill", "#6DD100");
     municipalitiesGroup.style("display", "none");
+
+    setMapSize(true);
+    setFocusArea("NL")
 }
 
 d3.select("#resetButton").on("click", resetMapView);
+
+function makeMapBiggerIfNeeded() {
+    if (!hoverArea) {
+        setMapSize(true);
+    }
+}
+
+// Click handler for the map container
+d3.select("#map-chart-container").on("click", makeMapBiggerIfNeeded);
+
+
+$(function(){
+    setInterval(oneSecondFunction, 1000);
+});
+
+function oneSecondFunction() {
+// stuff you want to do every second
+}

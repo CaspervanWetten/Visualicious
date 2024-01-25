@@ -1,7 +1,17 @@
 // Global variables and settings
 
 export let focusArea = "NL";
+const selectedAreaText = d3.select("#selectedAreaText");
+
+export function setFocusArea(newFocusArea) {
+  focusArea = newFocusArea;
+  selectedAreaText.html(focusArea);
+}
 export let hoverArea = "";
+
+export function setHoverArea(newHoverArea) {
+  hoverArea = newHoverArea;
+}
 
 // INDEX JS
 
@@ -77,18 +87,33 @@ function barChart2(data) {
 }
 
 
-document.getElementById('changeLayoutButton').addEventListener('click', function() {
+export function setMapSize(big) {
+
   var mapColumn = document.getElementById('mapColumn');
   var contentColumn = document.getElementById('contentColumn');
 
-  // Toggle between col-5 and col-3 for the map section
-  mapColumn.classList.toggle('col-5');
-  mapColumn.classList.toggle('col-3');
+  if (big == true) {
+    // Toggle between col-5 and col-3 for the map section
+    mapColumn.classList.add('col-5');
+    mapColumn.classList.remove('col-3');
 
-  // Adjust the right content section accordingly
-  contentColumn.classList.toggle('col-5');
-  contentColumn.classList.toggle('col-7');
+    // Adjust the right content section accordingly
+    contentColumn.classList.add('col-5');
+    contentColumn.classList.remove('col-7');
 
-  setZoomLevel(7500);
+    // setZoomLevel(7500);
 
-});
+  }
+  else {
+    // Toggle between col-5 and col-3 for the map section
+    mapColumn.classList.remove('col-5');
+    mapColumn.classList.add('col-3');
+
+    // Adjust the right content section accordingly
+    contentColumn.classList.remove('col-5');
+    contentColumn.classList.add('col-7');
+
+    // setZoomLevel(7500);
+  }
+
+}

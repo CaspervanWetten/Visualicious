@@ -12,7 +12,7 @@
 
 <body class="bg-secondary">
 
-<div id="tooltip" style="position: absolute; opacity: 1; background: #fff; border: 1px solid #000; padding: 10px; pointer-events: none; z-index: 1000;"></div>
+<div id="tooltip" style="position: absolute; opacity: 0; background: #fff; border: 1px solid #000; padding: 10px; pointer-events: none; z-index: 1000;"></div>
 
 <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
@@ -43,18 +43,15 @@
             <!-- Middle Section -->
             <div class="col-2 px-1 pb-2 full-height transition-width">
 
-                <div id="" class="bg-primary rounded" style="width: 100%; height: 100%;">
-                    <!-- Button to change column sizes -->
-                    <button id="changeLayoutButton" class="btn btn-info">Change Layout</button>
+                <div id="" class="bg-light rounded" style="width: 100%; height: 100%;">
 
-                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
-                        Tooltip on top
-                    </button>
+                    <div id="selectedAreaText">NL</div>
 
-                    <!-- Collapsible Menus -->
-                    <div class="accordion" id="accordionExample">
-                        <!-- Collapsible menu items -->
-                    </div>
+                    <br>
+                    DATE SLIDER HERE
+                    <br>
+                    TYPE OF CRIMES SELECTION HERE
+
                 </div>
 
 
@@ -62,9 +59,25 @@
 
             <!-- Right Content Section -->
             <div id="contentColumn" class="col-5 px-1 pb-2 full-height transition-width">
-
-                <div id="" class="bg-success rounded" style="width: 100%; height: 100%;">
-
+                <div id="" class="bg-light rounded" style="width: 100%; height: 100%;">
+                    <div class="row">
+                        <!-- chart 1-->
+                        <div class="col-6 align-self-center align-self-centre-vertical">
+                          <div class="orange-square align-self-center"> hier komt nog iets</div>
+                          </div>
+                        <!-- Bar chart 2-->
+                        <div class="col-6 align-self-center">
+                            <div class="orange-square align-self-center"> hier komt nog iets</div> 
+                        </div>
+                        <!-- Bar chart -->
+                        <div class="col-6 align-self-center">
+                          <div id="totaalMisdrijvenUtrecht"></div>
+                        </div>
+                        <!-- Square Area chart -->
+                        <div class="col-6 align-self-center">
+                          <div ID="square-area-chart"></div>
+                        </div>
+                      </div>
                 </div>
 
             </div>
@@ -72,13 +85,14 @@
     </div>
 
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/bar-chart-1.js"></script>
-    <script src="js/bar-chart-2.js"></script>
-    <script src="js/bar-chart-3.js"></script>
-    <script src="js/bar-chart-4.js"></script>
-    <script src="js/map-chart2.js"></script>
-    <script src="js/index.js" type="module"></script>
+    <script type="module" src="js/index.js"></script>
+    <script type="text/javascript" src="js/filter.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript"  src="js/bar-chart-1.js"></script>
+    <script type="text/javascript" src="js/bar-chart-2.js"></script>
+    <script type="text/javascript" src="js/bar-chart-3.js"></script>
+    <script type="text/javascript" src="js/bar-chart-4.js"></script>
+    <script type="module" src="js/map-chart2.js"></script>
 
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
