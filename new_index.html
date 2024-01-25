@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="bg-secondary">
+
+<div id="tooltip" style="position: absolute; opacity: 1; background: #fff; border: 1px solid #000; padding: 10px; pointer-events: none; z-index: 1000;"></div>
+
+<!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+        <a class="navbar-brand" href="#">Visualicious</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+<!--                <li class="nav-item active">-->
+<!--                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>-->
+<!--                </li>-->
+
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row px-1">
+            <!-- Map Section -->
+            <div id="mapColumn" class="col-5 px-1 pb-2 full-height transition-width">
+                <!-- Your map content goes here -->
+                <div id="map-chart-container" class="map-chart rounded" style="width: 100%; height: 100%;">
+                    <button id="resetButton" class="btn btn-dark ">Reset</button>
+                </div>
+            </div>
+
+            <!-- Middle Section -->
+            <div class="col-2 px-1 pb-2 full-height transition-width">
+
+                <div id="" class="bg-primary rounded" style="width: 100%; height: 100%;">
+                    <!-- Button to change column sizes -->
+                    <button id="changeLayoutButton" class="btn btn-info">Change Layout</button>
+
+                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+                        Tooltip on top
+                    </button>
+
+                    <!-- Collapsible Menus -->
+                    <div class="accordion" id="accordionExample">
+                        <!-- Collapsible menu items -->
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Right Content Section -->
+            <div id="contentColumn" class="col-5 px-1 pb-2 full-height transition-width">
+
+                <div id="" class="bg-success rounded" style="width: 100%; height: 100%;">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bar-chart-1.js"></script>
+    <script src="js/bar-chart-2.js"></script>
+    <script src="js/bar-chart-3.js"></script>
+    <script src="js/bar-chart-4.js"></script>
+    <script src="js/map-chart2.js"></script>
+    <script src="js/index.js" type="module"></script>
+
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

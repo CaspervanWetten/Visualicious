@@ -1,19 +1,9 @@
-// Specify the chart’s dimensions.
-const width = 640;
-const height = 400;
-const marginTop = 20;
-const marginRight = 0;
-const marginBottom = 30;
-const marginLeft = 40;
+// Global variables and settings
 
-// het inladen van data datasets
-// d3.csv("scraper/archive/totaalMisdrijvenUtrecht.csv").then((data) => {
-//   console.log(data);
-// });
-// d3.csv("scraper/test.csv").then((data) => {
-//   console.log(data);
-//   barChart2(data);
-// });
+export let focusArea = "NL";
+export let hoverArea = "";
+
+// INDEX JS
 
 function barChart2(data) {
   const margin = { top: 20, right: 20, bottom: 50, left: 50 };
@@ -86,13 +76,19 @@ function barChart2(data) {
     .attr("fill", "steelblue");
 }
 
-function toggleSidebar() {
-  var sidebar = document.getElementById("mySidenav");
-  if (sidebar.style.width === '0px' || sidebar.style.width === '') {
-    sidebar.style.width = '250px'; // Width of sidebar when open
-  } else {
-    sidebar.style.width = '0px'; // Collapse sidebar
-  }
-}
 
-document.getElementById("hamburger-icon").addEventListener("click", toggleSidebar);
+document.getElementById('changeLayoutButton').addEventListener('click', function() {
+  var mapColumn = document.getElementById('mapColumn');
+  var contentColumn = document.getElementById('contentColumn');
+
+  // Toggle between col-5 and col-3 for the map section
+  mapColumn.classList.toggle('col-5');
+  mapColumn.classList.toggle('col-3');
+
+  // Adjust the right content section accordingly
+  contentColumn.classList.toggle('col-5');
+  contentColumn.classList.toggle('col-7');
+
+  setZoomLevel(7500);
+
+});

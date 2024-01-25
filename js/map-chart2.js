@@ -1,20 +1,22 @@
+const tooltip = d3.select("#tooltip");
+
 // Width and height for the SVG
 var width = 800, height = 600;
 
 // Create the SVG container and set the origin
 var svg = d3.select("#map-chart-container").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+    .attr("width", "100%")
+    .attr("height", "100%");
 
 // Define map projection
 var projection = d3.geoMercator()
-                   .center([5.2913, 52.1326]) // Approximate center of the Netherlands
-                   .scale(7000) // Scale to suit your map
-                   .translate([width / 2, height / 2]);
+    .center([6.05, 52.8]) // Approximate center of the Netherlands
+    .scale(8250) // Scale to suit your map
+    .translate([width / 2, height / 2]);
 
 // Define path generator
 var path = d3.geoPath()
-             .projection(projection);
+    .projection(projection);
 
 // Flag to determine if a province was clicked
 var provinceClicked = false;
@@ -37,8 +39,8 @@ function onProvinceClick(event, d) {
         translate = [width / 2 - scale * x, height / 2 - scale * y];
 
     svg.transition()
-       .duration(750)
-       .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
+        .duration(750)
+        .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
 
     provinceClicked = true;
     provincesGroup.selectAll("path").attr("fill", "none");
@@ -57,18 +59,18 @@ function onMunicipalityClick(event, d) {
             translate = [width / 2 - scale * x, height / 2 - scale * y];
 
         svg.transition()
-           .duration(750)
-           .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
+            .duration(750)
+            .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
     }
 }
 
 // Zoom and pan settings
 var zoom = d3.zoom()
-             .scaleExtent([1, 8])
-             .on("zoom", zoomed);
+    .scaleExtent([1, 8])
+    .on("zoom", zoomed);
 
 svg.call(zoom)
-    .on("dblclick.zoom", null)
+    .on("dblclick.zoom", null);
 
 function zoomed({transform}) {
     municipalitiesGroup.selectAll("path").attr("transform", transform);
@@ -85,12 +87,27 @@ d3.json("newer_municipalities.geojson").then(function(municipalities) {
         .attr("fill", "#6DD100")
         .attr("stroke", "#FFFFFF")
         .attr("stroke-width", 0.3)
-        .on("click", onMunicipalityClick)
+        // .on("mouseover", function (d) {
+        //     // Show the tooltip on hover
+        //     tooltip.transition()
+        //         .duration(200)
+        //         .style("opacity", 0.9);
+        //     tooltip.html(d.properties.name)
+        //         .style("left", (d3.event.pageX + 5) + "px")
+        //         .style("top", (d3.event.pageY - 20) + "px");
+        // })
+        // .on("mouseout", function (d) {
+        //     // Hide the tooltip when the mouse is out
+        //     tooltip.transition()
+        //         .duration(500)
+        //         .style("opacity", 0);
+        // })
         .each(function(d) {
-          // Append a title element to each path
-          d3.select(this)
-            .append("title")
-            .text(d.properties.name)})
+            // Append a title element to each path
+            d3.select(this)
+                .append("title")
+                .text(d.properties.name);
+        });
 });
 
 // Load GeoJSON data for provinces
@@ -105,24 +122,64 @@ d3.json("provinces.geojson").then(function(provinces) {
         .attr("stroke-width", 0.8)
         .on("click", onProvinceClick)
         .each(function(d) {
-          // Append a title element to each path
-          d3.select(this)
-            .append("title")
-            .text(d.properties.name)})
+            // Add tooltip on hover for provinces
+            d3.select(this)
+                .on("mouseover", function () {
+                    d3.select(this).attr("fill", "#006400");
+                    const [x, y] = d3.pointer(event, svg.node());
+
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", 1);
+                    tooltip.html(d.properties.name)
+                        .style("left", (x + 0) + "px") // Adjust these values as needed
+                        .style("top", (y - 50) + "px");
+                })
+                .on("mouseout", function () {
+                    d3.select(this).attr("fill", "#6DD100");
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
+            // Append a title element to each path
+            d3.select(this)
+                .append("title")
+                .text(d.properties.name);
+        });
 });
 
+function setZoomLevel(scale) {
+    // // Get the current center coordinates
+    // var center = projection.center();
+    //
+    // console.log(center);
+    //
+    // // Update the projection's scale
+    // projection.scale(scale);
+    //
+    // // Apply the same center coordinates to maintain the center
+    // projection.center(center);
+    //
+    // // Update the path generator with the new projection
+    // path.projection(projection);
+    //
+    // // Redraw the map
+    // svg.selectAll("path")
+    //     .attr("d", path);
+}
+
 function resetMapView() {
-  // Reset to initial zoom and translate
-  svg.transition()
-     .duration(750)
-     .call(zoom.transform, d3.zoomIdentity);
+    // Reset to initial zoom and translate
+    svg.transition()
+        .duration(750)
+        .call(zoom.transform, d3.zoomIdentity);
 
-  // Reset the flag
-  provinceClicked = false;
+    // Reset the flag
+    provinceClicked = false;
 
-  // Show provinces and hide municipalities
-  provincesGroup.selectAll("path").attr("fill", "#6DD100");
-  municipalitiesGroup.style("display", "none");
+    // Show provinces and hide municipalities
+    provincesGroup.selectAll("path").attr("fill", "#6DD100");
+    municipalitiesGroup.style("display", "none");
 }
 
 d3.select("#resetButton").on("click", resetMapView);
