@@ -117,3 +117,22 @@ export function setMapSize(big) {
   }
 
 }
+
+// Set isLoading to true or false based on your condition
+var isLoading = false; // Change this based on your logic
+
+// Function to toggle the loader overlay
+function toggleLoader() {
+  var loaderOverlay = document.getElementById("loader-overlay");
+
+  if (isLoading) {
+    loaderOverlay.style.display = "flex"; // Show overlay
+    document.body.style.overflow = "hidden"; // Disable scrolling on the page
+  } else {
+    loaderOverlay.style.display = "none"; // Hide overlay
+    document.body.style.overflow = "auto"; // Enable scrolling on the page
+  }
+}
+
+// Call the function to toggle the loader based on isLoading
+toggleLoader();
