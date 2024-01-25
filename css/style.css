@@ -1,5 +1,14 @@
+body {
+  overflow: hidden;
+}
+
 .full-height {
   min-height: 95vh; /* Full viewport height */
+}
+
+.row-margin {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .transition-width {
@@ -9,6 +18,11 @@
 
 .navbar {
   height: 5vh;
+}
+
+.align-self-center {
+  margin-top: 15%;
+  margin-bottom: 15%;
 }
 
 .bg-secondary {
@@ -29,11 +43,6 @@
   text-align: center;
 }
 
-
-
-
-
-
 .navbar {
   background-color: #007bff;
   /* Bright blue */
@@ -51,7 +60,7 @@
   padding-left: 30px;
 }
 
-.container{
+.container {
   margin-left: 0;
   margin-right: 0;
   width: 100%;
@@ -74,7 +83,7 @@
   justify-content: center;
 }
 
-.map-chart { 
+.map-chart {
   display: flex;
   justify-content: center;
 }
