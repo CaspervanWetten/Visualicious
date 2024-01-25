@@ -222,6 +222,7 @@ function resetMapView() {
     municipalitiesGroup.style("display", "none");
 
     setMapSize(true);
+    setFocusArea("NL")
 }
 
 d3.select("#resetButton").on("click", resetMapView);
@@ -234,3 +235,12 @@ function makeMapBiggerIfNeeded() {
 
 // Click handler for the map container
 d3.select("#map-chart-container").on("click", makeMapBiggerIfNeeded);
+
+
+$(function(){
+    setInterval(oneSecondFunction, 1000);
+});
+
+function oneSecondFunction() {
+// stuff you want to do every second
+}
