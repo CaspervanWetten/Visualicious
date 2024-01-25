@@ -24,7 +24,10 @@
   height: 100%;
 }
 
-
+#tooltip {
+  width: 200px;
+  text-align: center;
+}
 
 
 .navbar {
