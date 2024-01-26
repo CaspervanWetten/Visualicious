@@ -121,7 +121,40 @@ body {
   100% {transform: translate(0, 0);}
 }
 
-
+.dropdown-check-list {
+  display: inline-block;
+}
+.dropdown-check-list .anchor {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 50px 5px 10px;
+  border: 1px solid #ccc;
+}
+.dropdown-check-list .anchor:after {
+  content: "";
+  position: absolute;
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+  padding: 5px;
+  right: 10px;
+  top: 20%;
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+.dropdown-check-list .items {
+  padding: 2px;
+  display: none;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+.dropdown-check-list .items li {
+  list-style: none;
+}
 
 
 
@@ -246,4 +279,14 @@ body {
 }
 .irs-from, .irs-to, .irs-max, .irs-min, .irs-single {
   line-height: 1.1 !important;
+}
+
+.crime-dropdown {
+  position: absolute;
+  display: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  max-height: 200px; /* Adjust the maximum height as needed */
+  overflow-y: auto;
+  z-index: 1000; /* Ensure it's above other elements */
 }

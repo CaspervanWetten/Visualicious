@@ -7,11 +7,10 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
-    
     <!-- Other -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
-    
-
+    <!-- Include Bootstrap Multiselect CSS -->
+    <link rel="stylesheet" href="https://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css">
 </head>
 
 <body class="bg-secondary">
@@ -71,24 +70,6 @@
                     <div id="selectedStartMachine">Selected Start (Machine readable):</div>
                     <div id="selectedEndMachine">Selected End (Machine readable):</div>
                     <br>
-                    <div class="crime-types">
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                            <option selected id="">First</option>
-                            <option id="">Second</option>
-                            <option id="">Third</option>
-                            <option id="">Fourth</option>
-                            <option id="">Fifth</option>
-                            <option id="">Sixth</option>
-                            <option id="">Seventh</option>
-                            <option id="">Eight</option>
-                            <option id="">Nineth</option>
-                            <option id="">Tenth</option>
-                            <option id="">Eleven</option>
-                            <option id="">Twelve</option>
-                            <option id="">Thirdteen</option>
-                            <option id="">Fourteen</option>
-                          </select>
-                    </div>
 
 <!--                    <div id="selectedAreaText">NL</div>-->
 
@@ -124,68 +105,69 @@
 
                                 <div class="form-group mx-2">
                                     <label class="text-bg-dark m-0 small">Crime Types</label>
-                                    <div class="crime-types">
-                                        <select class="form-select form-select-sm" aria-label="Selecteer Misdaadtype" multiple>
-                                            <option selected>Choose crime type</option>
-                                            <option id="1.1.1">Diefstal/inbraak woning</option>
-                                            <option id="1.1.2">Diefstal/inbraak box/garage/schuur</option>
-                                            <option id="1.2.1">Diefstal uit/vanaf motorvoertuigen</option>
-                                            <option id="1.2.2">Diefstal van motorvoertuigen</option>
-                                            <option id="1.2.3">Diefstal van brom-, snor-, fietsen</option>
-                                            <option id="1.2.4">Zakkenrollerij</option>
-                                            <option id="1.2.5">Diefstal af/uit/van ov. voertuigen</option>
-                                            <option id="1.3.1">Ongevallen (weg)</option>
-                                            <option id="1.4.1">Zedenmisdrijf</option>
-                                            <option id="1.4.2">Moord, doodslag</option>
-                                            <option id="1.4.3">Openlijk geweld (persoon)</option>
-                                            <option id="1.4.4">Bedreiging</option>
-                                            <option id="1.4.5">Mishandeling</option>
-                                            <option id="1.4.6">Straatroof</option>
-                                            <option id="1.4.7">Overval</option>
-                                            <option id="1.5.2">Diefstallen (water)</option>
-                                            <option id="1.6.1">Brand/ontploffing</option>
-                                            <option id="1.6.2">Overige vermogensdelicten</option>
-                                            <option id="1.6.3">Mensenhandel</option>
-                                            <option id="2.1.1">Drugs/drankoverlast</option>
-                                            <option id="2.2.1">Vernieling cq. zaakbeschadiging</option>
-                                            <option id="2.4.1">Burengerucht (relatieproblemen)</option>
-                                            <option id="2.4.2">Huisvredebreuk</option>
-                                            <option id="2.5.1">Diefstal/inbraak bedrijven enz.</option>
-                                            <option id="2.5.2">Winkeldiefstal</option>
-                                            <option id="2.6.1">Inrichting Wet Milieubeheer</option>
-                                            <option id="2.6.2">Bodem</option>
-                                            <option id="2.6.3">Water</option>
-                                            <option id="2.6.4">Afval</option>
-                                            <option id="2.6.5">Bouwstoffen</option>
-                                            <option id="2.6.7">Mest</option>
-                                            <option id="2.6.8">Transport gevaarlijke stoffen</option>
-                                            <option id="2.6.9">Vuurwerk</option>
-                                            <option id="2.6.10">Bestrijdingsmiddelen</option>
-                                            <option id="2.6.11">Natuur en landschap</option>
-                                            <option id="2.6.12">Ruimtelijke ordening</option>
-                                            <option id="2.6.13">Dieren</option>
-                                            <option id="2.6.14">Voedselveiligheid</option>
-                                            <option id="2.7.2">Bijzondere wetten</option>
-                                            <option id="2.7.3">Leefbaarheid (overig)</option>
-                                            <option id="3.1.1">Drugshandel</option>
-                                            <option id="3.1.2">Mensensmokkel</option>
-                                            <option id="3.1.3">Wapenhandel</option>
-                                            <option id="3.2.1">Kinderporno</option>
-                                            <option id="3.2.2">Kinderprostitutie</option>
-                                            <option id="3.3.2">Onder invloed (lucht)</option>
-                                            <option id="3.3.5">Lucht (overig)</option>
-                                            <option id="3.4.2">Onder invloed (water)</option>
-                                            <option id="3.5.2">Onder invloed (weg)</option>
-                                            <option id="3.5.5">Weg (overig)</option>
-                                            <option id="3.6.4">Aantasting openbare orde</option>
-                                            <option id="3.7.1">Discriminatie</option>
-                                            <option id="3.7.2">Vreemdelingenzorg</option>
-                                            <option id="3.7.3">Maatsch. integriteit (overig)</option>
-                                            <option id="3.7.4">Cybercrime</option>
-                                            <option id="3.9.1">Horizontale fraude</option>
-                                            <option id="3.9.2">Verticale fraude</option>
-                                            <option id="3.9.3">Fraude (overig)</option>
-                                        </select>
+                                    <div class="dropdown-check-list">
+                                        <span class="anchor" id="crimeDropdown">Choose crime type</span>
+                                        <ul id="crimeSelect" class="items crime-dropdown" aria-label="Selecteer Misdaadtype">
+                                            <li><input type="checkbox" id="0"> Hele kaart</li>
+                                            <li><input type="checkbox" id="1.1.1"> Diefstal/inbraak woning</li>
+                                            <li><input type="checkbox" id="1.1.2"> Diefstal/inbraak box/garage/schuur</li>
+                                            <li><input type="checkbox" id="1.2.1"> Diefstal uit/vanaf motorvoertuigen</li>
+                                            <li><input type="checkbox" id="1.2.2"> Diefstal van motorvoertuigen</li>
+                                            <li><input type="checkbox" id="1.2.3"> Diefstal van brom-, snor-, fietsen</li>
+                                            <li><input type="checkbox" id="1.2.4"> Zakkenrollerij</li>
+                                            <li><input type="checkbox" id="1.2.5"> Diefstal af/uit/van ov. voertuigen</li>
+                                            <li><input type="checkbox" id="1.3.1"> Ongevallen (weg)</li>
+                                            <li><input type="checkbox" id="1.4.1"> Zedenmisdrijf</li>
+                                            <li><input type="checkbox" id="1.4.2"> Moord, doodslag</li>
+                                            <li><input type="checkbox" id="1.4.3"> Openlijk geweld (persoon)</li>
+                                            <li><input type="checkbox" id="1.4.4"> Bedreiging</li>
+                                            <li><input type="checkbox" id="1.4.5"> Mishandeling</li>
+                                            <li><input type="checkbox" id="1.4.6"> Straatroof</li>
+                                            <li><input type="checkbox" id="1.4.7"> Overval</li>
+                                            <li><input type="checkbox" id="1.5.2"> Diefstallen (water)</li>
+                                            <li><input type="checkbox" id="1.6.1"> Brand/ontploffing</li>
+                                            <li><input type="checkbox" id="1.6.2"> Overige vermogensdelicten</li>
+                                            <li><input type="checkbox" id="1.6.3"> Mensenhandel</li>
+                                            <li><input type="checkbox" id="2.1.1"> Drugs/drankoverlast</li>
+                                            <li><input type="checkbox" id="2.2.1"> Vernieling cq. zaakbeschadiging</li>
+                                            <li><input type="checkbox" id="2.4.1"> Burengerucht (relatieproblemen)</li>
+                                            <li><input type="checkbox" id="2.4.2"> Huisvredebreuk</li>
+                                            <li><input type="checkbox" id="2.5.1"> Diefstal/inbraak bedrijven enz.</li>
+                                            <li><input type="checkbox" id="2.5.2"> Winkeldiefstal</li>
+                                            <li><input type="checkbox" id="2.6.1"> Inrichting Wet Milieubeheer</li>
+                                            <li><input type="checkbox" id="2.6.2"> Bodem</li>
+                                            <li><input type="checkbox" id="2.6.3"> Water</li>
+                                            <li><input type="checkbox" id="2.6.4"> Afval</li>
+                                            <li><input type="checkbox" id="2.6.5"> Bouwstoffen</li>
+                                            <li><input type="checkbox" id="2.6.7"> Mest</li>
+                                            <li><input type="checkbox" id="2.6.8"> Transport gevaarlijke stoffen</li>
+                                            <li><input type="checkbox" id="2.6.9"> Vuurwerk</li>
+                                            <li><input type="checkbox" id="2.6.10"> Bestrijdingsmiddelen</li>
+                                            <li><input type="checkbox" id="2.6.11"> Natuur en landschap</li>
+                                            <li><input type="checkbox" id="2.6.12"> Ruimtelijke ordening</li>
+                                            <li><input type="checkbox" id="2.6.13"> Dieren</li>
+                                            <li><input type="checkbox" id="2.6.14"> Voedselveiligheid</li>
+                                            <li><input type="checkbox" id="2.7.2"> Bijzondere wetten</li>
+                                            <li><input type="checkbox" id="2.7.3"> Leefbaarheid (overig)</li>
+                                            <li><input type="checkbox" id="3.1.1"> Drugshandel</li>
+                                            <li><input type="checkbox" id="3.1.2"> Mensensmokkel</li>
+                                            <li><input type="checkbox" id="3.1.3"> Wapenhandel</li>
+                                            <li><input type="checkbox" id="3.2.1"> Kinderporno</li>
+                                            <li><input type="checkbox" id="3.2.2"> Kinderprostitutie</li>
+                                            <li><input type="checkbox" id="3.3.2"> Onder invloed (lucht)</li>
+                                            <li><input type="checkbox" id="3.3.5"> Lucht (overig)</li>
+                                            <li><input type="checkbox" id="3.4.2"> Onder invloed (water)</li>
+                                            <li><input type="checkbox" id="3.5.2"> Onder invloed (weg)</li>
+                                            <li><input type="checkbox" id="3.5.5"> Weg (overig)</li>
+                                            <li><input type="checkbox" id="3.6.4"> Aantasting openbare orde</li>
+                                            <li><input type="checkbox" id="3.7.1"> Discriminatie</li>
+                                            <li><input type="checkbox" id="3.7.2"> Vreemdelingenzorg</li>
+                                            <li><input type="checkbox" id="3.7.3"> Maatsch. integriteit (overig)</li>
+                                            <li><input type="checkbox" id="3.7.4"> Cybercrime</li>
+                                            <li><input type="checkbox" id="3.9.1"> Horizontale fraude</li>
+                                            <li><input type="checkbox" id="3.9.2"> Verticale fraude</li>
+                                            <li><input type="checkbox" id="3.9.3"> Fraude (overig)</li>
+                                        </ul>
                                     </div>                                    
                                 </div>
 
@@ -264,6 +246,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+    <script>
+        document.getElementById("crimeDropdown").addEventListener("click", function () {
+            const crimeList = document.getElementById("crimeSelect");
+            if (crimeList.style.display === "block") {
+                crimeList.style.display = "none";
+            } else {
+                crimeList.style.display = "block";
+            }
+        });
+    </script>    
 </body>
 
 </html>
