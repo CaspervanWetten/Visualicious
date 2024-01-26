@@ -284,7 +284,13 @@ const timeDict = {
   "March 2023": "2023MM03",
   "April 2023": "2023MM04",
   "May 2023": "2023MM05",
-  "June 2023": "2023MM06"
+  "June 2023": "2023MM06",
+  "July 2023": "2023MM07",
+  "August 2023": "2023MM08",
+  "September 2023": "2023MM09",
+  "October 2023": "2023MM10",
+  "November 2023": "2023MM11",
+  "December 2023": "2023MM12",
 }
 
 
