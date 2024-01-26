@@ -316,8 +316,8 @@ $("#slider").ionRangeSlider({
 function updateSelectedRange(data) {
   const startValue = timeDict[data.from_value];
   const endValue = timeDict[data.to_value];
-  selectedStart.text(`Selected Start (Human readable): ${data.from_value}`);
-  selectedEnd.text(`Selected End: (Human readable) ${data.to_value}`);
+  selectedStart.text(`${data.from_value}`);
+  selectedEnd.text(`${data.to_value}`);
   
   selectedStartMachine.text(`Selected Start (Machine readable): ${startValue}`);
   selectedEndMachine.text(`Selected End: (Machine readable) ${endValue}`);
@@ -329,4 +329,4 @@ function vertaal(value) {
 
 // Manually change the initial values
 $('.irs-from').text("January 2012");
-$('.irs-to').text("June 2023");
+$('.irs-to').text("December 2023");
