@@ -20,9 +20,15 @@ body {
   height: 5vh;
 }
 
-.align-self-center {
+.align-self-centre-vertical {
   margin-top: 15%;
   margin-bottom: 15%;
+}
+
+.slider {
+  margin-left: auto;
+  margin-right: auto;
+  width: 85%;
 }
 
 .bg-secondary {

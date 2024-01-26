@@ -7,6 +7,10 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Other -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
+    
 
 </head>
 
@@ -44,11 +48,18 @@
             <div class="col-2 px-1 pb-2 full-height transition-width">
 
                 <div id="" class="bg-light rounded" style="width: 100%; height: 100%;">
-
+                    
                     <div id="selectedAreaText">NL</div>
-
+                    
                     <br>
-                    DATE SLIDER HERE
+                    Select a date range: <br>
+                    <div class="slider">
+                        <input type="range" id="slider" min="0" max="111" value="50">
+                    </div>
+                    <div id="selectedStart">Selected Start (Human readable):</div>
+                    <div id="selectedEnd">Selected End (Human readable):</div>
+                    <div id="selectedStartMachine">Selected Start (Machine readable):</div>
+                    <div id="selectedEndMachine">Selected End (Machine readable):</div>
                     <br>
                     TYPE OF CRIMES SELECTION HERE
 
@@ -61,20 +72,20 @@
             <div id="contentColumn" class="col-5 px-1 pb-2 full-height transition-width">
                 <div id="" class="bg-light rounded" style="width: 100%; height: 100%;">
                     <div class="row">
-                        <!-- chart 1-->
+                        <!-- Template 1-->
                         <div class="col-6 align-self-center align-self-centre-vertical">
                           <div class="orange-square align-self-center"> hier komt nog iets</div>
                           </div>
-                        <!-- Bar chart 2-->
-                        <div class="col-6 align-self-center">
+                        <!-- Template 2-->
+                        <div class="col-6 align-self-center align-self-centre-vertical">
                             <div class="orange-square align-self-center"> hier komt nog iets</div> 
                         </div>
                         <!-- Bar chart -->
-                        <div class="col-6 align-self-center">
+                        <div class="col-6 align-self-center align-self-centre-vertical">
                           <div id="totaalMisdrijvenUtrecht"></div>
                         </div>
                         <!-- Square Area chart -->
-                        <div class="col-6 align-self-center">
+                        <div class="col-6 align-self-center align-self-centre-vertical">
                           <div ID="square-area-chart"></div>
                         </div>
                       </div>
@@ -84,10 +95,19 @@
         </div>
     </div>
 
+    <!-- Bootstrap and D3 (and other libraries) -->
     <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+    
+    
+    <!-- Helpers -->
     <script type="module" src="js/index.js"></script>
     <script type="text/javascript" src="js/filter.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/slider.js"></script>
+
+    <!-- Charts -->
     <script type="text/javascript"  src="js/bar-chart-1.js"></script>
     <script type="text/javascript" src="js/bar-chart-2.js"></script>
     <script type="text/javascript" src="js/bar-chart-3.js"></script>
