@@ -37,16 +37,28 @@
 <div class="container-fluid">
 
     <div class="row">
+        <div id="mapToggleBar" class="col bg-transparent position-absolute pt-3">
+            <div id="mapToggleContent" class="row bg-light p-1-2 rounded justify-content-between shadow">
+                <div class="col-auto bg-menu rounded p-1-2 mr-2">
+                    <button id="resetButton" class="btn btn-danger">Reset</button>
+                    <button id="sizeToggleButton" class="btn btn-dark">Full</button>
+                </div>
+                <div class="col bg-menu rounded p-1-2">
 
-    <div id="mapToggleBar" class="col bg-transparent position-absolute pt-3">
-        <div id="mapToggleContent" class="row bg-light p-2 rounded justify-content-between shadow">
 
-            <button id="resetButton" class="btn btn-danger ">Reset</button>
-            <button id="sizeToggleButton" class="btn btn-dark">Full</button>
+                    <div class="form-row p-0 m-0">
+                        <div class="m-0 mx-0">
+                            <small class="text-bg-dark m-0 menu-bar-label">Selected Area</small>
+                            <div class="form-control form-control-sm" type="text" id="selectedAreaText">NL</div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
 
         </div>
     </div>
-</div>
 
     <div class="row pr-2">
         <!-- Map Section -->
@@ -66,65 +78,22 @@
 
                 <div class="row">
 
+<!--                     Bar chart-->
                     <div class="col-12 align-self-center align-self-centre-vertical">
                         <div id="totaalMisdrijvenUtrecht"></div>
                     </div>
-                    <div class="col-12"> hahaha </div>
-                    <br>
-                    <div class="col-12"> hahaha </div>
-                    <br>
-                    <div class="col-12"> hahaha </div>
-                    <br>
-                    <div class="col-12"> hahaha </div>
-                    <br>
-                    <div class="col-12"> hahaha </div><br>
-                    <div class="col-12"> hahaha </div>
-                    <br>
-                    <div class="col-12"> hahaha </div><br>
-                    <div class="col-12"> hahaha </div>
-                    <br>
-                    <div class="col-12"> hahaha </div>
-                    <br>
-                    <div class="col-12"> hahaha </div>
-                    <br>
-                    <div class="col-12"> hahaha </div><br>
-                    <div class="col-12"> hahaha </div>
-                    <br>
-                    <div class="col-12"> hahaha </div>
-
-                    <br>
-                    <div class="col-12"> hahaha </div>
-                    <br>
-                    <div class="col-12"> hahaha </div><br>
-                    <div class="col-12"> hahaha </div><br>
-                    <div class="col-12"> hahaha </div>
-                    <br>
-                    <div class="col-12"> hahaha </div>
-
-
-
-
-
-
-
-
-
-                    <!-- Bar chart -->
-<!--                    <div class="col-6 align-self-center align-self-centre-vertical">-->
-<!--                        <div id="totaalMisdrijvenUtrecht"></div>-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; Square Area chart &ndash;&gt;-->
-<!--                    <div class="col-6 align-self-center align-self-centre-vertical">-->
-<!--                        <div ID="square-area-chart"></div>-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; Template 1&ndash;&gt;-->
-<!--                    <div class="col-6 align-self-center align-self-centre-vertical">-->
-<!--                        <div class="orange-square align-self-center"> hier komt nog iets</div>-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; Template 2&ndash;&gt;-->
-<!--                    <div class="col-6 align-self-center align-self-centre-vertical">-->
-<!--                        <div class="orange-square align-self-center"> hier komt nog iets</div>-->
-<!--                    </div>-->
+                    <!-- Square Area chart -->
+                    <div class="col-12 align-self-center align-self-centre-vertical">
+                        <div ID="square-area-chart"></div>
+                    </div>
+                    <!-- Template 1-->
+                    <div class="col-12 align-self-center align-self-centre-vertical">
+                        <div class="orange-square align-self-center"> hier komt nog iets</div>
+                    </div>
+                    <!-- Template 2-->
+                    <div class="col-12 align-self-center align-self-centre-vertical">
+                        <div class="orange-square align-self-center"> hier komt nog iets</div>
+                    </div>
                 </div>
             </div>
 
