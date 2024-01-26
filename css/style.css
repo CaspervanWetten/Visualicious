@@ -266,19 +266,29 @@ body {
 
 
 .irs-bar {
-  height: 4px !important;
-  top: 18px !important;
+  height: 8px !important;
+  top: 0.5em !important;
 }
 .irs-line {
-  height: 4px !important;
-  top: 18px !important;
+  height: 8px !important;
+  top: 0.5em !important;
 }
 .irs-handle {
-  height: 8px !important;
-  top: 15px !important;
+  height: 12px !important;
+  top: calc(0.5em - 2px) !important;
 }
 .irs-from, .irs-to, .irs-max, .irs-min, .irs-single {
   line-height: 1.1 !important;
+}
+
+.irs--flat {
+  height: 0px !important;
+}
+
+.vis-wrapper {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  height: calc(100vh - 2rem) !important;
 }
 
 .crime-dropdown {
