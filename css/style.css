@@ -35,6 +35,10 @@ body {
   background-color: #6dd3f7 !important;
 }
 
+.bg-menu {
+  background-color: #d2d4d2;
+}
+
 .rounded {
   border-radius: 10px !important;
 }
@@ -219,7 +223,6 @@ body {
 
 
 #mapToggleBar {
-  position: absolute; /* This positions the button absolutely within the map container */
   z-index: 10; /* This ensures the button is above the map */
 }
 
