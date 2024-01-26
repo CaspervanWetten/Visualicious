@@ -3,7 +3,7 @@ body {
 }
 
 .full-height {
-  min-height: 95vh; /* Full viewport height */
+  min-height: 100vh; /* Full viewport height */
 }
 
 .row-margin {
@@ -32,7 +32,7 @@ body {
 }
 
 .bg-secondary {
-  background-color: #e6e6e6 !important;
+  background-color: #6dd3f7 !important;
 }
 
 .rounded {
@@ -201,41 +201,29 @@ body {
   min-height: 500px;
 }
 
+/*#map-chart-container {*/
+/*  box-sizing: border-box;*/
+/*  background-color: #6dd3f7;*/
+/*  position: relative; !* This makes the positioning of the button relative to the map container *!*/
+/*  */
+/*}*/
+
 #map-chart-container {
-  box-sizing: border-box;
+  --mask: linear-gradient(to right, rgba(0,0,0, 1) 0,   rgba(0,0,0, 1) 95%,  rgba(0,0,0, 0) 100%, rgba(0,0,0, 0) 0) 100% 10% / 100% 100% repeat-x;
+
   background-color: #6dd3f7;
-  position: relative; /* This makes the positioning of the button relative to the map container */
+  position: relative;
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
 }
 
-#resetButton {
+
+#mapToggleBar {
   position: absolute; /* This positions the button absolutely within the map container */
-  top: 10px; /* Adjust this value to move the button lower or higher */
-  left: 10px; /* Adjust this value to move the button more to the right or left */
   z-index: 10; /* This ensures the button is above the map */
 }
 
-.sidenav {
-  height: 100%;
-  width: 0; /* Start with the sidebar closed (width 0) */
-  position: fixed; /* Positioned relative to the viewport */
-  top: 0;
-  left: 0;
-  background-color: #ffffff; /* Sidebar color */
-  overflow-x: hidden; /* Hide horizontal scroll */
-  transition: 0.5s; /* Animated transition effect */
-  z-index: 1000;
-  border-style: solid;
-  border-color: #000000;
-  border-width: 1px;
-}
-
-/* Styling for the hamburger icon */
-#hamburger-icon {
-  position: fixed;
-  top: 0;
-  left: 0;
-  cursor: pointer;
-  z-index: 1001;
-  font-size: 30px;
-  padding-left: 10px;
+#mapToggleContent{
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }

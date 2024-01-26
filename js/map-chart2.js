@@ -226,6 +226,8 @@ function resetMapView() {
 }
 
 d3.select("#resetButton").on("click", resetMapView);
+d3.select("#sizeToggleButton").on("click", makeMapBiggerIfNeeded);
+
 
 function makeMapBiggerIfNeeded() {
     if (!hoverArea) {
