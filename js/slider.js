@@ -316,8 +316,8 @@ $("#slider").ionRangeSlider({
 function updateSelectedRange(data) {
   const startValue = timeDict[data.from_value];
   const endValue = timeDict[data.to_value];
-  selectedStart.text(`Selected Start (Human readable): ${data.from_value}`);
-  selectedEnd.text(`Selected End: (Human readable) ${data.to_value}`);
+  selectedStart.text(`${data.from_value}`);
+  selectedEnd.text(`${data.to_value}`);
   
   selectedStartMachine.text(`Selected Start (Machine readable): ${startValue}`);
   selectedEndMachine.text(`Selected End: (Machine readable) ${endValue}`);

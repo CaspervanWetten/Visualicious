@@ -66,7 +66,7 @@ function onMunicipalityClick(event, d) {
             dy = bounds[1][1] - bounds[0][1],
             x = (bounds[0][0] + bounds[1][0]) / 2,
             y = (bounds[0][1] + bounds[1][1]) / 2,
-            scale = Math.max(1, Math.min(18, 0.9 / Math.max(dx / width, dy / height))),
+            scale = Math.max(1, Math.min(6, 0.9 / Math.max(dx / width, dy / height))),
             translate = [width / 2 - scale * x, height / 2 - scale * y];
 
         svg.transition()
