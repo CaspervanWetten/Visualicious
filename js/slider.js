@@ -299,7 +299,6 @@ const selectedStart = d3.select("#selectedStart");
 const selectedEnd = d3.select("#selectedEnd");
 const selectedStartMachine = d3.select("#selectedStartMachine");
 const selectedEndMachine = d3.select("#selectedEndMachine");
-const tooltip = d3.select("#tooltip");
 const from = timeArray[0];
 const to = timeArray.slice(-1)[0];
 
@@ -311,6 +310,7 @@ $("#slider").ionRangeSlider({
   from: from,
   to: to,
   grid: false,
+  hide_from_to: true,
 });
 
 function updateSelectedRange(data) {
@@ -329,4 +329,4 @@ function vertaal(value) {
 
 // Manually change the initial values
 $('.irs-from').text("January 2012");
-$('.irs-to').text("June 2023");
+$('.irs-to').text("December 2023");
