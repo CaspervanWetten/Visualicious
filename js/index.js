@@ -94,24 +94,24 @@ export function setMapSize(big) {
 
   if (big == true) {
     // Toggle between col-5 and col-3 for the map section
-    mapColumn.classList.add('col-5');
-    mapColumn.classList.remove('col-3');
+    mapColumn.classList.add('col-6');
+    mapColumn.classList.remove('col-4');
 
     // Adjust the right content section accordingly
-    contentColumn.classList.add('col-5');
-    contentColumn.classList.remove('col-7');
+    contentColumn.classList.add('col-6');
+    contentColumn.classList.remove('col-8');
 
     // setZoomLevel(7500);
 
   }
   else {
     // Toggle between col-5 and col-3 for the map section
-    mapColumn.classList.remove('col-5');
-    mapColumn.classList.add('col-3');
+    mapColumn.classList.remove('col-6');
+    mapColumn.classList.add('col-4');
 
     // Adjust the right content section accordingly
-    contentColumn.classList.remove('col-5');
-    contentColumn.classList.add('col-7');
+    contentColumn.classList.remove('col-6');
+    contentColumn.classList.add('col-8');
 
     // setZoomLevel(7500);
   }
