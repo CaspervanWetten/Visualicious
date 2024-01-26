@@ -230,3 +230,20 @@ body {
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
+
+
+.irs-bar {
+  height: 4px !important;
+  top: 18px !important;
+}
+.irs-line {
+  height: 4px !important;
+  top: 18px !important;
+}
+.irs-handle {
+  height: 8px !important;
+  top: 15px !important;
+}
+.irs-from, .irs-to, .irs-max, .irs-min, .irs-single {
+  line-height: 1.1 !important;
+}
