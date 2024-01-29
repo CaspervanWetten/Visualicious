@@ -1,32 +1,59 @@
-// Global variables and settings
+import { filterTSVData } from './data-fetch.js';
 
-export var focusArea = "NL";
+function update(wait = 200) {
+  filterTSVData(startDate, endDate, focusArea,crimeCodeList, wait);
+}
+
+// Global variables and settings
+export var isLoading = false; // Change this based on your logic
+export function setLoading(bool) {
+  isLoading = bool;
+  toggleLoader();
+
+  console.log(isLoading);
+}
+
+// Set the data dictionary
+export var data = {}; // Change this based on your logic
+export function setData(data) {
+  data = data;
+  console.log("New data loaded");
+}
+
+// Set the crime types
+export var crimeCodeList = ['0.0.0'];
+export function setCrimeCodeList(list) {
+  crimeCodeList = list;
+  update();
+}
+
 export var hoverArea = "";
 
-export var startDate = "2012MM01";
-export var endDate = "2023MM12";
+const selectedAreaText = d3.select("#selectedAreaText");
+export var focusArea = "NL00";
+export function setFocusArea(newFocusArea) {
+  focusArea = newFocusArea;
+  update(1000);
+  selectedAreaText.html(focusArea);
+}
 
-export var typeCrime = [];
+export var startDate = "2012MM01";
+export function setStartDate(date) {
+  startDate = date;
+}
+export var endDate = "2023MM12";
+export function setEndDate(date) {
+  endDate = date;
+}
 
 export var educationFactor = false;
-export var housingFactor = false;
-
 export function setEducationFactor(bool) {
   educationFactor = bool;
 }
+
+export var housingFactor = false;
 export function setHousingFactor(bool) {
   housingFactor = bool;
-}
-
-export function setTypeCrimes(dict) {
-  typeCrime = dict;
-  console.log(typeCrime);
-}
-
-const selectedAreaText = d3.select("#selectedAreaText");
-export function setFocusArea(newFocusArea) {
-  focusArea = newFocusArea;
-  selectedAreaText.html(focusArea);
 }
 
 export function setHoverArea(newHoverArea) {
@@ -138,21 +165,23 @@ export function setMapSize(big) {
 
 }
 
-// Set isLoading to true or false based on your condition
-var isLoading = false; // Change this based on your logic
 
 // Function to toggle the loader overlay
 function toggleLoader() {
-  var loaderOverlay = document.getElementById("loader-overlay");
-
+  let loaderOverlay = document.getElementById("loader-overlay");
   if (isLoading) {
     loaderOverlay.style.display = "flex"; // Show overlay
     document.body.style.overflow = "hidden"; // Disable scrolling on the page
+    document.body.classList.add('no-interaction');
+    document.addEventListener('keydown', preventInteraction, true);
   } else {
     loaderOverlay.style.display = "none"; // Hide overlay
     document.body.style.overflow = "auto"; // Enable scrolling on the page
+    document.body.classList.remove('no-interaction');
+    document.removeEventListener('keydown', preventInteraction, true);
   }
 }
 
-// Call the function to toggle the loader based on isLoading
-toggleLoader();
+function preventInteraction(e) {
+  e.preventDefault();
+}

@@ -1,4 +1,4 @@
-import {setTypeCrimes} from "./index.js";
+import { setCrimeCodeList, crimeCodeList } from './index.js';
 
 const crimeDictionary = {
     "0.0.0": "Totaal misdrijven",
@@ -62,7 +62,7 @@ const crimeDictionary = {
     "3.9.3": "3.9.3 Fraude (overig)"
 };
 
-const selectedOptions = [];
+const selectedOptions = [...crimeCodeList];
 
 function generateCheckboxes() {
     const ul = document.querySelector(".list-group");
@@ -76,17 +76,34 @@ function generateCheckboxes() {
         const input = document.createElement("input");
         input.type = "checkbox";
         input.id = "check" + key;
+        input.checked = selectedOptions.includes(key);
         input.addEventListener("change", function () {
             if (input.checked) {
-                selectedOptions.push(key);
+                if (key === '0.0.0') {
+                    selectedOptions.length = 0;
+                    selectedOptions.push(key);
+                } else {
+                    const zeroIndex = selectedOptions.indexOf('0.0.0');
+                    if (zeroIndex !== -1) {
+                        selectedOptions.splice(zeroIndex, 1);
+                    }
+                    if (!selectedOptions.includes(key)) {
+                        selectedOptions.push(key);
+                    }
+                }
             } else {
+                // Prevent unchecking if this is the last checkbox
+                if (selectedOptions.length === 1 && selectedOptions.includes(key)) {
+                    input.checked = true; // Re-check the checkbox
+                    return; // Exit the function
+                }
                 const index = selectedOptions.indexOf(key);
                 if (index !== -1) {
                     selectedOptions.splice(index, 1);
                 }
             }
-            setTypeCrimes(selectedOptions);
-
+            setCrimeCodeList([...selectedOptions]);
+            updateCheckboxStates();
         });
 
         const label = document.createElement("label");
@@ -102,5 +119,18 @@ function generateCheckboxes() {
     }
 }
 
-// Call the function to generate checkboxes
+function updateCheckboxStates() {
+    for (const key in crimeDictionary) {
+        const checkbox = document.getElementById("check" + key);
+        if (checkbox) {
+            checkbox.checked = selectedOptions.includes(key);
+            // Disable the checkbox if it's the only one selected
+            checkbox.disabled = selectedOptions.length === 1 && selectedOptions.includes(key);
+        }
+    }
+}
+
+// Initial call to generate checkboxes and set their state
 generateCheckboxes();
+updateCheckboxStates();
+
