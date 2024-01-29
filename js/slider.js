@@ -1,3 +1,5 @@
+import { setEndDate, endDate, setStartDate, startDate } from "./index.js"; 
+
 const timeArray = [
   "January 2012",
   "February 2012",
@@ -144,8 +146,6 @@ const timeArray = [
   "November 2023",
   "December 2023",
 ];
-
-
 const timeDict = {
   "January 2012": "2012MM01",
   "February 2012": "2012MM02",
@@ -293,14 +293,8 @@ const timeDict = {
   "December 2023": "2023MM12",
 }
 
-var startValue = "2012MM01";
-var endValue = "2023MM12";
-
-const slider = d3.select("#slider");
 const selectedStart = d3.select("#selectedStart");
 const selectedEnd = d3.select("#selectedEnd");
-const selectedStartMachine = d3.select("#selectedStartMachine");
-const selectedEndMachine = d3.select("#selectedEndMachine");
 const from = timeArray[0];
 const to = timeArray.slice(-1)[0];
 
@@ -316,17 +310,10 @@ $("#slider").ionRangeSlider({
 });
 
 function updateSelectedRange(data) {
-  startValue = timeDict[data.from_value];
-  endValue = timeDict[data.to_value];
+  setStartDate(timeDict[data.from_value]);
+  setEndDate(timeDict[data.to_value]);
   selectedStart.text(`${data.from_value}`);
   selectedEnd.text(`${data.to_value}`);
-  
-  selectedStartMachine.text(`Selected Start (Machine readable): ${startValue}`);
-  selectedEndMachine.text(`Selected End: (Machine readable) ${endValue}`);
-}
-
-function vertaal(value) {
-  return timeDict[timeArray[value]];
 }
 
 // Manually change the initial values

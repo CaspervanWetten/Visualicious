@@ -40,10 +40,12 @@ export function setFocusArea(newFocusArea) {
 export var startDate = "2012MM01";
 export function setStartDate(date) {
   startDate = date;
+  console.log(startDate)
 }
 export var endDate = "2023MM12";
 export function setEndDate(date) {
   endDate = date;
+  console.log(endDate)
 }
 
 export var educationFactor = false;
