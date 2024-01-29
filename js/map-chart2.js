@@ -13,7 +13,7 @@ var svg = d3.select("#map-chart-container").append("svg")
 
 // Define map projection
 var projection = d3.geoMercator()
-    .center([6.05, 52.8]) // Approximate center of the Netherlands
+    .center([5.05, 52.8]) // Approximate center of the Netherlands
     .scale(8250) // Scale to suit your map
     .translate([width / 2, height / 2]);
 
@@ -52,6 +52,7 @@ function onProvinceClick(event, d) {
     provinceClicked = true;
     provincesGroup.selectAll("path").attr("fill", "none");
     municipalitiesGroup.style("display", "block");
+    provincesGroup.selectAll(".province-name").style("display", "none");
 
     setFocusArea(d.properties.name)
 
@@ -103,11 +104,6 @@ function zoomed({transform}) {
     provincesGroup.selectAll("path").attr("transform", transform);
 }
 
-
-
-
-
-
 // Load GeoJSON data for municipalities
 d3.json("newer_municipalities.geojson").then(function(municipalities) {
     municipalitiesGroup.selectAll("path")
@@ -118,6 +114,7 @@ d3.json("newer_municipalities.geojson").then(function(municipalities) {
         .attr("fill", "#6DD100")
         .attr("stroke", "#FFFFFF")
         .attr("stroke-width", 0.3)
+        .style("cursor", "pointer") // Set cursor to pointer
         .on("click", onMunicipalityClick)
         .each(function(d) {
             // Add tooltip on hover for provinces
@@ -159,33 +156,50 @@ d3.json("provinces.geojson").then(function(provinces) {
         .attr("stroke", "#000000")
         .attr("stroke-width", 0.8)
         .on("click", onProvinceClick)
+        .style("cursor", "pointer") // Set cursor to pointer
         .each(function(d) {
-            // Add tooltip on hover for provinces
-            d3.select(this)
-                .on("mouseover", function () {
-                    // d3.select(this).attr("fill", "#006400");
-                    const [x, y] = d3.pointer(event, svg.node());
-                    setHoverArea(d.properties.name);
-
-                    tooltip.transition()
-                        .duration(200)
-                        .style("opacity", 1);
-                    tooltip.html(d.properties.name)
-                        .style("left", (x + 1020) + "px") // Adjust these values as needed
-                        .style("top", (y - 50) + "px");
-                })
-                .on("mouseout", function () {
-                    // d3.select(this).attr("fill", null);
-                    setHoverArea(null);
-                    tooltip.transition()
-                        .duration(500)
-                        .style("opacity", 0);
-                });
             // Append a title element to each path
             d3.select(this)
                 .append("title")
                 .text(d.properties.name);
         });
+
+    // Append text elements for each province
+    provincesGroup.selectAll("text")
+        .data(provinces.features)
+        .enter()
+        .append("text")
+        .attr("class", "province-name")
+        .attr("x", function(d) { 
+            // Adjust x-coordinate for specific provinces
+            if (d.properties.name === "Noord-Holland") {
+                return path.centroid(d)[0] + 10;
+            } else if (d.properties.name === "Flevoland") {
+                return path.centroid(d)[0] + 7;
+            } else if (d.properties.name === "Zeeland") {
+                return path.centroid(d)[0] + 6; 
+            } else if (d.properties.name === "Limburg") {
+                return path.centroid(d)[0] - 6; 
+            }
+            return path.centroid(d)[0]
+        })
+        .attr("y", function(d) { 
+            // Adjust y-coordinate for specific provinces
+            if (d.properties.name === "Noord-Holland") {
+                return path.centroid(d)[1] - 21; // adjust as needed
+            } else if (d.properties.name === "Flevoland") {
+                return path.centroid(d)[1] + 10; 
+            } else if (d.properties.name === "Zeeland") {
+                return path.centroid(d)[1] - 3; 
+            } else if (d.properties.name === "Limburg") {
+                return path.centroid(d)[1] - 6; 
+            }
+            // Add more conditions as needed
+            return path.centroid(d)[1]
+        })
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px") // Adjust the font size as needed
+        .text(function(d) { return d.properties.name; });
 });
 
 function setZoomLevel(scale) {
@@ -223,6 +237,7 @@ function resetMapView() {
 
     setMapSize(true);
     setFocusArea("NL")
+    provincesGroup.selectAll(".province-name").style("display", "block");
 }
 
 d3.select("#resetButton").on("click", resetMapView);
