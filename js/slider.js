@@ -293,7 +293,6 @@ const timeDict = {
   "December 2023": "2023MM12",
 }
 
-
 const slider = d3.select("#slider");
 const selectedStart = d3.select("#selectedStart");
 const selectedEnd = d3.select("#selectedEnd");

@@ -1,13 +1,33 @@
 // Global variables and settings
 
-export let focusArea = "NL";
-const selectedAreaText = d3.select("#selectedAreaText");
+export var focusArea = "NL";
+export var hoverArea = "";
 
+export var startDate = "2012MM01";
+export var endDate = "2023MM12";
+
+export var typeCrime = [];
+
+export var educationFactor = false;
+export var housingFactor = false;
+
+export function setEducationFactor(bool) {
+  educationFactor = bool;
+}
+export function setHousingFactor(bool) {
+  housingFactor = bool;
+}
+
+export function setTypeCrimes(dict) {
+  typeCrime = dict;
+  console.log(typeCrime);
+}
+
+const selectedAreaText = d3.select("#selectedAreaText");
 export function setFocusArea(newFocusArea) {
   focusArea = newFocusArea;
   selectedAreaText.html(focusArea);
 }
-export let hoverArea = "";
 
 export function setHoverArea(newHoverArea) {
   hoverArea = newHoverArea;

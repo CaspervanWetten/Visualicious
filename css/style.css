@@ -280,11 +280,13 @@ body {
 }
 .irs-from, .irs-to, .irs-max, .irs-min, .irs-single {
   line-height: 1.1 !important;
+  visibility: hidden !important;
 }
 
 .irs--flat {
   height: 0px !important;
 }
+
 
 .vis-wrapper {
   overflow-y: auto !important;
@@ -304,9 +306,43 @@ body {
 }
 
 .p-1-2 {
-  padding: .375rem !important;
+  padding: .375rem;
 }
 
 .menu-bar-label {
   line-height: 1.0 !important;
+}
+
+.crime-selector {
+  position: absolute;
+  z-index: 1050; /* High z-index to overlay content */
+  width: 350px; /* Adjust width as needed */
+  max-height: 600px; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Disable horizontal scrolling */
+  left: 0; /* Align the left edge with the container */
+  right: 0;
+}
+
+.factor-selector {
+  position: absolute;
+  z-index: 1050; /* High z-index to overlay content */
+  width: 200px; /* Adjust width as needed */
+  max-height: 600px; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Disable horizontal scrolling */
+  left: 0; /* Align the left edge with the container */
+  right: 0;
+}
+
+.selectable-option {
+  cursor: pointer;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.active-option {
+  background-color: green;
+  color: white;
 }
