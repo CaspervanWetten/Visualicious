@@ -293,6 +293,9 @@ const timeDict = {
   "December 2023": "2023MM12",
 }
 
+var startValue = "2012MM01";
+var endValue = "2023MM12";
+
 const slider = d3.select("#slider");
 const selectedStart = d3.select("#selectedStart");
 const selectedEnd = d3.select("#selectedEnd");
@@ -313,8 +316,8 @@ $("#slider").ionRangeSlider({
 });
 
 function updateSelectedRange(data) {
-  const startValue = timeDict[data.from_value];
-  const endValue = timeDict[data.to_value];
+  startValue = timeDict[data.from_value];
+  endValue = timeDict[data.to_value];
   selectedStart.text(`${data.from_value}`);
   selectedEnd.text(`${data.to_value}`);
   
