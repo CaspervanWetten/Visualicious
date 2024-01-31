@@ -1,4 +1,5 @@
-import { setEndDate, endDate, setStartDate, startDate } from "./index.js"; 
+import { setEndDate, endDate, setStartDate, startDate} from "./index.js";
+import {eventEmitter} from "./event-emitter.js";
 
 const timeArray = [
   "January 2012",
@@ -319,3 +320,8 @@ function updateSelectedRange(data) {
 // Manually change the initial values
 $('.irs-from').text("January 2012");
 $('.irs-to').text("December 2023");
+
+
+eventEmitter.on('update', () => {
+  // Update the slider to the now set endDate and startDate @Casper
+});

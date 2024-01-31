@@ -373,3 +373,11 @@ body {
 .close-icon {
   cursor: pointer !important;
 }
+
+.rounded-body {
+  border-radius: 20px !important;
+}
+
+.bg-black {
+  background: black !important;
+}

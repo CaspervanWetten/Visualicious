@@ -222,7 +222,7 @@ function setZoomLevel(scale) {
     //     .attr("d", path);
 }
 
-function resetMapView() {
+export function resetMapView() {
     // Reset to initial zoom and translate
     svg.transition()
         .duration(750)

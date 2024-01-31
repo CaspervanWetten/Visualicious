@@ -1,4 +1,5 @@
 import { setCrimeCodeList, crimeCodeList } from './index.js';
+import { eventEmitter } from './event-emitter.js';
 
 const crimeDictionary = {
     "0.0.0": "Totaal misdrijven",
@@ -62,8 +63,6 @@ const crimeDictionary = {
     "3.9.3": "3.9.3 Fraude (overig)"
 };
 
-const selectedOptions = [...crimeCodeList];
-
 function generateCheckboxes() {
     const ul = document.querySelector(".list-group");
 
@@ -76,33 +75,33 @@ function generateCheckboxes() {
         const input = document.createElement("input");
         input.type = "checkbox";
         input.id = "check" + key;
-        input.checked = selectedOptions.includes(key);
+        input.checked = crimeCodeList.includes(key);
         input.addEventListener("change", function () {
             if (input.checked) {
                 if (key === '0.0.0') {
-                    selectedOptions.length = 0;
-                    selectedOptions.push(key);
+                    crimeCodeList.length = 0;
+                    crimeCodeList.push(key);
                 } else {
-                    const zeroIndex = selectedOptions.indexOf('0.0.0');
+                    const zeroIndex = crimeCodeList.indexOf('0.0.0');
                     if (zeroIndex !== -1) {
-                        selectedOptions.splice(zeroIndex, 1);
+                        crimeCodeList.splice(zeroIndex, 1);
                     }
-                    if (!selectedOptions.includes(key)) {
-                        selectedOptions.push(key);
+                    if (!crimeCodeList.includes(key)) {
+                        crimeCodeList.push(key);
                     }
                 }
             } else {
                 // Prevent unchecking if this is the last checkbox
-                if (selectedOptions.length === 1 && selectedOptions.includes(key)) {
+                if (crimeCodeList.length === 1 && crimeCodeList.includes(key)) {
                     input.checked = true; // Re-check the checkbox
                     return; // Exit the function
                 }
-                const index = selectedOptions.indexOf(key);
+                const index = crimeCodeList.indexOf(key);
                 if (index !== -1) {
-                    selectedOptions.splice(index, 1);
+                    crimeCodeList.splice(index, 1);
                 }
             }
-            setCrimeCodeList([...selectedOptions]);
+            setCrimeCodeList([...crimeCodeList]);
             updateCheckboxStates();
         });
 
@@ -123,9 +122,9 @@ function updateCheckboxStates() {
     for (const key in crimeDictionary) {
         const checkbox = document.getElementById("check" + key);
         if (checkbox) {
-            checkbox.checked = selectedOptions.includes(key);
+            checkbox.checked = crimeCodeList.includes(key);
             // Disable the checkbox if it's the only one selected
-            checkbox.disabled = selectedOptions.length === 1 && selectedOptions.includes(key);
+            checkbox.disabled = crimeCodeList.length === 1 && crimeCodeList.includes(key);
         }
     }
 }
@@ -134,10 +133,6 @@ function updateCheckboxStates() {
 generateCheckboxes();
 updateCheckboxStates();
 
-const variableProxy = new Proxy({ value: crimeCodeList }, {
-    set(target, key, value) {
-        target[key] = value;
-        console.log("HAHA JA NU!");
-        return true;
-    },
+eventEmitter.on('update', () => {
+    updateCheckboxStates();
 });

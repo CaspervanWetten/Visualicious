@@ -1,4 +1,6 @@
 import { filterTSVData } from './data-fetch.js';
+import { eventEmitter } from './event-emitter.js';
+import { resetMapView } from './map-chart2.js';
 
 // import { generateCheckboxes, updateCheckboxStates } from './type-crime.js';
 
@@ -64,11 +66,16 @@ const crimeDictionary = {
   "3.9.3": "Fraude (overig)"
 };
 
+
 function update(wait = 200) {
+  eventEmitter.emit('update');
+
   // Fetch new data
   filterTSVData(startDate, endDate, focusArea,crimeCodeList, wait);
   // Update the UI displayed filters
   updateFilters();
+
+
 }
 
 // Global variables and settings
@@ -170,7 +177,8 @@ export function updateFilters() {
         .html(" &#10006;")
         .on("click", function() {
           focusArea = "NL";
-          update();
+          update(1000);
+          resetMapView();
         });
   }
 
