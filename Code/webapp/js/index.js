@@ -1,7 +1,74 @@
 import { filterTSVData } from './data-fetch.js';
 
+// import { generateCheckboxes, updateCheckboxStates } from './type-crime.js';
+
+const crimeDictionary = {
+  "0.0.0": "Totaal misdrijven",
+  "1.1.1": "Diefstal/inbraak woning",
+  "1.1.2": "Diefstal/inbraak box/garage/schuur",
+  "1.2.1": "Diefstal uit/vanaf motorvoertuigen",
+  "1.2.2": "Diefstal van motorvoertuigen",
+  "1.2.3": "Diefstal van brom-, snor-, fietsen",
+  "1.2.4": "Zakkenrollerij",
+  "1.2.5": "Diefstal af/uit/van ov. voertuigen",
+  "1.3.1": "Ongevallen (weg)",
+  "1.4.1": "Zedenmisdrijf",
+  "1.4.2": "Moord, doodslag",
+  "1.4.3": "Openlijk geweld (persoon)",
+  "1.4.4": "Bedreiging",
+  "1.4.5": "Mishandeling",
+  "1.4.6": "Straatroof",
+  "1.4.7": "Overval",
+  "1.5.2": "Diefstallen (water)",
+  "1.6.1": "Brand/ontploffing",
+  "1.6.2": "Overige vermogensdelicten",
+  "1.6.3": "Mensenhandel",
+  "2.1.1": "Drugs/drankoverlast",
+  "2.2.1": "Vernieling cq. zaakbeschadiging",
+  "2.4.1": "Burengerucht (relatieproblemen)",
+  "2.4.2": "Huisvredebreuk",
+  "2.5.1": "Diefstal/inbraak bedrijven enz.",
+  "2.5.2": "Winkeldiefstal",
+  "2.6.1": "Inrichting Wet Milieubeheer",
+  "2.6.2": "Bodem",
+  "2.6.3": "Water",
+  "2.6.4": "Afval",
+  "2.6.5": "Bouwstoffen",
+  "2.6.7": "Mest",
+  "2.6.8": "Transport gevaarlijke stoffen",
+  "2.6.9": "Vuurwerk",
+  "2.6.10": "Bestrijdingsmiddelen",
+  "2.6.11": "Natuur en landschap",
+  "2.6.12": "Ruimtelijke ordening",
+  "2.6.13": "Dieren",
+  "2.6.14": "Voedselveiligheid",
+  "2.7.2": "Bijzondere wetten",
+  "2.7.3": "Leefbaarheid (overig)",
+  "3.1.1": "Drugshandel",
+  "3.1.2": "Mensensmokkel",
+  "3.1.3": "Wapenhandel",
+  "3.2.1": "Kinderporno",
+  "3.2.2": "Kinderprostitutie",
+  "3.3.2": "Onder invloed (lucht)",
+  "3.3.5": "Lucht (overig)",
+  "3.4.2": "Onder invloed (water)",
+  "3.5.2": "Onder invloed (weg)",
+  "3.5.5": "Weg (overig)",
+  "3.6.4": "Aantasting openbare orde",
+  "3.7.1": "Discriminatie",
+  "3.7.2": "Vreemdelingenzorg",
+  "3.7.3": "Maatsch. integriteit (overig)",
+  "3.7.4": "Cybercrime",
+  "3.9.1": "Horizontale fraude",
+  "3.9.2": "Verticale fraude",
+  "3.9.3": "Fraude (overig)"
+};
+
 function update(wait = 200) {
+  // Fetch new data
   filterTSVData(startDate, endDate, focusArea,crimeCodeList, wait);
+  // Update the UI displayed filters
+  updateFilters();
 }
 
 // Global variables and settings
@@ -28,39 +95,186 @@ export function setCrimeCodeList(list) {
 }
 
 export var hoverArea = "";
-
-const selectedAreaText = d3.select("#selectedAreaText");
-export var focusArea = "NL00";
+export var focusArea = "NL";
 export function setFocusArea(newFocusArea) {
   focusArea = newFocusArea;
   update(1000);
-  selectedAreaText.html(focusArea);
 }
 
+function debounce(func, wait) {
+  let timeout;
+
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+
+const updateDebounced = debounce(update, 750);
+
 export var startDate = "2012MM01";
-export function setStartDate(date) {
+export var startDateText = "January 2012";
+export function setStartDate(date, dateText) {
   startDate = date;
-  console.log(startDate)
+  startDateText = dateText;
+  updateDebounced();
 }
 export var endDate = "2023MM12";
-export function setEndDate(date) {
+export var endDateText = "December 2023";
+export function setEndDate(date, dateText) {
   endDate = date;
-  console.log(endDate)
+  endDateText = dateText;
+  updateDebounced();
 }
 
 export var educationFactor = false;
 export function setEducationFactor(bool) {
   educationFactor = bool;
+  update();
 }
 
 export var housingFactor = false;
 export function setHousingFactor(bool) {
   housingFactor = bool;
+  update();
 }
 
 export function setHoverArea(newHoverArea) {
   hoverArea = newHoverArea;
 }
+
+
+
+export function updateFilters() {
+  const selectedAreaText = d3.selectAll("#selectedAreaText");
+  // Update the D3 element
+  selectedAreaText.html(focusArea);
+
+  const setFactors = d3.select("#setFactors");
+
+  // Update the focus area text
+  const focusAreaDiv = setFactors.selectAll("#selectedAreaText");
+  focusAreaDiv.html(focusArea);
+
+  // Append or remove close icon for focus area
+  focusAreaDiv.select(".close-icon").remove();
+  if (focusArea !== "NL") {
+    focusAreaDiv.append("span")
+        .attr("class", "close-icon")
+        .html(" &#10006;")
+        .on("click", function() {
+          focusArea = "NL";
+          update();
+        });
+  }
+
+  // Update the start date text
+  const startDateDiv = setFactors.select("#selectedStartDateText");
+  startDateDiv.html(startDateText);
+
+  // Append or remove close icon for start date
+  startDateDiv.select(".close-icon").remove();
+  if (startDateText !== "January 2012") {
+    startDateDiv.append("span")
+        .attr("class", "close-icon")
+        .html(" &#10006;")
+        .on("click", function() {
+          startDateText = "January 2012";
+          update();
+        });
+  }
+
+  // Update the end date text
+  const endDateDiv = setFactors.select("#selectedEndDateText");
+  endDateDiv.html(endDateText);
+
+  // Append or remove close icon for end date
+  endDateDiv.select(".close-icon").remove();
+  if (endDateText !== "December 2023") {
+    endDateDiv.append("span")
+        .attr("class", "close-icon")
+        .html(" &#10006;")
+        .on("click", function() {
+          endDateText = "December 2023";
+          update();
+        });
+  }
+
+
+
+  // Bind crimeCodeList to the divs
+  const crimeDivs = setFactors.selectAll(".crimeCode")
+      .data(crimeCodeList, function(d) { return d; });
+
+  // Enter selection: Create new divs for new data items
+  const newCrimeDivs = crimeDivs.enter().append("div")
+      .attr("class", "bg-menu rounded p-1-2 mr-2 mt-1 crimeCode");
+
+  newCrimeDivs.append("small")
+      .attr("class", "text-bg-dark m-0 menu-bar-label")
+      .html(function(d) { return `${crimeDictionary[d]}`; });
+
+  // Update existing divs
+  crimeDivs.select(".text-bg-dark")
+      .html(function(d) { return `${crimeDictionary[d]}`; });
+
+  // Manage close icons
+  setFactors.selectAll(".crimeCode").each(function(d, i) {
+    const div = d3.select(this);
+    div.selectAll(".close-icon").remove();
+
+    if (crimeCodeList.length > 1) {
+      div.append("small")
+          .attr("class", "close-icon")
+          .html(" &#10006;")
+          .on("click", function(event, d) {
+            // Remove the clicked item from crimeCodeList
+            const index = crimeCodeList.indexOf(d);
+            if (index > -1) {
+              crimeCodeList.splice(index, 1);
+              update(); // Call updateFilters to reflect the change
+            }
+          });
+    }
+  });
+
+  // Exit selection: Remove divs for which there is no data
+  crimeDivs.exit().remove();
+
+
+  // Handle the addition of the education levels div
+  setFactors.selectAll(".education-div, .education-divider").remove(); // Remove existing div and divider
+  if (educationFactor) {
+    // Add vertical divider
+    setFactors.append("div")
+        .attr("class", "vertical-divider mr-2 mt-1 education-divider");
+
+    // Add education levels div
+    const educationDiv = setFactors.append("div")
+        .attr("class", "bg-menu rounded p-1-2 mr-2 mt-1 education-div");
+
+    educationDiv.append("small")
+        .attr("class", "text-bg-dark m-0 menu-bar-label")
+        .html("Education levels");
+
+    educationDiv.append("small")
+        .attr("class", "close-icon")
+        .html(" &#10006;")
+        .on("click", function() {
+          educationFactor = false;
+          update();
+        });
+  }
+}
+
+
+
 
 // INDEX JS
 
@@ -187,3 +401,9 @@ function toggleLoader() {
 function preventInteraction(e) {
   e.preventDefault();
 }
+
+window.addEventListener('load', function() {
+  updateFilters();
+  // generateCheckboxes();
+  // updateCheckboxStates();
+});

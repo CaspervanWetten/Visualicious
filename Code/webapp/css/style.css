@@ -279,6 +279,11 @@ body {
   margin-right: 0 !important;
 }
 
+#setFactors{
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
 
 .irs-bar {
   height: 8px !important;
@@ -359,4 +364,12 @@ body {
 .active-option {
   background-color: green;
   color: white;
+}
+
+.vertical-divider {
+  border-left: 2px solid #ddd;
+}
+
+.close-icon {
+  cursor: pointer !important;
 }

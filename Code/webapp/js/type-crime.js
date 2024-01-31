@@ -134,3 +134,10 @@ function updateCheckboxStates() {
 generateCheckboxes();
 updateCheckboxStates();
 
+const variableProxy = new Proxy({ value: crimeCodeList }, {
+    set(target, key, value) {
+        target[key] = value;
+        console.log("HAHA JA NU!");
+        return true;
+    },
+});

@@ -310,8 +310,8 @@ $("#slider").ionRangeSlider({
 });
 
 function updateSelectedRange(data) {
-  setStartDate(timeDict[data.from_value]);
-  setEndDate(timeDict[data.to_value]);
+  setStartDate(timeDict[data.from_value], `${data.from_value}`);
+  setEndDate(timeDict[data.to_value], `${data.to_value}`);
   selectedStart.text(`${data.from_value}`);
   selectedEnd.text(`${data.to_value}`);
 }
