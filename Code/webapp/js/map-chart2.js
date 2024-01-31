@@ -105,7 +105,7 @@ function zoomed({transform}) {
 }
 
 // Load GeoJSON data for municipalities
-d3.json("newer_municipalities.geojson").then(function(municipalities) {
+d3.json("../../Data/newer_municipalities.geojson").then(function(municipalities) {
     municipalitiesGroup.selectAll("path")
         .data(municipalities.features)
         .enter()
@@ -146,7 +146,7 @@ d3.json("newer_municipalities.geojson").then(function(municipalities) {
 });
 
 // Load GeoJSON data for provinces
-d3.json("provinces.geojson").then(function(provinces) {
+d3.json("../../Data/provinces.geojson").then(function(provinces) {
     provincesGroup.selectAll("path")
         .data(provinces.features)
         .enter()

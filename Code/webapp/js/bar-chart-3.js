@@ -142,7 +142,7 @@ function functieTotaalMisdrijvenUtrecht(data) {
     });
 }
 
-d3.csv("scraper/archive/totaalMisdrijvenUtrecht.csv").then(
+d3.csv("../../Data/totaalMisdrijvenUtrecht.csv").then(
   (totaalMisdrijvenUtrecht) => {
     functieTotaalMisdrijvenUtrecht(totaalMisdrijvenUtrecht);
   }
