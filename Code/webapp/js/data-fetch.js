@@ -1,4 +1,5 @@
-import {setLoading, setData, firstLoad} from "./index.js";
+import {setLoading, setData} from "./index.js";
+import {eventEmitter} from "./event-emitter.js";
 
 let globalTSVData = null;
 
@@ -147,6 +148,10 @@ const timeDict = {
     "October 2023": "2023MM10",
     "November 2023": "2023MM11",
     "December 2023": "2023MM12",
+}
+
+export function firstLoad(wait = 200) {
+    eventEmitter.emit('firstLoad');
 }
 
 function fetchTSVDataOnLoad(url) {

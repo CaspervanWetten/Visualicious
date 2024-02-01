@@ -29,10 +29,6 @@ function update(wait = 200) {
   updateFilters();
 }
 
-export function firstLoad(wait = 200) {
-  eventEmitter.emit('firstLoad');
-}
-
 // Global variables and settings
 export var isLoading = false; // Change this based on your logic
 export function setLoading(bool) {
