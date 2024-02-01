@@ -1,3 +1,6 @@
+import { data } from "./index.js";
+import {eventEmitter} from "./event-emitter.js";
+
 function responsivefy(svg) {
   // get container + svg aspect ratio
   var container = d3.select(svg.node().parentNode),
@@ -142,8 +145,22 @@ function functieTotaalMisdrijvenUtrecht(data) {
     });
 }
 
-d3.csv("../../Data/totaalMisdrijvenUtrecht.csv").then(
-  (totaalMisdrijvenUtrecht) => {
-    functieTotaalMisdrijvenUtrecht(totaalMisdrijvenUtrecht);
+function removePreviousGraph() {
+  // Select the container and remove its content
+  d3.select("#totaalMisdrijvenUtrecht").html("");
+}
+
+// Every time there's an update (so including the first load)
+eventEmitter.on('update', () => {
+  console.log("Updated")
+  console.log(data)
+
+  for (let i = 0; i < data.length; i++){
+    console.log(i)
   }
-);
+  
+  
+  
+  removePreviousGraph()
+  functieTotaalMisdrijvenUtrecht(data)
+});

@@ -12,7 +12,7 @@ import pandas as pd
 # read.to_csv("Opleiding.csv")
 
 
-read = pd.read_csv("~/Downloads/85039NED_UntypedDataSet_26012024_124736.csv", sep=";", index_col="ID", usecols=["ID", "WijkenEnBuurten", "OpleidingsniveauLaag_64", "OpleidingsniveauMiddelbaar_65", "OpleidingsniveauHoog_66"])
+read = pd.read_csv("scraper/opleidingsniveau.csv", sep=";", index_col="ID", usecols=["ID", "WijkenEnBuurten", "OpleidingsniveauLaag_64", "OpleidingsniveauMiddelbaar_65", "OpleidingsniveauHoog_66"])
 
 
 
@@ -20,4 +20,17 @@ read = pd.read_csv("~/Downloads/85039NED_UntypedDataSet_26012024_124736.csv", se
 
 
 read = read[~(read['WijkenEnBuurten'].str.startswith("WK") | read['WijkenEnBuurten'].str.startswith("BU"))]
-print(read.head(20))
+
+
+for index, row in read.iterrows():
+    total = int(row["OpleidingsniveauLaag_64"]) + int(row["OpleidingsniveauHoog_66"]) + int(row["OpleidingsniveauMiddelbaar_65"])
+    laagP = round(int(row["OpleidingsniveauLaag_64"])/total * 100, 1)
+    mediP = round(int(row["OpleidingsniveauHoog_66"])/total * 100, 1)
+    hoogP = round(int(row["OpleidingsniveauMiddelbaar_65"])/total * 100, 1)
+    read.at[index, "OpleidingsniveauLaag"] = laagP
+    read.at[index, "OpleidingsniveauMiddelbaar"] = mediP
+    read.at[index, "OpleidingsniveauHoog"] = hoogP
+
+print(read.head(500))
+
+read.to_csv("Opleiding Gemeentes - 2021.csv")

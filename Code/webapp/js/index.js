@@ -67,9 +67,8 @@ const crimeDictionary = {
 };
 
 
-function update(wait = 200) {
+export function update(wait = 200) {
   eventEmitter.emit('update');
-
   // Fetch new data
   filterTSVData(startDate, endDate, focusArea,crimeCodeList, wait);
   // Update the UI displayed filters
@@ -193,6 +192,7 @@ export function updateFilters() {
         .attr("class", "close-icon")
         .html(" &#10006;")
         .on("click", function() {
+          startDate = "2012MM01"
           startDateText = "January 2012";
           update();
         });
@@ -209,6 +209,7 @@ export function updateFilters() {
         .attr("class", "close-icon")
         .html(" &#10006;")
         .on("click", function() {
+          endDate = "2023MM12"
           endDateText = "December 2023";
           update();
         });

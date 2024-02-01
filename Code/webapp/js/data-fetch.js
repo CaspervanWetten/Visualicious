@@ -1,4 +1,4 @@
-import {setLoading, setData} from "./index.js";
+import {setLoading, setData, update} from "./index.js";
 
 let globalTSVData = null;
 
@@ -156,11 +156,13 @@ function fetchTSVDataOnLoad(url) {
         .then(tsvData => {
             globalTSVData = tsvData;
             console.log("Dataset loaded");
+            update();
             setLoading(false);
 
             // Set the initial data which is NL00, 0.0.0, 2012MM01, 2023MM12
+            // @bjornkoemans Klopt het dat dit begint bij 2018-2020?
             filterTSVData("2018MM01", "2020MM06", 'NL00', ['0.0.0']);
-
+            
         })
         .catch(error => {
             console.error('Error fetching TSV:', error);
@@ -217,6 +219,7 @@ export async function filterTSVData(startDate, endDate, regionCode, crimeCodeLis
     // Defer the processing to allow the UI update
     setTimeout(() => {
         const data = createDictionaryFromTSV(globalTSVData, getDateCodeList(startDate, endDate), regionCode, crimeCodeList);
+        console.log(data)
         setData(data);
         setLoading(false);
     }, wait);
