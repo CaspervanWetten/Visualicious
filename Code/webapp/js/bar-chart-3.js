@@ -150,7 +150,15 @@ function removePreviousGraph() {
   d3.select("#totaalMisdrijvenUtrecht").html("");
 }
 
-// Every time there's an update (so including the first load)
+// On the first load, load the graph
+eventEmitter.on('firstLoad', () => {
+  console.log("first Load")
+  console.log(data)
+  // functieTotaalMisdrijvenUtrecht(data)
+});
+
+
+// Every time there's an update, remove the previous graph and load the page
 eventEmitter.on('update', () => {
   console.log("Updated")
   console.log(data)
