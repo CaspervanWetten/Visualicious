@@ -1,4 +1,5 @@
 import {focusArea, setFocusArea, hoverArea, setHoverArea, setMapSize} from "./index.js";
+import { updateChoroplethForSelectedCrimes } from '.js/choropleth.js';
 
 const tooltip = d3.select("#tooltip");
 
