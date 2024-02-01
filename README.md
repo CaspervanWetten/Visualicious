@@ -58,13 +58,13 @@ Finally, the LICENSE outlines the terms and conditions of our GNU General Public
 
 ## Credits
 
-This project was concieved of and created by:
+This project was conceived of and created by:
 
 Reinout Vlaanderen
 Bjorn Koemans
 Casper van Wetten
-Florence Herret
-Maureen [Achternaam]
+Florence Herrent
+Maureen van Veen
 
 TODO: Alfabetische volgorde
 
