@@ -1,4 +1,4 @@
-import {setLoading, setData, update} from "./index.js";
+import {setLoading, setData, firstLoad} from "./index.js";
 
 let globalTSVData = null;
 
@@ -156,8 +156,8 @@ function fetchTSVDataOnLoad(url) {
         .then(tsvData => {
             globalTSVData = tsvData;
             console.log("Dataset loaded");
-            update();
             setLoading(false);
+            firstLoad();
 
             // Set the initial data which is NL00, 0.0.0, 2012MM01, 2023MM12
             // @bjornkoemans Klopt het dat dit begint bij 2018-2020?

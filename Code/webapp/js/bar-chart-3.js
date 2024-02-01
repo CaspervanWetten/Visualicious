@@ -154,13 +154,6 @@ function removePreviousGraph() {
 eventEmitter.on('update', () => {
   console.log("Updated")
   console.log(data)
-
-  for (let i = 0; i < data.length; i++){
-    console.log(i)
-  }
-  
-  
-  
   removePreviousGraph()
-  functieTotaalMisdrijvenUtrecht(data)
+  // functieTotaalMisdrijvenUtrecht(data)
 });

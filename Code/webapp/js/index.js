@@ -27,8 +27,10 @@ export function update(wait = 200) {
   filterTSVData(startDate, endDate, focusArea,crimeCodeList, wait);
   // Update the UI displayed filters
   updateFilters();
+}
 
-
+export function firstLoad(wait = 200) {
+  eventEmitter.emit('firstLoad');
 }
 
 // Global variables and settings
