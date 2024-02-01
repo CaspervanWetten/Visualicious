@@ -1,4 +1,4 @@
-import { data } from "./index.js";
+import {data, focusArea} from "./index.js";
 import {eventEmitter} from "./event-emitter.js";
 
 function responsivefy(svg) {
@@ -29,13 +29,13 @@ function responsivefy(svg) {
   }
 }
 
-function functieTotaalMisdrijvenUtrecht(data) {
+function totaalMisdaden(data) {
   const margin = { top: 20, right: 20, bottom: 50, left: 50 };
   const width = 600 - margin.left - margin.right;
   const height = 300 - margin.top - margin.bottom;
 
   const svg = d3
-    .select("#totaalMisdrijvenUtrecht")
+    .select("#totaalMisdaden")
     .append("svg")
     .attr("viewBox", `0 0 600 300`)
     .append("g")
@@ -50,7 +50,7 @@ function functieTotaalMisdrijvenUtrecht(data) {
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
     .style("font-weight", "bold")
-    .text("Totale hoeveelheid misdrijven in Utrecht");
+    .text("Totale hoeveelheid misdrijven in " + focusArea);
 
   const x = d3
     .scaleBand()
@@ -153,15 +153,15 @@ function removePreviousGraph() {
 // On the first load, load the graph
 eventEmitter.on('firstLoad', () => {
   console.log("first Load")
-  console.log(data)
-  // functieTotaalMisdrijvenUtrecht(data)
+  // console.log(data)
+  // totaalMisdaden(data)
 });
 
 
 // Every time there's an update, remove the previous graph and load the page
 eventEmitter.on('update', () => {
   console.log("Updated")
-  console.log(data)
+  // console.log(data)
   removePreviousGraph()
-  // functieTotaalMisdrijvenUtrecht(data)
+  // totaalMisdaden(data)
 });
