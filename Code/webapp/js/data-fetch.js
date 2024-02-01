@@ -247,7 +247,7 @@ export function getDateCodeList(startDate, endDate) {
 
 // Example usage
 window.onload = () => {
-    const url = 'http://visualicious.bjornkoemans.nl/crimes_original.tsv'; // Replace with the actual URL
+    const url = 'http://visualicious.bjornkoemans.nl/crimes_theft.tsv'; // Replace with the actual URL
     fetchTSVDataOnLoad(url);
 };
 
