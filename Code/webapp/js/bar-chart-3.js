@@ -153,7 +153,6 @@ function removePreviousGraph() {
 // On the first load, load the graph
 eventEmitter.on('firstLoad', () => {
   console.log("first Load")
-  console.log(data)
   // functieTotaalMisdrijvenUtrecht(data)
 });
 
@@ -161,7 +160,7 @@ eventEmitter.on('firstLoad', () => {
 // Every time there's an update, remove the previous graph and load the page
 eventEmitter.on('update', () => {
   console.log("Updated")
-  console.log(data)
+  // console.log(data)
   removePreviousGraph()
   // functieTotaalMisdrijvenUtrecht(data)
 });
