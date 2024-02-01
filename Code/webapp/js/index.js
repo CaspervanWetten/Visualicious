@@ -21,7 +21,7 @@ const crimeDictionary = {
 }
 
 
-export function update(wait = 200) {
+function update(wait = 200) {
   eventEmitter.emit('update');
   // Fetch new data
   filterTSVData(startDate, endDate, focusArea,crimeCodeList, wait);
