@@ -13,7 +13,7 @@ var svg = d3.select("#map-chart-container").append("svg")
 
 // Define map projection
 var projection = d3.geoMercator()
-    .center([5.05, 52.8]) // Approximate center of the Netherlands
+    .center([5.05, 53.0]) // Approximate center of the Netherlands
     .scale(8250) // Scale to suit your map
     .translate([width / 2, height / 2]);
 
@@ -44,6 +44,9 @@ function onProvinceClick(event, d) {
         y = (bounds[0][1] + bounds[1][1]) / 2,
         scale = Math.max(1, Math.min(6, 0.9 / Math.max(dx / width, dy / height))),
         translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+        var adjustY = -40; // Adjust this value as needed to get the desired centering
+        translate[1] -= adjustY * scale; // Adjust translate based on scale to maintain consistency at different zoom levels
 
     svg.transition()
         .duration(750)
@@ -248,9 +251,13 @@ export function resetMapView() {
     provincesGroup.selectAll("path").attr("fill", "#6DD100");
     municipalitiesGroup.style("display", "none");
 
+    provincesGroup.selectAll(".province-name")
+        .style("display", "inline")
+        .style("opacity", 1);
+
     setMapSize(true);
     setFocusArea("NL")
-    provincesGroup.selectAll(".province-name").style("display", "block");
+    provincesGroup.selectAll(".province-name").style("display", null);
 }
 
 d3.select("#resetButton").on("click", resetMapView);
