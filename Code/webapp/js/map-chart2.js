@@ -93,16 +93,26 @@ svg.on("mousemove", function(event) {
 
 // Zoom and pan settings
 var zoom = d3.zoom()
-    .scaleExtent([1, 2])
+    .scaleExtent([1, 8]) // Adjust according to your needs
     .on("zoom", zoomed);
 
 svg.call(zoom)
     .on("dblclick.zoom", null);
 
-function zoomed({transform}) {
-    municipalitiesGroup.selectAll("path").attr("transform", transform);
-    provincesGroup.selectAll("path").attr("transform", transform);
+function zoomed(event) {
+    const { transform } = event;
+    
+    // Apply the transform directly to the group elements
+    provincesGroup.attr("transform", transform);
+    municipalitiesGroup.attr("transform", transform);
+    
+    // If you want to keep the text size consistent during zoom,
+    // you might adjust the font-size dynamically here based on `transform.k` (the scale factor)
+    // This is optional and depends on your desired behavior
+    provincesGroup.selectAll("text")
+        .style("font-size", 12 / transform.k + "px");
 }
+
 
 // Load GeoJSON data for municipalities
 d3.json("../../Data/newer_municipalities.geojson").then(function(municipalities) {
@@ -147,6 +157,9 @@ d3.json("../../Data/newer_municipalities.geojson").then(function(municipalities)
 
 // Load GeoJSON data for provinces
 d3.json("../../Data/provinces.geojson").then(function(provinces) {
+    provinces.features.forEach(function(feature) {
+        feature.properties.centroid = d3.geoCentroid(feature);
+    });
     provincesGroup.selectAll("path")
         .data(provinces.features)
         .enter()
