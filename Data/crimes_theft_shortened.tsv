@@ -1,0 +1,237 @@
+ID	SoortMisdrijf	WijkenEnBuurten	Perioden	GeregistreerdeMisdrijven	WijkenEnBuurtenRaw	SoortMisdrijfRaw	PeriodenRaw
+144	0.0.0	GM1680    	2012MM01	37.0	Aa en Hunze	Totaal misdrijven	2012 januari
+145	0.0.0	GM1680    	2012MM02	49.0	Aa en Hunze	Totaal misdrijven	2012 februari
+146	0.0.0	GM1680    	2012MM03	36.0	Aa en Hunze	Totaal misdrijven	2012 maart
+147	0.0.0	GM1680    	2012MM04	26.0	Aa en Hunze	Totaal misdrijven	2012 april
+148	0.0.0	GM1680    	2012MM05	30.0	Aa en Hunze	Totaal misdrijven	2012 mei
+149	0.0.0	GM1680    	2012MM06	18.0	Aa en Hunze	Totaal misdrijven	2012 juni
+150	0.0.0	GM1680    	2012MM07	25.0	Aa en Hunze	Totaal misdrijven	2012 juli
+151	0.0.0	GM1680    	2012MM08	59.0	Aa en Hunze	Totaal misdrijven	2012 augustus
+152	0.0.0	GM1680    	2012MM09	32.0	Aa en Hunze	Totaal misdrijven	2012 september
+153	0.0.0	GM1680    	2012MM10	38.0	Aa en Hunze	Totaal misdrijven	2012 oktober
+154	0.0.0	GM1680    	2012MM11	37.0	Aa en Hunze	Totaal misdrijven	2012 november
+155	0.0.0	GM1680    	2012MM12	14.0	Aa en Hunze	Totaal misdrijven	2012 december
+156	0.0.0	GM1680    	2013MM01	32.0	Aa en Hunze	Totaal misdrijven	2013 januari
+157	0.0.0	GM1680    	2013MM02	27.0	Aa en Hunze	Totaal misdrijven	2013 februari
+158	0.0.0	GM1680    	2013MM03	24.0	Aa en Hunze	Totaal misdrijven	2013 maart
+159	0.0.0	GM1680    	2013MM04	18.0	Aa en Hunze	Totaal misdrijven	2013 april
+160	0.0.0	GM1680    	2013MM05	28.0	Aa en Hunze	Totaal misdrijven	2013 mei
+161	0.0.0	GM1680    	2013MM06	21.0	Aa en Hunze	Totaal misdrijven	2013 juni
+162	0.0.0	GM1680    	2013MM07	25.0	Aa en Hunze	Totaal misdrijven	2013 juli
+163	0.0.0	GM1680    	2013MM08	18.0	Aa en Hunze	Totaal misdrijven	2013 augustus
+164	0.0.0	GM1680    	2013MM09	23.0	Aa en Hunze	Totaal misdrijven	2013 september
+165	0.0.0	GM1680    	2013MM10	20.0	Aa en Hunze	Totaal misdrijven	2013 oktober
+166	0.0.0	GM1680    	2013MM11	26.0	Aa en Hunze	Totaal misdrijven	2013 november
+167	0.0.0	GM1680    	2013MM12	47.0	Aa en Hunze	Totaal misdrijven	2013 december
+168	0.0.0	GM1680    	2014MM01	14.0	Aa en Hunze	Totaal misdrijven	2014 januari
+169	0.0.0	GM1680    	2014MM02	15.0	Aa en Hunze	Totaal misdrijven	2014  februari
+170	0.0.0	GM1680    	2014MM03	24.0	Aa en Hunze	Totaal misdrijven	2014 maart
+171	0.0.0	GM1680    	2014MM04	16.0	Aa en Hunze	Totaal misdrijven	2014 april
+172	0.0.0	GM1680    	2014MM05	17.0	Aa en Hunze	Totaal misdrijven	2014 mei
+173	0.0.0	GM1680    	2014MM06	20.0	Aa en Hunze	Totaal misdrijven	2014 juni
+174	0.0.0	GM1680    	2014MM07	12.0	Aa en Hunze	Totaal misdrijven	2014 juli
+175	0.0.0	GM1680    	2014MM08	12.0	Aa en Hunze	Totaal misdrijven	2014 augustus
+176	0.0.0	GM1680    	2014MM09	18.0	Aa en Hunze	Totaal misdrijven	2014 september 
+177	0.0.0	GM1680    	2014MM10	10.0	Aa en Hunze	Totaal misdrijven	2014 oktober
+178	0.0.0	GM1680    	2014MM11	17.0	Aa en Hunze	Totaal misdrijven	2014 november
+179	0.0.0	GM1680    	2014MM12	12.0	Aa en Hunze	Totaal misdrijven	2014 december
+180	0.0.0	GM1680    	2015MM01	20.0	Aa en Hunze	Totaal misdrijven	2015 januari
+181	0.0.0	GM1680    	2015MM02	11.0	Aa en Hunze	Totaal misdrijven	2015  februari
+182	0.0.0	GM1680    	2015MM03	15.0	Aa en Hunze	Totaal misdrijven	2015 maart
+183	0.0.0	GM1680    	2015MM04	21.0	Aa en Hunze	Totaal misdrijven	2015 april
+184	0.0.0	GM1680    	2015MM05	23.0	Aa en Hunze	Totaal misdrijven	2015 mei
+185	0.0.0	GM1680    	2015MM06	5.0	Aa en Hunze	Totaal misdrijven	2015 juni
+186	0.0.0	GM1680    	2015MM07	12.0	Aa en Hunze	Totaal misdrijven	2015 juli
+187	0.0.0	GM1680    	2015MM08	17.0	Aa en Hunze	Totaal misdrijven	2015 augustus
+188	0.0.0	GM1680    	2015MM09	20.0	Aa en Hunze	Totaal misdrijven	2015 september
+189	0.0.0	GM1680    	2015MM10	11.0	Aa en Hunze	Totaal misdrijven	2015 oktober
+190	0.0.0	GM1680    	2015MM11	13.0	Aa en Hunze	Totaal misdrijven	2015 november
+191	0.0.0	GM1680    	2015MM12	39.0	Aa en Hunze	Totaal misdrijven	2015 december
+192	0.0.0	GM1680    	2016MM01	13.0	Aa en Hunze	Totaal misdrijven	2016 januari
+193	0.0.0	GM1680    	2016MM02	12.0	Aa en Hunze	Totaal misdrijven	2016  februari
+194	0.0.0	GM1680    	2016MM03	20.0	Aa en Hunze	Totaal misdrijven	2016 maart
+195	0.0.0	GM1680    	2016MM04	8.0	Aa en Hunze	Totaal misdrijven	2016 april
+196	0.0.0	GM1680    	2016MM05	14.0	Aa en Hunze	Totaal misdrijven	2016 mei
+197	0.0.0	GM1680    	2016MM06	15.0	Aa en Hunze	Totaal misdrijven	2016 juni
+198	0.0.0	GM1680    	2016MM07	10.0	Aa en Hunze	Totaal misdrijven	2016 juli
+199	0.0.0	GM1680    	2016MM08	13.0	Aa en Hunze	Totaal misdrijven	2016 augustus
+200	0.0.0	GM1680    	2016MM09	7.0	Aa en Hunze	Totaal misdrijven	2016 september
+201	0.0.0	GM1680    	2016MM10	12.0	Aa en Hunze	Totaal misdrijven	2016 oktober
+202	0.0.0	GM1680    	2016MM11	14.0	Aa en Hunze	Totaal misdrijven	2016 november
+203	0.0.0	GM1680    	2016MM12	11.0	Aa en Hunze	Totaal misdrijven	2016 december
+204	0.0.0	GM1680    	2017MM01	16.0	Aa en Hunze	Totaal misdrijven	2017 januari
+205	0.0.0	GM1680    	2017MM02	7.0	Aa en Hunze	Totaal misdrijven	2017 februari
+206	0.0.0	GM1680    	2017MM03	12.0	Aa en Hunze	Totaal misdrijven	2017 maart
+207	0.0.0	GM1680    	2017MM04	4.0	Aa en Hunze	Totaal misdrijven	2017 april
+208	0.0.0	GM1680    	2017MM05	11.0	Aa en Hunze	Totaal misdrijven	2017 mei
+209	0.0.0	GM1680    	2017MM06	6.0	Aa en Hunze	Totaal misdrijven	2017 juni
+210	0.0.0	GM1680    	2017MM07	11.0	Aa en Hunze	Totaal misdrijven	2017 juli
+211	0.0.0	GM1680    	2017MM08	14.0	Aa en Hunze	Totaal misdrijven	2017 augustus
+212	0.0.0	GM1680    	2017MM09	7.0	Aa en Hunze	Totaal misdrijven	2017 september
+213	0.0.0	GM1680    	2017MM10	5.0	Aa en Hunze	Totaal misdrijven	2017 oktober
+214	0.0.0	GM1680    	2017MM11	20.0	Aa en Hunze	Totaal misdrijven	2017 november
+215	0.0.0	GM1680    	2017MM12	11.0	Aa en Hunze	Totaal misdrijven	2017 december
+216	0.0.0	GM1680    	2018MM01	17.0	Aa en Hunze	Totaal misdrijven	2018 januari 
+217	0.0.0	GM1680    	2018MM02	8.0	Aa en Hunze	Totaal misdrijven	2018 februari
+218	0.0.0	GM1680    	2018MM03	6.0	Aa en Hunze	Totaal misdrijven	2018 maart
+219	0.0.0	GM1680    	2018MM04	14.0	Aa en Hunze	Totaal misdrijven	2018 april
+220	0.0.0	GM1680    	2018MM05	7.0	Aa en Hunze	Totaal misdrijven	2018 mei
+221	0.0.0	GM1680    	2018MM06	8.0	Aa en Hunze	Totaal misdrijven	2018 juni
+222	0.0.0	GM1680    	2018MM07	14.0	Aa en Hunze	Totaal misdrijven	2018 juli
+223	0.0.0	GM1680    	2018MM08	15.0	Aa en Hunze	Totaal misdrijven	2018 augustus
+224	0.0.0	GM1680    	2018MM09	16.0	Aa en Hunze	Totaal misdrijven	2018 september
+225	0.0.0	GM1680    	2018MM10	8.0	Aa en Hunze	Totaal misdrijven	2018 oktober
+226	0.0.0	GM1680    	2018MM11	7.0	Aa en Hunze	Totaal misdrijven	2018 november
+227	0.0.0	GM1680    	2018MM12	7.0	Aa en Hunze	Totaal misdrijven	2018 december
+228	0.0.0	GM1680    	2019MM01	11.0	Aa en Hunze	Totaal misdrijven	2019 januari
+229	0.0.0	GM1680    	2019MM02	13.0	Aa en Hunze	Totaal misdrijven	2019 februari
+230	0.0.0	GM1680    	2019MM03	14.0	Aa en Hunze	Totaal misdrijven	2019 maart
+231	0.0.0	GM1680    	2019MM04	13.0	Aa en Hunze	Totaal misdrijven	2019 april
+232	0.0.0	GM1680    	2019MM05	14.0	Aa en Hunze	Totaal misdrijven	2019 mei
+233	0.0.0	GM1680    	2019MM06	7.0	Aa en Hunze	Totaal misdrijven	2019 juni
+234	0.0.0	GM1680    	2019MM07	7.0	Aa en Hunze	Totaal misdrijven	2019 juli
+235	0.0.0	GM1680    	2019MM08	8.0	Aa en Hunze	Totaal misdrijven	2019 augustus
+236	0.0.0	GM1680    	2019MM09	22.0	Aa en Hunze	Totaal misdrijven	2019 september
+237	0.0.0	GM1680    	2019MM10	16.0	Aa en Hunze	Totaal misdrijven	2019 oktober
+238	0.0.0	GM1680    	2019MM11	14.0	Aa en Hunze	Totaal misdrijven	2019 november
+239	0.0.0	GM1680    	2019MM12	13.0	Aa en Hunze	Totaal misdrijven	2019 december
+240	0.0.0	GM1680    	2020MM01	9.0	Aa en Hunze	Totaal misdrijven	2020 januari
+241	0.0.0	GM1680    	2020MM02	4.0	Aa en Hunze	Totaal misdrijven	2020 februari
+242	0.0.0	GM1680    	2020MM03	11.0	Aa en Hunze	Totaal misdrijven	2020 maart
+243	0.0.0	GM1680    	2020MM04	5.0	Aa en Hunze	Totaal misdrijven	2020 april
+244	0.0.0	GM1680    	2020MM05	7.0	Aa en Hunze	Totaal misdrijven	2020 mei
+245	0.0.0	GM1680    	2020MM06	9.0	Aa en Hunze	Totaal misdrijven	2020 juni
+246	0.0.0	GM1680    	2020MM07	9.0	Aa en Hunze	Totaal misdrijven	2020 juli
+247	0.0.0	GM1680    	2020MM08	7.0	Aa en Hunze	Totaal misdrijven	2020 augustus
+248	0.0.0	GM1680    	2020MM09	17.0	Aa en Hunze	Totaal misdrijven	2020 september
+249	0.0.0	GM1680    	2020MM10	14.0	Aa en Hunze	Totaal misdrijven	2020 oktober
+250	0.0.0	GM1680    	2020MM11	6.0	Aa en Hunze	Totaal misdrijven	2020 november
+251	0.0.0	GM1680    	2020MM12	11.0	Aa en Hunze	Totaal misdrijven	2020 december
+252	0.0.0	GM1680    	2021MM01	5.0	Aa en Hunze	Totaal misdrijven	2021 januari
+253	0.0.0	GM1680    	2021MM02	7.0	Aa en Hunze	Totaal misdrijven	2021 februari
+254	0.0.0	GM1680    	2021MM03	7.0	Aa en Hunze	Totaal misdrijven	2021 maart
+255	0.0.0	GM1680    	2021MM04	5.0	Aa en Hunze	Totaal misdrijven	2021 april
+256	0.0.0	GM1680    	2021MM05	13.0	Aa en Hunze	Totaal misdrijven	2021 mei
+257	0.0.0	GM1680    	2021MM06	3.0	Aa en Hunze	Totaal misdrijven	2021 juni
+258	0.0.0	GM1680    	2021MM07	9.0	Aa en Hunze	Totaal misdrijven	2021 juli
+259	0.0.0	GM1680    	2021MM08	9.0	Aa en Hunze	Totaal misdrijven	2021 augustus
+260	0.0.0	GM1680    	2021MM09	8.0	Aa en Hunze	Totaal misdrijven	2021 september
+261	0.0.0	GM1680    	2021MM10	14.0	Aa en Hunze	Totaal misdrijven	2021 oktober
+262	0.0.0	GM1680    	2021MM11	11.0	Aa en Hunze	Totaal misdrijven	2021 november
+263	0.0.0	GM1680    	2021MM12	4.0	Aa en Hunze	Totaal misdrijven	2021 december
+264	0.0.0	GM1680    	2022MM01	6.0	Aa en Hunze	Totaal misdrijven	2022  januari
+265	0.0.0	GM1680    	2022MM02	17.0	Aa en Hunze	Totaal misdrijven	2022 februari
+266	0.0.0	GM1680    	2022MM03	14.0	Aa en Hunze	Totaal misdrijven	2022 maart
+267	0.0.0	GM1680    	2022MM04	6.0	Aa en Hunze	Totaal misdrijven	2022 april
+268	0.0.0	GM1680    	2022MM05	8.0	Aa en Hunze	Totaal misdrijven	2022 mei
+269	0.0.0	GM1680    	2022MM06	11.0	Aa en Hunze	Totaal misdrijven	2022 juni
+270	0.0.0	GM1680    	2022MM07	15.0	Aa en Hunze	Totaal misdrijven	2022 juli
+271	0.0.0	GM1680    	2022MM08	18.0	Aa en Hunze	Totaal misdrijven	2022 augustus
+272	0.0.0	GM1680    	2022MM09	9.0	Aa en Hunze	Totaal misdrijven	2022 september
+273	0.0.0	GM1680    	2022MM10	1.0	Aa en Hunze	Totaal misdrijven	2022 oktober
+274	0.0.0	GM1680    	2022MM11	16.0	Aa en Hunze	Totaal misdrijven	2022 november
+275	0.0.0	GM1680    	2022MM12	12.0	Aa en Hunze	Totaal misdrijven	2022 december
+276	0.0.0	GM1680    	2023MM01	13.0	Aa en Hunze	Totaal misdrijven	2023 januari
+277	0.0.0	GM1680    	2023MM02	18.0	Aa en Hunze	Totaal misdrijven	2023 februari
+278	0.0.0	GM1680    	2023MM03	11.0	Aa en Hunze	Totaal misdrijven	2023 maart
+279	0.0.0	GM1680    	2023MM04	12.0	Aa en Hunze	Totaal misdrijven	2023 april
+280	0.0.0	GM1680    	2023MM05	13.0	Aa en Hunze	Totaal misdrijven	2023 mei
+281	0.0.0	GM1680    	2023MM06	10.0	Aa en Hunze	Totaal misdrijven	2023 juni
+282	0.0.0	GM1680    	2023MM07	8.0	Aa en Hunze	Totaal misdrijven	2023 juli
+283	0.0.0	GM1680    	2023MM08	24.0	Aa en Hunze	Totaal misdrijven	2023 augustus
+284	0.0.0	GM1680    	2023MM09	7.0	Aa en Hunze	Totaal misdrijven	2023 september
+285	0.0.0	GM1680    	2023MM10	4.0	Aa en Hunze	Totaal misdrijven	2023 oktober
+286	0.0.0	GM1680    	2023MM11	15.0	Aa en Hunze	Totaal misdrijven	2023 november
+287	0.0.0	GM1680    	2023MM12	6.0	Aa en Hunze	Totaal misdrijven	2023 december
+2609280	1.1.1	GM1680    	2012MM01	6.0	Aa en Hunze	1.1.1 Diefstal/inbraak woning	2012 januari
+2609281	1.1.1	GM1680    	2012MM02	8.0	Aa en Hunze	1.1.1 Diefstal/inbraak woning	2012 februari
+2609282	1.1.1	GM1680    	2012MM03	10.0	Aa en Hunze	1.1.1 Diefstal/inbraak woning	2012 maart
+2609283	1.1.1	GM1680    	2012MM04	6.0	Aa en Hunze	1.1.1 Diefstal/inbraak woning	2012 april
+2609284	1.1.1	GM1680    	2012MM05	6.0	Aa en Hunze	1.1.1 Diefstal/inbraak woning	2012 mei
+2609285	1.1.1	GM1680    	2012MM06	3.0	Aa en Hunze	1.1.1 Diefstal/inbraak woning	2012 juni
+10569024	1.2.2	GM0060    	2012MM01	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2012 januari
+10569025	1.2.2	GM0060    	2012MM02	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2012 februari
+10569026	1.2.2	GM0060    	2012MM03	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2012 maart
+10569027	1.2.2	GM0060    	2012MM04	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2012 april
+10569028	1.2.2	GM0060    	2012MM05	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2012 mei
+10569029	1.2.2	GM0060    	2012MM06	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2012 juni
+10569030	1.2.2	GM0060    	2012MM07	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2012 juli
+10569031	1.2.2	GM0060    	2012MM08	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2012 augustus
+10569032	1.2.2	GM0060    	2012MM09	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2012 september
+10569033	1.2.2	GM0060    	2012MM10	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2012 oktober
+10569034	1.2.2	GM0060    	2012MM11	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2012 november
+10569035	1.2.2	GM0060    	2012MM12	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2012 december
+10569036	1.2.2	GM0060    	2013MM01	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2013 januari
+10569037	1.2.2	GM0060    	2013MM02	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2013 februari
+10569038	1.2.2	GM0060    	2013MM03	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2013 maart
+10569039	1.2.2	GM0060    	2013MM04	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2013 april
+10569040	1.2.2	GM0060    	2013MM05	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2013 mei
+10569041	1.2.2	GM0060    	2013MM06	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2013 juni
+10569042	1.2.2	GM0060    	2013MM07	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2013 juli
+10569043	1.2.2	GM0060    	2013MM08	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2013 augustus
+10569044	1.2.2	GM0060    	2013MM09	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2013 september
+10569045	1.2.2	GM0060    	2013MM10	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2013 oktober
+10569046	1.2.2	GM0060    	2013MM11	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2013 november
+10569047	1.2.2	GM0060    	2013MM12	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2013 december
+10569048	1.2.2	GM0060    	2014MM01	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2014 januari
+10569049	1.2.2	GM0060    	2014MM02	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2014  februari
+10569050	1.2.2	GM0060    	2014MM03	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2014 maart
+10569051	1.2.2	GM0060    	2014MM04	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2014 april
+10569052	1.2.2	GM0060    	2014MM05	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2014 mei
+10569053	1.2.2	GM0060    	2014MM06	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2014 juni
+10569054	1.2.2	GM0060    	2014MM07	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2014 juli
+10569055	1.2.2	GM0060    	2014MM08	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2014 augustus
+10569056	1.2.2	GM0060    	2014MM09	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2014 september 
+10569057	1.2.2	GM0060    	2014MM10	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2014 oktober
+10569058	1.2.2	GM0060    	2014MM11	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2014 november
+10569059	1.2.2	GM0060    	2014MM12	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2014 december
+10569060	1.2.2	GM0060    	2015MM01	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2015 januari
+10569061	1.2.2	GM0060    	2015MM02	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2015  februari
+10569062	1.2.2	GM0060    	2015MM03	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2015 maart
+10569063	1.2.2	GM0060    	2015MM04	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2015 april
+10569064	1.2.2	GM0060    	2015MM05	1.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2015 mei
+10569065	1.2.2	GM0060    	2015MM06	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2015 juni
+10569066	1.2.2	GM0060    	2015MM07	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2015 juli
+10569067	1.2.2	GM0060    	2015MM08	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2015 augustus
+10569068	1.2.2	GM0060    	2015MM09	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2015 september
+10569069	1.2.2	GM0060    	2015MM10	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2015 oktober
+10569070	1.2.2	GM0060    	2015MM11	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2015 november
+10569071	1.2.2	GM0060    	2015MM12	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2015 december
+10569072	1.2.2	GM0060    	2016MM01	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2016 januari
+10569073	1.2.2	GM0060    	2016MM02	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2016  februari
+10569074	1.2.2	GM0060    	2016MM03	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2016 maart
+10569075	1.2.2	GM0060    	2016MM04	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2016 april
+10569076	1.2.2	GM0060    	2016MM05	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2016 mei
+10569077	1.2.2	GM0060    	2016MM06	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2016 juni
+10569078	1.2.2	GM0060    	2016MM07	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2016 juli
+10569079	1.2.2	GM0060    	2016MM08	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2016 augustus
+10569080	1.2.2	GM0060    	2016MM09	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2016 september
+10569081	1.2.2	GM0060    	2016MM10	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2016 oktober
+10569082	1.2.2	GM0060    	2016MM11	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2016 november
+10569083	1.2.2	GM0060    	2016MM12	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2016 december
+10569084	1.2.2	GM0060    	2017MM01	0.0	Ameland	1.2.2 Diefstal van motorvoertuigen	2017 januari
+6345796	1.1.2	GM0798    	2012MM05	1.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2012 mei
+6345797	1.1.2	GM0798    	2012MM06	3.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2012 juni
+6345798	1.1.2	GM0798    	2012MM07	1.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2012 juli
+6345799	1.1.2	GM0798    	2012MM08	1.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2012 augustus
+6345800	1.1.2	GM0798    	2012MM09	3.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2012 september
+6345801	1.1.2	GM0798    	2012MM10	3.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2012 oktober
+6345802	1.1.2	GM0798    	2012MM11	3.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2012 november
+6345803	1.1.2	GM0798    	2012MM12	0.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2012 december
+6345804	1.1.2	GM0798    	2013MM01	2.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2013 januari
+6345805	1.1.2	GM0798    	2013MM02	2.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2013 februari
+6345806	1.1.2	GM0798    	2013MM03	7.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2013 maart
+6345807	1.1.2	GM0798    	2013MM04	6.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2013 april
+6345808	1.1.2	GM0798    	2013MM05	7.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2013 mei
+6345809	1.1.2	GM0798    	2013MM06	2.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2013 juni
+6345810	1.1.2	GM0798    	2013MM07	1.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2013 juli
+6345811	1.1.2	GM0798    	2013MM08	3.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2013 augustus
+6345812	1.1.2	GM0798    	2013MM09	4.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2013 september
+6345813	1.1.2	GM0798    	2013MM10	3.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2013 oktober
+6345814	1.1.2	GM0798    	2013MM11	1.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2013 november
+6345815	1.1.2	GM0798    	2013MM12	4.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2013 december
+6345816	1.1.2	GM0798    	2014MM01	0.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2014 januari
+6345817	1.1.2	GM0798    	2014MM02	0.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2014  februari
+6345818	1.1.2	GM0798    	2014MM03	1.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2014 maart
+6345819	1.1.2	GM0798    	2014MM04	2.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2014 april
+6345820	1.1.2	GM0798    	2014MM05	4.0	Hilvarenbeek	1.1.2 Diefstal/inbraak box/garage/schuur	2014 mei
