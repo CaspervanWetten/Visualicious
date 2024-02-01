@@ -1,4 +1,4 @@
-import { filterTSVData } from './data-fetch.js';
+// import { filterTSVData } from './data-fetch.js';
 import { eventEmitter } from './event-emitter.js';
 import { resetMapView } from './map-chart2.js';
 
@@ -40,8 +40,8 @@ export function setLoading(bool) {
 
 // Set the data dictionary
 export var data = {}; // Change this based on your logic
-export function setData(data) {
-  data = data;
+export function setData(newData) {
+  data = newData;
   console.log("New data loaded");
 }
 
