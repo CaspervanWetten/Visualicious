@@ -1,4 +1,4 @@
-import { setEndDate, endDate, setStartDate, startDate} from "./index.js";
+import {setEndDate, endDate, endDateText, setStartDate, startDate, startDateText} from "./index.js";
 import {eventEmitter} from "./event-emitter.js";
 
 const timeArray = [
@@ -309,6 +309,7 @@ $("#slider").ionRangeSlider({
   grid: false,
   hide_from_to: true,
 });
+const slider = $("#slider").data("ionRangeSlider");
 
 function updateSelectedRange(data) {
   setStartDate(timeDict[data.from_value], `${data.from_value}`);
@@ -324,4 +325,18 @@ $('.irs-to').text("December 2023");
 
 eventEmitter.on('update', () => {
   // Update the slider to the now set endDate and startDate @Casper
+  if (endDateText !== selectedEnd.text()){
+    slider.update({
+      to: timeArray.slice(-1)[0]
+    })
+    selectedEnd.text(endDateText);
+    console.log("Updated end date to: " + endDate)
+  }
+  if (startDateText !== selectedStart.text()){
+    slider.update({
+      from: timeArray[0]
+    })
+    selectedStart.text(startDateText);
+    console.log("Updated start date to: " + startDate)
+  }
 });
