@@ -79,7 +79,7 @@ async function drawAndLoadMap(municipalityData, svg = svg, zoom = zoom, municipa
     }
     
 
-    const mostFrequentCrimes = findMostFrequentCrime(municipalityData);
+    const mostFrequentCrimes = findMostFrequentCrime(mapData);
     const aggregatedData = Array.from(d3.rollup(mapData,(v) => ({WijkenEnBuurtenRaw: v[0].WijkenEnBuurtenRaw,GeregistreerdeMisdrijven: d3.sum(v,(d) => d.GeregistreerdeMisdrijven),}),(d) => d.WijkenEnBuurtenRaw).values()
     );
 
