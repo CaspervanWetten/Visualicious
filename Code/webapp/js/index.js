@@ -126,12 +126,12 @@ export function updateFilters() {
 
   // Append or remove close icon for focus area
   focusAreaDiv.select(".close-icon").remove();
-  if (focusArea !== "NL") {
+  if (focusArea !== "Nederland") {
     focusAreaDiv.append("span")
         .attr("class", "close-icon")
         .html(" &#10006;")
         .on("click", function() {
-          focusArea = "NL";
+          focusArea = "Nederland";
           update(1000);
           resetMapView();
         });
