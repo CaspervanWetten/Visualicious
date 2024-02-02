@@ -19,40 +19,32 @@ var path = d3.geoPath()
 var municipalitiesGroup = svg.append("g");
 var municipalitiesDataCache = null;
 
-
-
-function combineYears(data) {
-  const newData = {};
-  const shortKeyDict = {};
-
-  for (let key in data) {
-    let shortKey = data[key].WijkenEnBuurtenRaw;
-    for (let misdrijf in data[key].SoortMisdrijfRaw) {
-      if (!(shortKey in shortKeyDict)) {
-        shortKeyDict[shortKey] = parseFloat(data[key]["GeregistreerdeMisdrijven"]);
-      } else {
-        shortKeyDict[shortKey] += parseFloat(data[key]["GeregistreerdeMisdrijven"]);
-      }
-      console.log(shortKeyDict[shortKey] + data[key]["GeregistreerdeMisdrijven"])
-    }
-  }
-
-  for (let key in shortKeyDict) {
-    newData[key] = {
-      GeregistreerdeMisdrijven: Math.round(shortKeyDict[key]),
-      Periode: key,
-    };
-  }
-console.log(newData)
-  return newData;
-}
-
 // Placeholder for municipality data
 // This needs to be replaced or filled with actual data
-var municipalityData = d3.tsv("../../Data/crime_theft.tsv")
-  combineYears(regionData)
-// Example: {"Amsterdam": 100, "Rotterdam": 200}
+var municipalityData = [{ GemeenteRaw : "Almere", GeregistreerdeMisdrijvenRaw: 120, MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz."},
+                        { GemeenteRaw : "Almere", GeregistreerdeMisdrijvenRaw: 150, MisdaadNaamRaw: "Diefstal/inbraak woning"},
+                        { GemeenteRaw : "Almere", GeregistreerdeMisdrijvenRaw: 180, MisdaadNaamRaw: "Overval"},
+                        { GemeenteRaw : "Almere", GeregistreerdeMisdrijvenRaw: 80, MisdaadNaamRaw: "Diefstal/inbraak box/garage/schuur"},
+                        { GemeenteRaw : "Utrecht", GeregistreerdeMisdrijvenRaw: 110, MisdaadNaamRaw: "Straatroof"},
+                        { GemeenteRaw : "Utrecht", GeregistreerdeMisdrijvenRaw: 90, MisdaadNaamRaw: "Overval"},
+                        { GemeenteRaw : "Utrecht", GeregistreerdeMisdrijvenRaw: 60, MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz."},
+                        { GemeenteRaw : "Amsterdam", GeregistreerdeMisdrijvenRaw: 200, MisdaadNaamRaw: "Overval"},
+                        { GemeenteRaw : "Amsterdam", GeregistreerdeMisdrijvenRaw: 110, MisdaadNaamRaw: "Straatroof"},
+                        { GemeenteRaw : "Amsterdam", GeregistreerdeMisdrijvenRaw: 150, MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz."},
+                      ]
 
+// var municipalityData = {"Amsterdam": 100, "Rotterdam": 200}
+
+// var municipalityData = {
+//   "Amsterdam": {
+//       value: 100,
+//       label: "Hundred"
+//   },
+//   "Rotterdam": {
+//       value: 200,
+//       label: "Hundred"
+//   }
+// }
 
 // Color scale setup
 var colorScale = d3.scaleSequential()
@@ -80,21 +72,28 @@ async function loadDataAndRenderMap() {
             .data(municipalitiesDataCache.features)
             .enter().append("path")
             .attr("d", path)
-            .attr("fill", d => colorScale(municipalityData[d.properties.name] || 0)) // Apply color scale based on data
-            .attr("stroke", "#FFFFFF")
+            .attr("fill", d => {
+              const municipalityName = d.properties.name; // Assuming the GeoJSON property name matches the data
+              const dataEntry = municipalityData.find(entry => entry.GemeenteRaw === municipalityName);
+              return dataEntry ? colorScale(dataEntry.GeregistreerdeMisdrijvenRaw) : "gray"; // Adjust the color scale as needed
+          })      
+            .attr("stroke", "#000000")
             .attr("stroke-width", 0.3)
             .style("cursor", "pointer")
             .on("click", function(event, d) {
                 setFocusArea(d.properties.name);
             })
             .on("mouseover", function(event, d) {
-                tooltip.transition()
-                       .duration(200)
-                       .style("opacity", .9);
-                tooltip.html(d.properties.name)
-                       .style("left", (event.pageX) + "px")
-                       .style("top", (event.pageY - 28) + "px");
-            })
+              const municipalityName = d.properties.name;
+              const dataEntry = municipalityData[municipalityName];
+              if (dataEntry) {
+                  tooltip.transition()
+                         .duration(200)
+                         .style("opacity", .9);
+                  tooltip.html(`${municipalityName}: ${dataEntry.label}`)
+                         .style("left", (event.pageX) + "px")
+                         .style("top", (event.pageY - 28) + "px");
+              }})
             .on("mouseout", function() {
                 tooltip.transition()
                        .duration(500)
