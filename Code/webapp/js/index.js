@@ -43,6 +43,7 @@ export var data = {}; // Change this based on your logic
 export function setData(newData) {
   data = newData;
   console.log("New data loaded");
+  console.log(data);
 }
 
 // Set the crime types
