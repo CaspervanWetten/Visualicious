@@ -32,7 +32,29 @@ var zoom = d3.zoom()
 
 svg.call(zoom).on("dblclick.zoom", null);
 
+var municipalityData = [{ GemeenteRaw : "Almere", GeregistreerdeMisdrijvenRaw: 120, MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz."},
+                        { GemeenteRaw : "Almere", GeregistreerdeMisdrijvenRaw: 150, MisdaadNaamRaw: "Diefstal/inbraak woning"},
+                        { GemeenteRaw : "Almere", GeregistreerdeMisdrijvenRaw: 180, MisdaadNaamRaw: "Overval"},
+                        { GemeenteRaw : "Almere", GeregistreerdeMisdrijvenRaw: 80, MisdaadNaamRaw: "Diefstal/inbraak box/garage/schuur"},
+                        { GemeenteRaw : "Utrecht", GeregistreerdeMisdrijvenRaw: 110, MisdaadNaamRaw: "Straatroof"},
+                        { GemeenteRaw : "Utrecht", GeregistreerdeMisdrijvenRaw: 90, MisdaadNaamRaw: "Overval"},
+                        { GemeenteRaw : "Utrecht", GeregistreerdeMisdrijvenRaw: 60, MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz."},
+                        { GemeenteRaw : "Amsterdam", GeregistreerdeMisdrijvenRaw: 200, MisdaadNaamRaw: "Overval"},
+                        { GemeenteRaw : "Amsterdam", GeregistreerdeMisdrijvenRaw: 110, MisdaadNaamRaw: "Straatroof"},
+                        { GemeenteRaw : "Amsterdam", GeregistreerdeMisdrijvenRaw: 150, MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz."},
+                      ]
+
 async function loadDataAndRenderMap() {
+    const aggregatedData = Array.from(d3.rollup(municipalityData, 
+        v => ({ GemeenteRaw: v[0].GemeenteRaw, GeregistreerdeMisdrijvenRaw: d3.sum(v, d => d.GeregistreerdeMisdrijvenRaw) }),
+        d => d.GemeenteRaw
+      ).values());
+      const [minValue, maxValue] = d3.extent(aggregatedData, entry => entry.GeregistreerdeMisdrijvenRaw)
+
+    const colorScale = d3.scaleLinear()
+    .domain([minValue, maxValue])
+    .range(d3.schemeBlues[3]); // Specify your desired color range
+
     try {
         municipalitiesDataCache = municipalitiesDataCache || await d3.json("../../Data/newer_municipalities.geojson");
 
@@ -40,7 +62,13 @@ async function loadDataAndRenderMap() {
             .data(municipalitiesDataCache.features)
             .enter().append("path")
             .attr("d", path)
-            .attr("fill", "#6DD100")
+            .attr("fill", function (d) {
+                const entry = aggregatedData.find(entry => entry.GemeenteRaw === d.properties.name);
+                const value = entry ? entry.GeregistreerdeMisdrijvenRaw : 0;
+                console.log(value)
+                  
+                return colorScale(value)
+            })
             .attr("stroke", "#000000")
             .attr("stroke-width", 0.3)
             .style("cursor", "pointer")
@@ -48,12 +76,17 @@ async function loadDataAndRenderMap() {
                 setFocusArea(d.properties.name);
             })
             .on("mouseover", function(event, d) {
+                const tooltip = d3.select("#tooltip");
+                const entry = aggregatedData.find(entry => entry.GemeenteRaw === d.properties.name);
+                const value = entry ? entry.GeregistreerdeMisdrijvenRaw : 0;
+                const y = event.pageY - 28;
+                console.log(y + " " + event.pageY)
                 tooltip.transition()
                        .duration(200)
                        .style("opacity", .9);
-                tooltip.html(d.properties.name)
+                tooltip.html(d.properties.name + ": " + value + " misdaden")
                        .style("left", (event.pageX) + "px")
-                       .style("top", (event.pageY - 28) + "px");
+                       .style("top: ", y + "px");
             })
             .on("mouseout", function(d) {
                 tooltip.transition()
