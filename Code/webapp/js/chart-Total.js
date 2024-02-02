@@ -138,22 +138,26 @@ function totaalMisdaden(data) {
 }
 
 function combineYears(data) {
+  console.log("dATA IN COMBINE YEARS: " + data)
   const newData = {};
   if (Object.keys(data).length > 18) {
     const shortKeyDict = {};
     const freqDict = {};
     for (let key in data) {
-      let shortKey = key.substring(0, 4);
+      let shortKey = data[key].Perioden.substring(0, 4);
+      console.log(data[key]["GeregistreerdeMisdrijven"])
+      
       if (!(shortKey in shortKeyDict)) {
-        shortKeyDict[shortKey] = data[key]["GeregistreerdeMisdrijven"];
+        shortKeyDict[shortKey] = parseFloat(data[key]["GeregistreerdeMisdrijven"]);
       } else {
-        shortKeyDict[shortKey] += data[key]["GeregistreerdeMisdrijven"];
+        shortKeyDict[shortKey] += parseFloat(data[key]["GeregistreerdeMisdrijven"]);
       }
       if (!(shortKey in freqDict)) {
         freqDict[shortKey] = 1;
       } else {
         freqDict[shortKey] += 1;
       }
+      console.log("freqDicxt "+ shortKeyDict[shortKey])
     }
     for (let key in shortKeyDict) {
       newData[key] = {
@@ -169,13 +173,16 @@ function combineYears(data) {
 
 function removePreviousGraph() {
   // Select the container and remove its content
-  d3.select("#totaalMisdaden-svg").node().parentNode.remove();
+  const container = d3.select("#totaalMisdaden-svg");
+  if (container.node()) {
+    // If the container exists, remove its content
+    container.node().parentNode.remove();
+  }
 }
 
-totaalMisdaden(combineYears(data));
-
 // Every time there's an update, remove the previous graph and load the page
-eventEmitter.on("update", () => {
+eventEmitter.on("updated", () => {
   removePreviousGraph();
   totaalMisdaden(combineYears(data));
+  console.log(data)
 });

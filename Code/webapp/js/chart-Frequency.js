@@ -131,19 +131,24 @@ function calculateCrimesByType(data) {
       Total: groupedByCrime[crimeType],
     });
   }
+  console.log(result)
 
   return result;
 }
 
 function removePreviousGraph() {
   // Select the container and remove its content
-  d3.select("#frequentieMisdaden-svg").node().parentNode.remove();
+  const container = d3.select("#frequentieMisdaden-svg");
+  if (container.node()) {
+    // If the container exists, remove its content
+    container.node().parentNode.remove();
+  }
 }
 
-frequentieMisdaden(calculateCrimesByType(data));
+// frequentieMisdaden(calculateCrimesByType(data));
 
 // Every time there's an update, remove the previous graph and load the page
-eventEmitter.on("update", () => {
+eventEmitter.on("updated", () => {
   removePreviousGraph();
   frequentieMisdaden(calculateCrimesByType(data));
 });
