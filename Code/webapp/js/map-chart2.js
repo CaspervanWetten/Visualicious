@@ -8,31 +8,37 @@ import {
 } from "./index.js";
 import { eventEmitter } from "./event-emitter.js";
 
+
 function findMostFrequentCrime(data) {
-  const result = {};
+    const result = {};
 
-  data.forEach(entry => {
-    const gemeente = entry.GemeenteRaw;
-    const misdaadNaam = entry.MisdaadNaamRaw;
-    const misdrijven = entry.GeregistreerdeMisdrijvenRaw;
+    data.forEach(entry => {
+        const gemeente = entry["WijkenEnBuurten"].trim();
+        const misdaadNaam = entry["SoortMisdrijf"].trim();
+        const misdrijven = parseInt(entry["GeregistreerdeMisdrijven"], 10);
 
-    if (!result[gemeente]) {
-      result[gemeente] = { misdaad: misdaadNaam, totalMisdrijven: misdrijven };
-    } else {
-      if (result[gemeente].misdaad !== misdaadNaam) {
-        // If the current crime type has more occurrences than the stored one, update
-        if (misdrijven > result[gemeente].totalMisdrijven) {
-          result[gemeente] = { misdaad: misdaadNaam, totalMisdrijven: misdrijven };
+        if (!result[gemeente]) {
+            result[gemeente] = { misdaad: misdaadNaam, totalMisdrijven: misdrijven };
+        } else {
+            if (result[gemeente].misdaad !== misdaadNaam) {
+                // If the current crime type has more occurrences than the stored one, update
+                if (misdrijven > result[gemeente].totalMisdrijven) {
+                    result[gemeente] = { misdaad: misdaadNaam, totalMisdrijven: misdrijven };
+                }
+            } else {
+                // If the current crime type is the same, accumulate the total
+                result[gemeente].totalMisdrijven += misdrijven;
+            }
         }
-      } else {
-        // If the current crime type is the same, accumulate the total
-        result[gemeente].totalMisdrijven += misdrijven;
-      }
-    }
-  });
+    });
 
-  return result;
+    return result;
 }
+
+// Usage with mapData
+// const mostFrequentCrimes = findMostFrequentCrime(mapData);
+// console.log(mostFrequentCrimes);
+
 
 
 async function drawAndLoadMap(municipalityData) {
