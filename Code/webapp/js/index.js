@@ -1,6 +1,5 @@
 import { fetchDataAndProcess } from './data-fetch.js';
 import { eventEmitter } from './event-emitter.js';
-import { resetMapView } from './map-chart.js';
 
 // import { generateCheckboxes, updateCheckboxStates } from './type-crime.js';
 
