@@ -1,5 +1,5 @@
-import {data, focusArea} from "./index.js";
-import {eventEmitter} from "./event-emitter.js";
+import { data, focusArea } from "./index.js";
+import { eventEmitter } from "./event-emitter.js";
 
 function responsivefy(svg) {
   // get container + svg aspect ratio
@@ -41,7 +41,8 @@ function totaalMisdaden(data) {
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`)
     .style("font", "40px times")
-    .call(responsivefy);
+    .call(responsivefy)
+    .attr("id", "totaalMisdaden-svg");
 
   svg
     .append("text")
@@ -52,15 +53,14 @@ function totaalMisdaden(data) {
     .style("font-weight", "bold")
     .text("Totale hoeveelheid misdrijven in " + focusArea);
 
-  const x = d3
-    .scaleBand()
-    .domain(data.map((d) => d.Perioden))
-    .range([0, width])
-    .padding(0.1);
-
+  const periods = Object.keys(data); // Extracting the periods from the keys
+  const x = d3.scaleBand().domain(periods).range([0, width]).padding(0.1);
   const y = d3
     .scaleLinear()
-    .domain([0, d3.max(data, (d) => +d.aantal)])
+    .domain([
+      0,
+      d3.max(Object.values(data).map((d) => d.GeregistreerdeMisdrijven)),
+    ])
     .nice()
     .range([height, 0]);
 
@@ -72,96 +72,117 @@ function totaalMisdaden(data) {
   svg.append("g").call(d3.axisLeft(y));
 
   svg
-    .selectAll(".bar")
-    .data(data)
+    .selectAll("rect")
+    .data(Object.entries(data))
     .enter()
     .append("rect")
-    .attr("class", "bar")
-    .attr("x", (d) => x(d.Perioden))
+    .attr("x", (d) => x(d[0]))
+    .attr("y", height)
     .attr("width", x.bandwidth())
-    .attr("y", height) // Start from the bottom
-    .attr("height", 0) // Initially have zero height
+    .attr("fill", "black")
+    .attr("height", 0)
     .transition()
     .duration(1000)
-    .attr("y", (d) => y(+d.aantal))
-    .attr("height", (d) => height - y(+d.aantal)) // Calculate height based on the data
+    .attr("y", (d) => y(d[1].GeregistreerdeMisdrijven))
+    .attr("height", (d) => height - y(d[1].GeregistreerdeMisdrijven))
     .on("end", function () {
       d3.select(this)
         .on("mouseover", function (event, d) {
           const bar = d3.select(this);
           const tooltip = d3.select("#tooltip");
-          // Outline the hovered bar
-          bar
-            .transition()
-            .duration(150)
-            .attr("stroke", "white")
-            .attr("stroke-width", 5);
-
-          // Fancy animation for the tooltip
+          bar.transition().duration(150).attr("fill", "orange");
           tooltip.transition().duration(150).style("opacity", 0.9);
-
-          // Tooltip content
-          const tooltipContent = `Totaal aantal misdaden: \n${d["aantal"]}`;
-
-          // Position the tooltip
+          const tooltipContent = `Totaal aantal misdaden: \n${d[1].GeregistreerdeMisdrijven}`;
+          let tooltipX = event.pageX + 10;
+          const tooltipY = event.pageY - 28;
+          const tooltipWidth = tooltip.node().offsetWidth;
+          const rightBoundary = window.innerWidth - 5;
+          if (tooltipX + tooltipWidth > rightBoundary) {
+            tooltipX = rightBoundary - tooltipWidth;
+          }
           tooltip
             .html(tooltipContent)
-            .style("left", event.pageX + "px")
-            .style("top", event.pageY - 28 + "px");
+            .style("left", tooltipX + "px")
+            .style("top", tooltipY + "px");
         })
         .on("mousemove", function (event, d) {
           const bar = d3.select(this);
           const tooltip = d3.select("#tooltip");
-
-          // Outline the hovered bar
-          bar
-            .transition()
-            .duration(150)
-            .attr("stroke", "white")
-            .attr("stroke-width", 5);
-
-          // Fancy animation for the tooltip
-          tooltip.transition().duration(150).style("opacity", 0.9);
-
-          // Tooltip content
-          const tooltipContent = `Totaal aantal misdrijven: \n${d["aantal"]}`;
-
-          // Position the tooltip
+          bar.transition().duration(50).attr("fill", "orange");
+          tooltip.transition().duration(50).style("opacity", 0.9);
+          const tooltipContent = `Totaal aantal misdaden: \n${d[1].GeregistreerdeMisdrijven}`;
+          let tooltipX = event.pageX + 10;
+          const tooltipY = event.pageY - 28;
+          const tooltipWidth = tooltip.node().offsetWidth;
+          const rightBoundary = window.innerWidth - 5;
+          if (tooltipX + tooltipWidth > rightBoundary) {
+            tooltipX = rightBoundary - tooltipWidth;
+          }
           tooltip
             .html(tooltipContent)
-            .style("left", event.pageX + "px")
-            .style("top", event.pageY - 28 + "px");
+            .style("left", tooltipX + "px")
+            .style("top", tooltipY + "px");
         })
         .on("mouseout", function () {
           const bar = d3.select(this);
           const tooltip = d3.select("#tooltip");
-
-          // Remove outline from the bar
-          bar.transition().duration(200).attr("stroke", "none");
-
-          // Fade out the tooltip
+          bar.transition().duration(200).attr("fill", "black");
           tooltip.transition().duration(500).style("opacity", 0);
         });
     });
+
+  // Draw axes
+  svg.append("g").attr("transform", "translate(0,300)").call(d3.axisBottom(x));
+
+  svg.append("g").call(d3.axisLeft(y));
+}
+
+function combineYears(data) {
+  console.log("dATA IN COMBINE YEARS: " + data)
+  const newData = {};
+  if (Object.keys(data).length > 18) {
+    const shortKeyDict = {};
+    const freqDict = {};
+    for (let key in data) {
+      let shortKey = data[key].Perioden.substring(0, 4);
+      console.log(data[key]["GeregistreerdeMisdrijven"])
+      
+      if (!(shortKey in shortKeyDict)) {
+        shortKeyDict[shortKey] = parseFloat(data[key]["GeregistreerdeMisdrijven"]);
+      } else {
+        shortKeyDict[shortKey] += parseFloat(data[key]["GeregistreerdeMisdrijven"]);
+      }
+      if (!(shortKey in freqDict)) {
+        freqDict[shortKey] = 1;
+      } else {
+        freqDict[shortKey] += 1;
+      }
+      console.log("freqDicxt "+ shortKeyDict[shortKey])
+    }
+    for (let key in shortKeyDict) {
+      newData[key] = {
+        GeregistreerdeMisdrijven: Math.round(shortKeyDict[key] / freqDict[key]),
+        Periode: key,
+      };
+    }
+    return newData;
+  } else {
+    return data;
+  }
 }
 
 function removePreviousGraph() {
   // Select the container and remove its content
-  d3.select("#totaalMisdrijvenUtrecht").html("");
+  const container = d3.select("#totaalMisdaden-svg");
+  if (container.node()) {
+    // If the container exists, remove its content
+    container.node().parentNode.remove();
+  }
 }
 
-// On the first load, load the graph
-eventEmitter.on('firstLoad', () => {
-  console.log("first Load")
-  // console.log(data)
-  // totaalMisdaden(data)
-});
-
-
 // Every time there's an update, remove the previous graph and load the page
-eventEmitter.on('update', () => {
-  console.log("Updated")
-  // console.log(data)
-  removePreviousGraph()
-  // totaalMisdaden(data)
+eventEmitter.on("updated", () => {
+  removePreviousGraph();
+  totaalMisdaden(combineYears(data));
+  console.log(data)
 });

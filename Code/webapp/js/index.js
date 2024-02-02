@@ -1,6 +1,6 @@
-import { filterTSVData } from './data-fetch.js';
+import { fetchDataAndProcess } from './data-fetch.js';
 import { eventEmitter } from './event-emitter.js';
-import { resetMapView } from './map-chart2.js';
+import { resetMapView } from './map-chart.js';
 
 // import { generateCheckboxes, updateCheckboxStates } from './type-crime.js';
 
@@ -24,7 +24,7 @@ const crimeDictionary = {
 function update(wait = 200) {
   eventEmitter.emit('update');
   // Fetch new data
-  filterTSVData(startDate, endDate, focusArea,crimeCodeList, wait);
+  fetchDataAndProcess(startDate, endDate, focusArea, crimeCodeList, wait);
   // Update the UI displayed filters
   updateFilters();
 }
@@ -43,6 +43,8 @@ export var data = {}; // Change this based on your logic
 export function setData(newData) {
   data = newData;
   console.log("New data loaded");
+  console.log(data);
+  eventEmitter.emit('updated');
 }
 
 // Set the crime types
@@ -53,7 +55,7 @@ export function setCrimeCodeList(list) {
 }
 
 export var hoverArea = "";
-export var focusArea = "NL";
+export var focusArea = "NL00";
 export function setFocusArea(newFocusArea) {
   focusArea = newFocusArea;
   update(1000);
