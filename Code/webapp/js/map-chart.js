@@ -75,7 +75,7 @@ async function loadDataAndRenderMap() {
             .attr("fill", d => {
               const municipalityName = d.properties.name; // Assuming the GeoJSON property name matches the data
               const dataEntry = municipalityData.find(entry => entry.GemeenteRaw === municipalityName);
-              return dataEntry ? colorScale(dataEntry.GeregistreerdeMisdrijvenRaw) : "gray"; // Adjust the color scale as needed
+              return dataEntry ? colorScale(dataEntry.GeregistreerdeMisdrijvenRaw) : "lime"; // Adjust the color scale as needed
           })      
             .attr("stroke", "#000000")
             .attr("stroke-width", 0.3)
