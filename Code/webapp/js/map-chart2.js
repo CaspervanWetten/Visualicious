@@ -59,7 +59,6 @@ function findMostFrequentCrime(data) {
 
 
 async function drawAndLoadMap(municipalityData, svg = svg, zoom = zoom, municipalitiesGroup = municipalitiesGroup) {
-  console.log(municipalityData)
     const width = 800;
     const height = 600;
     const IconDictonary = {
@@ -223,9 +222,9 @@ export async function resetMapView() {
     .on("mouseover", function (event, d) {
       const tooltip = d3.select("#tooltip");
       const entry = aggregatedData.find(
-        (entry) => entry.GemeenteRaw === d.properties.name
+        (entry) => entry.WijkenEnBuurtenRaw === d.properties.name
       );
-      const value = entry ? entry.GeregistreerdeMisdrijvenRaw : 0;
+      const value = entry ? entry.GeregistreerdeMisdrijven : 0;
       const y = event.pageY - 28;
       tooltip.transition().duration(200).style("opacity", 0.9);
       tooltip
@@ -243,9 +242,9 @@ export async function resetMapView() {
         .attr("d", path)
         .attr("fill", function () {
           const entry = aggregatedData.find(
-            (entry) => entry.GemeenteRaw === d.properties.name
+            (entry) => entry.WijkenEnBuurtenRaw === d.properties.name
           );
-          const value = entry ? entry.GeregistreerdeMisdrijvenRaw : 0;
+          const value = entry ? entry.GeregistreerdeMisdrijven : 0;
           return colorScale(value);
         })
         .attr("stroke", "#000000")
