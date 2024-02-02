@@ -44,16 +44,20 @@ var municipalityData = [{ GemeenteRaw : "Almere", GeregistreerdeMisdrijvenRaw: 1
                         { GemeenteRaw : "Amsterdam", GeregistreerdeMisdrijvenRaw: 150, MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz."},
                       ]
 
-async function loadDataAndRenderMap() {
-    const aggregatedData = Array.from(d3.rollup(municipalityData, 
+async function loadDataAndRenderMap(crimeType) {
+    // Filter the data based on the selected crime type
+    const filteredData = municipalityData.filter(entry => entry.MisdaadNaamRaw === crimeType);
+
+    // Aggregate the filtered data
+    const aggregatedData = Array.from(d3.rollup(filteredData, 
         v => ({ GemeenteRaw: v[0].GemeenteRaw, GeregistreerdeMisdrijvenRaw: d3.sum(v, d => d.GeregistreerdeMisdrijvenRaw) }),
         d => d.GemeenteRaw
-      ).values());
-      const [minValue, maxValue] = d3.extent(aggregatedData, entry => entry.GeregistreerdeMisdrijvenRaw)
+    ).values());
 
+    // Specify your desired color range
     const colorScale = d3.scaleLinear()
-    .domain([minValue, maxValue])
-    .range(d3.schemeBlues[3]); // Specify your desired color range
+        .domain([0, d3.max(aggregatedData, entry => entry.GeregistreerdeMisdrijvenRaw)])
+        .range(d3.schemeBlues[3]);
 
     try {
         municipalitiesDataCache = municipalitiesDataCache || await d3.json("../../Data/newer_municipalities.geojson");
@@ -65,9 +69,7 @@ async function loadDataAndRenderMap() {
             .attr("fill", function (d) {
                 const entry = aggregatedData.find(entry => entry.GemeenteRaw === d.properties.name);
                 const value = entry ? entry.GeregistreerdeMisdrijvenRaw : 0;
-                console.log(value)
-                  
-                return colorScale(value)
+                return colorScale(value);
             })
             .attr("stroke", "#000000")
             .attr("stroke-width", 0.3)
@@ -80,18 +82,17 @@ async function loadDataAndRenderMap() {
                 const entry = aggregatedData.find(entry => entry.GemeenteRaw === d.properties.name);
                 const value = entry ? entry.GeregistreerdeMisdrijvenRaw : 0;
                 const y = event.pageY - 28;
-                console.log(y + " " + event.pageY)
                 tooltip.transition()
-                       .duration(200)
-                       .style("opacity", .9);
+                    .duration(200)
+                    .style("opacity", .9);
                 tooltip.html(d.properties.name + ": " + value + " misdaden")
-                       .style("left", (event.pageX) + "px")
-                       .style("top: ", y + "px");
+                    .style("left", (event.pageX) + "px")
+                    .style("top: ", y + "px");
             })
             .on("mouseout", function(d) {
                 tooltip.transition()
-                       .duration(500)
-                       .style("opacity", 0);
+                    .duration(500)
+                    .style("opacity", 0);
             })
             .append("title")
             .text(d => d.properties.name);
@@ -101,7 +102,8 @@ async function loadDataAndRenderMap() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    await loadDataAndRenderMap(); // Load and render the map
+    // Load and render the map for "Straatroof" crime type (you can change the crime type as needed)
+    await loadDataAndRenderMap("Totaal misdrijven");
 });
 
 export async function resetMapView() {
@@ -109,7 +111,7 @@ export async function resetMapView() {
         .duration(750)
         .call(zoom.transform, d3.zoomIdentity);
     setMapSize(true);
-    setFocusArea("NL");
+    setFocusArea("Nederland");
 
     if (!municipalitiesDataCache) {
         console.error("No municipalities data available for reset.");
