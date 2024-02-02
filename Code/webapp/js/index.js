@@ -1,4 +1,4 @@
-// import { filterTSVData } from './data-fetch.js';
+import { filterTSVData } from './data-fetch.js';
 import { eventEmitter } from './event-emitter.js';
 import { resetMapView } from './map-chart2.js';
 
