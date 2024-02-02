@@ -55,7 +55,7 @@ export function setCrimeCodeList(list) {
 }
 
 export var hoverArea = "";
-export var focusArea = "NL";
+export var focusArea = "NL00";
 export function setFocusArea(newFocusArea) {
   focusArea = newFocusArea;
   update(1000);
