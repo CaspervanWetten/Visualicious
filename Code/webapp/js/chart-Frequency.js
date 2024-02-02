@@ -113,6 +113,7 @@ cells
 }
 
 function calculateCrimesByType(data) {
+  console.log(data)
   const result = [];
   const groupedByCrime = {};
   for (const key in data) {
