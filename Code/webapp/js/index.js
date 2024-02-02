@@ -1,4 +1,4 @@
-// import { filterTSVData } from './data-fetch.js';
+import { fetchDataAndProcess } from './data-fetch.js';
 import { eventEmitter } from './event-emitter.js';
 import { resetMapView } from './map-chart.js';
 
@@ -24,7 +24,7 @@ const crimeDictionary = {
 function update(wait = 200) {
   eventEmitter.emit('update');
   // Fetch new data
-  filterTSVData(startDate, endDate, focusArea,crimeCodeList, wait);
+  fetchDataAndProcess(startDate, endDate, focusArea, crimeCodeList, wait);
   // Update the UI displayed filters
   updateFilters();
 }
