@@ -1,4 +1,10 @@
-import { data, focusArea } from "./index.js";
+import {
+  data,
+  focusArea,
+  startDateText,
+  endDateText,
+  crimeCodeList,
+} from "./index.js";
 import { eventEmitter } from "./event-emitter.js";
 
 function responsivefy(svg) {
@@ -44,17 +50,36 @@ function frequentieMisdaden(data) {
     .call(responsivefy)
     .attr("id", "frequentieMisdaden-svg");
 
+  if (crimeCodeList.includes("0.0.0")) {
+    svg
+      .append("text")
+      .attr("x", width / 2)
+      .attr("y", -19)
+      .attr("text-anchor", "middle")
+      .style("font-size", "16px")
+      .style("font-weight", "bold")
+      .text("The relative frequency of the 6 most common crimes between ");
+  } else {
+    svg
+      .append("text")
+      .attr("x", width / 2)
+      .attr("y", -19)
+      .attr("text-anchor", "middle")
+      .style("font-size", "16px")
+      .style("font-weight", "bold")
+      .text("The relative frequency of the selected crimes between ");
+  }
+
   svg
     .append("text")
     .attr("x", width / 2)
-    .attr("y", -15)
+    .attr("y", -5)
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
     .style("font-weight", "bold")
-    .text("A breakdown of the most common crimes in " + focusArea);
+    .text(startDateText + " and " + endDateText + " in " + focusArea);
 
   const root = d3.hierarchy({ children: data }).sum((d) => d.Total);
-  console.log(root)
 
   // Create a treemap layout
   const treemap = d3.treemap().size([width, height]);
@@ -72,26 +97,90 @@ function frequentieMisdaden(data) {
     .attr("transform", (d) => `translate(${d.x0},${d.y0})`);
 
   // Create rectangles for each leaf node
-cells
-  .append("rect")
-  .attr("width", 0) // Initialize width to 0
-  .attr("height", (d) => d.y1 - d.y0)
-  .attr("fill", "black")
-  .attr("stroke", "white") // Add white border
-  .attr("stroke-width", 2) // Adjust border width as needed
-  .transition() // Apply a transition
-  .duration(1000) // Set the duration of the animation (in milliseconds)
-  .attr("width", (d) => d.x1 - d.x0); // Update width during the transition
+  cells
+    .append("rect")
+    .attr("width", 0) // Initialize width to 0
+    .attr("height", (d) => d.y1 - d.y0)
+    .attr("fill", function (d) {
+      const first = d.data.SoortMisdrijfRaw.slice(0, 1);
+      if (first === "1" || first === 1) {
+        return "fill", "green";
+      } else if (first === "2" || first === 2) {
+        return "fill", "red";
+      } else if (first === "3" || first === 3) {
+        return "fill", "blue"
+      } else {return "fill", "black"}
+    })
+    .attr("stroke", "white") // Add white border
+    .attr("stroke-width", 2) // Adjust border width as needed
+    .transition() // Apply a transition
+    .duration(1000) // Set the duration of the animation (in milliseconds)
+    .attr("width", (d) => d.x1 - d.x0); // Update width during the transition
 
   cells
-  .on("mouseover", function (d) {
-    // Change color on hover
-    d3.select(this).select("rect").transition().duration(150).attr("fill", "orange");
-  })
-  .on("mouseout", function () {
-    // Reset color on mouseout
-    d3.select(this).select("rect").transition().duration(150).attr("fill", "black");
-  });
+    .on("mouseover", function (d) {
+      // Change color on hover
+      d3.select(this)
+        .select("rect")
+        .transition()
+        .duration(150)
+        .attr("fill", "orange");
+      const tooltip = d3.select("#tooltip");
+      tooltip.transition().duration(150).style("opacity", 0.9);
+      const name = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(5);
+      const total = d.srcElement.__data__.data.Total;
+      const tooltipContent = "Aantal " + name + ": " + total;
+      let tooltipX = d.pageX + 10;
+      const tooltipY = d.pageY - 28;
+      const tooltipWidth = tooltip.node().offsetWidth;
+      const rightBoundary = window.innerWidth - 5;
+      if (tooltipX + tooltipWidth > rightBoundary) {
+        tooltipX = rightBoundary - tooltipWidth;
+      }
+      tooltip
+        .html(tooltipContent)
+        .style("left", tooltipX + "px")
+        .style("top", tooltipY + "px");
+    })
+    .on("mousemove", function (d) {
+      const tooltip = d3.select("#tooltip");
+      tooltip.transition().duration(150).style("opacity", 0.9);
+      const name = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(5);
+      const total = d.srcElement.__data__.data.Total;
+      const tooltipContent = "Aantal " + name + ": " + total;
+      let tooltipX = d.pageX + 10;
+      const tooltipY = d.pageY - 28;
+      const tooltipWidth = tooltip.node().offsetWidth;
+      const rightBoundary = window.innerWidth - 5;
+      if (tooltipX + tooltipWidth > rightBoundary) {
+        tooltipX = rightBoundary - tooltipWidth;
+      }
+      tooltip
+        .html(tooltipContent)
+        .style("left", tooltipX + "px")
+        .style("top", tooltipY + "px");
+    })
+    .on("mouseout", function (d) {
+      const first = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(0,1);
+      // Reset color on mouseout
+      d3.select(this)
+        .select("rect")
+        .transition()
+        .duration(150)
+        .attr("fill", function (d) {
+          const first = d.data.SoortMisdrijfRaw.slice(0, 1);
+          if (first === "1" || first === 1) {
+            return "fill", "green";
+          } else if (first === "2" || first === 2) {
+            return "fill", "red";
+          } else if (first === "3" || first === 3) {
+            return "fill", "blue"
+          } else {return "fill", "black"}
+        });
+
+      const tooltip = d3.select("#tooltip");
+      tooltip.transition().duration(500).style("opacity", 0);
+    });
 
   const foreignObjects = cells
     .append("foreignObject")
@@ -108,17 +197,59 @@ cells
     .style("justify-content", "center")
     .html(
       (d) =>
-        `<div style="color: white; margin-left: 10px; margin-right: 10px;">${d.data.SoortMisdrijfRaw}: ${d.data.Total}</div>`
+        `<div style="color: white; margin-left: 10px; margin-right: 10px;">${d.data.SoortMisdrijfRaw.slice(
+          5
+        )}</div>`
     );
+
+  foreignObjects
+    .on("mouseover", function (d) {
+      const tooltip = d3.select("#tooltip");
+      tooltip.transition().duration(150).style("opacity", 0.9);
+      const name = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(5);
+      const total = d.srcElement.__data__.data.Total;
+      const tooltipContent = "Aantal " + name + ": " + total;
+      let tooltipX = d.pageX + 10;
+      const tooltipY = d.pageY - 28;
+      const tooltipWidth = tooltip.node().offsetWidth;
+      const rightBoundary = window.innerWidth - 5;
+      if (tooltipX + tooltipWidth > rightBoundary) {
+        tooltipX = rightBoundary - tooltipWidth;
+      }
+      tooltip
+        .html(tooltipContent)
+        .style("left", tooltipX + "px")
+        .style("top", tooltipY + "px");
+    })
+    .on("mousemove", function (d) {
+      const tooltip = d3.select("#tooltip");
+      tooltip.transition().duration(150).style("opacity", 0.9);
+      const name = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(5);
+      const total = d.srcElement.__data__.data.Total;
+      const tooltipContent = "Aantal " + name + ": " + total;
+      let tooltipX = d.pageX + 10;
+      const tooltipY = d.pageY - 28;
+      const tooltipWidth = tooltip.node().offsetWidth;
+      const rightBoundary = window.innerWidth - 5;
+      if (tooltipX + tooltipWidth > rightBoundary) {
+        tooltipX = rightBoundary - tooltipWidth;
+      }
+      tooltip
+        .html(tooltipContent)
+        .style("left", tooltipX + "px")
+        .style("top", tooltipY + "px");
+    })
+    .on("mouseout", function () {
+      const tooltip = d3.select("#tooltip");
+      tooltip.transition().duration(500).style("opacity", 0);
+    });
 }
 
 function calculateCrimesByType(data) {
-  console.log(data)
   const result = [];
   const groupedByCrime = {};
   for (const key in data) {
     const crimeType = data[key].SoortMisdrijfRaw;
-    console.log(crimeType)
     const totalCrimes = parseFloat(data[key].GeregistreerdeMisdrijven);
     if (!groupedByCrime[crimeType]) {
       groupedByCrime[crimeType] = 0;
@@ -131,9 +262,8 @@ function calculateCrimesByType(data) {
       Total: groupedByCrime[crimeType],
     });
   }
-  console.log(result)
-
-  return result;
+  result.sort((a, b) => b.Total - a.Total);
+  return result.slice(0, 6);
 }
 
 function removePreviousGraph() {

@@ -1,6 +1,5 @@
 import { fetchDataAndMapData } from './data-fetch.js';
 import { eventEmitter } from './event-emitter.js';
-import { resetMapView } from './map-chart.js';
 
 // import { generateCheckboxes, updateCheckboxStates } from './type-crime.js';
 
@@ -40,8 +39,10 @@ export function setLoading(bool) {
 
 // Set the data dictionary
 export var data = {}; // Change this based on your logic
-export function setData(newData) {
+export var regionData = {};
+export function setData(newData, newRegionData) {
   data = newData;
+  regionData = newRegionData
   console.log("New data loaded");
   console.log(data);
   eventEmitter.emit('data updated');
