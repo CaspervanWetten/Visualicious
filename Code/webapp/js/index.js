@@ -1,4 +1,4 @@
-import { fetchDataAndProcess } from './data-fetch.js';
+import { fetchDataAndMapData } from './data-fetch.js';
 import { eventEmitter } from './event-emitter.js';
 
 // import { generateCheckboxes, updateCheckboxStates } from './type-crime.js';
@@ -23,7 +23,7 @@ const crimeDictionary = {
 function update(wait = 200) {
   eventEmitter.emit('update');
   // Fetch new data
-  fetchDataAndProcess(startDate, endDate, focusArea, crimeCodeList, wait);
+  fetchDataAndMapData(startDate, endDate, focusArea, crimeCodeList, wait);
   // Update the UI displayed filters
   updateFilters();
 }
@@ -45,7 +45,15 @@ export function setData(newData, newRegionData) {
   regionData = newRegionData
   console.log("New data loaded");
   console.log(data);
-  eventEmitter.emit('updated');
+  eventEmitter.emit('data updated');
+}
+
+export var mapData = {}; // Change this based on your logic
+export function setMapData(newData) {
+  mapData = newData;
+  console.log("New map data loaded");
+  console.log(mapData);
+  eventEmitter.emit('map data updated');
 }
 
 // Set the crime types

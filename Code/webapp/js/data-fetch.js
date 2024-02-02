@@ -1,4 +1,4 @@
-import {setLoading, setData} from "./index.js";
+import {setLoading, setData, setMapData, endDateText} from "./index.js";
 import {eventEmitter} from "./event-emitter.js";
 
 let globalTSVData = null;
@@ -208,10 +208,9 @@ async function fetchTSVData(url) {
       return null;
     }
   }
-  
+
   export async function fetchDataAndProcess(startDate, endDate, regionCode, crimeCodeList, wait = 200) {
     // Add your code to do something before calling the function here
-    setLoading(true);
 
     // Find the regionKey that contains the provided regionCode
     const regionKey = Object.keys(dataAreaDict).find(key => dataAreaDict[key].includes(regionCode));
@@ -246,15 +245,57 @@ async function fetchTSVData(url) {
     // Add your code to do something after the function finishes here
     if (responseData) {
         setData(responseData);
-        setLoading(false);
     } else {
         console.log('Failed to fetch TSV data.');
-        setLoading(false);
+    }
+}
+
+export async function fetchMapDataAndProcess(startDate, endDate, crimeCodeList, wait = 200) {
+    // Add your code to do something before calling the function here
+
+    if (crimeCodeList.includes("0.0.0")) {
+        // Execute this block of code when "0.0.0" is in crimeCodeList
+        crimeCodeList = ["1.1.1", "1.1.2", "1.2.1", "1.2.2", "1.2.3", "1.2.4", "1.2.5", "1.4.6", "1.4.7", "1.5.2", "2.5.1", "2.5.2"];
+    }
+    
+    let crimeRange = crimeCodeList.map(crime => `"${crime}"`).join(',');
+
+    // Construct the tsvUrl using the trimmedRegionKey and other provided parameters
+    const tsvUrl = `https://visualicious.bjornkoemans.nl/mapdata.php?start=${startDate}&end=${endDate}&crime=[${crimeRange}]`;
+    console.log(tsvUrl);
+
+    // Delay for 1000ms (1 second)
+    await new Promise(resolve => setTimeout(resolve, wait));
+
+    // Call the fetchTSVData function
+    const responseData = await fetchTSVData(tsvUrl);
+
+    // Add your code to do something after the function finishes here
+    if (responseData) {
+        setMapData(responseData);
+    } else {
+        console.log('Failed to fetch TSV data.');
     }
 }
 
 
+export async function fetchDataAndMapData(startDate, endDate, regionCode, crimeCodeList, wait = 200) {
+    setLoading(true);
+
+    await new Promise(resolve => setTimeout(resolve, wait));
+
+    const fetchDataPromise = fetchDataAndProcess(startDate, endDate, regionCode, crimeCodeList);
+    const fetchMapDataPromise = fetchMapDataAndProcess(startDate, endDate, crimeCodeList);
+
+    // Wait for both promises to complete
+    await Promise.all([fetchDataPromise, fetchMapDataPromise]);
+
+    // Both functions have finished loading, set loading to false
+    setLoading(false);
+}
+
+
 window.onload = () => {
-    fetchDataAndProcess("2012MM01", "2023MM12", "Nederland", ["0.0.0"]);
+    fetchDataAndMapData("2012MM01", "2023MM12", "Nederland", ["0.0.0"]);
 };
 
