@@ -143,11 +143,15 @@ async function drawAndLoadMap(municipalityData, svg = svg, zoom = zoom, municipa
             .append("path")
             .attr("d", path)
             .attr("fill", function () {
+              console.log(aggregatedData, d.properties.name)
               const entry = aggregatedData.find(
-                (entry) => entry.GemeenteRaw === d.properties.name
+                (entry) => entry["WijkenEnBuurtenRaw"] === d.properties.name
               );
-              const value = entry ? entry.GeregistreerdeMisdrijvenRaw : 0;
-              return colorScale(value);
+              console.log("ENTRY " + entry["WijkenenBuurtenRaw"])
+              try {
+                const value = entry ? entry["GeregistreerdeMisdrijven"] : 0;
+                return colorScale(value);
+              } catch (error) {return colorScale(0)}
             })
             .attr("stroke", "#000000")
             .attr("stroke-width", 0.3)
