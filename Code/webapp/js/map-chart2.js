@@ -4,6 +4,7 @@ import {
   hoverArea,
   setHoverArea,
   setMapSize,
+  mapData
 } from "./index.js";
 
 const tooltip = d3.select("#tooltip");
@@ -25,6 +26,25 @@ var projection = d3
 
 var path = d3.geoPath().projection(projection);
 
+const IconDictonary = {
+    "../../Data/Icon-x.png": "Totaal misdrijven",
+    "../../Data/Icon-Home.png": "Diefstal/inbraak woning",
+    "../../Data/Icon-Garage.png": "Diefstal/inbraak box/garage/schuur",
+    "../../Data/Icon-Voertuig1.png": "Diefstal uit/vanaf motorvoertuigen",
+    "../../Data/Icon-Voertuig2.png": "Diefstal van motorvoertuigen",
+    "../../Data/Icon-Fietsen.png": "Diefstal van brom-, snor-, fietsen",
+    "../../Data/Icon-Zakkenrollerij.png": "Zakkenrollerij",
+    "../../Data/Icon-OV.png": "Diefstal af/uit/van ov. voertuigen",
+    "../../Data/Icon-Straatroof.png": "Straatroof",
+    "../../Data/Icon-x.png": "Overval",
+    "../../Data/Icon-Boot.png": "Diefstallen (water)",
+    "../../Data/Icon-x.png": "Diefstal/inbraak bedrijven enz.",
+    "../../Data/Icon-x.png": "Winkeldiefstal"
+  }
+
+// Flag to determine if a municipality was clicked
+var municipalityClicked = false;
+
 var municipalitiesGroup = svg.append("g");
 var municipalitiesDataCache = null;
 
@@ -33,6 +53,35 @@ svg.on("mousemove", function (event) {
   tooltip.style("left", x - 100 + "px").style("top", y - 20 + "px");
 });
 
+// Click handler for municipalities
+function onMunicipalityClick(event, d) {
+    var bounds = path.bounds(d),
+        dx = bounds[1][0] - bounds[0][0],
+        dy = bounds[1][1] - bounds[0][1],
+        x = (bounds[0][0] + bounds[1][0]) / 2,
+        y = (bounds[0][1] + bounds[1][1]) / 2,
+        scale = Math.max(1, Math.min(18, 0.9 / Math.max(dx / width, dy / height))),
+        translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+    svg.transition()
+        .duration(750)
+        .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
+
+    municipalityClicked = true;
+
+    // Add your logic for handling the clicked municipality here
+
+    setMapSize(false);
+}
+
+// Click handler for the map container
+d3.select("#map-chart-container").on("click", function () {
+    if (municipalityClicked) {
+        resetMapView();
+    }
+});
+
+// Zoom and pan settings
 var zoom = d3
   .zoom()
   .scaleExtent([1, 8])
@@ -41,59 +90,420 @@ var zoom = d3
   });
 
 svg.call(zoom).on("dblclick.zoom", null);
-
+  
+//@Casper, this needs to be grayed out, if you manage to load in the data from Björn' API
 var municipalityData = [
-  {
-    GemeenteRaw: "Almere",
-    GeregistreerdeMisdrijvenRaw: 120,
-    MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
-  },
-  {
-    GemeenteRaw: "Almere",
-    GeregistreerdeMisdrijvenRaw: 150,
-    MisdaadNaamRaw: "Diefstal/inbraak woning",
-  },
-  {
-    GemeenteRaw: "Almere",
-    GeregistreerdeMisdrijvenRaw: 180,
-    MisdaadNaamRaw: "Overval",
-  },
-  {
-    GemeenteRaw: "Almere",
-    GeregistreerdeMisdrijvenRaw: 80,
-    MisdaadNaamRaw: "Diefstal/inbraak box/garage/schuur",
-  },
-  {
-    GemeenteRaw: "Utrecht",
-    GeregistreerdeMisdrijvenRaw: 110,
-    MisdaadNaamRaw: "Straatroof",
-  },
-  {
-    GemeenteRaw: "Utrecht",
-    GeregistreerdeMisdrijvenRaw: 90,
-    MisdaadNaamRaw: "Overval",
-  },
-  {
-    GemeenteRaw: "Utrecht",
-    GeregistreerdeMisdrijvenRaw: 60,
-    MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
-  },
-  {
-    GemeenteRaw: "Amsterdam",
-    GeregistreerdeMisdrijvenRaw: 200,
-    MisdaadNaamRaw: "Overval",
-  },
-  {
-    GemeenteRaw: "Amsterdam",
-    GeregistreerdeMisdrijvenRaw: 110,
-    MisdaadNaamRaw: "Straatroof",
-  },
-  {
-    GemeenteRaw: "Amsterdam",
-    GeregistreerdeMisdrijvenRaw: 150,
-    MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
-  },
-];
+    {
+      GemeenteRaw: "Almere",
+      GeregistreerdeMisdrijvenRaw: 120,
+      MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+    },
+    {
+      GemeenteRaw: "Rotterdam",
+      GeregistreerdeMisdrijvenRaw: 150,
+      MisdaadNaamRaw: "Diefstal/inbraak woning",
+    },
+    {
+      GemeenteRaw: "Rotterdam",
+      GeregistreerdeMisdrijvenRaw: 180,
+      MisdaadNaamRaw: "Overval",
+    },
+    {
+      GemeenteRaw: "Almere",
+      GeregistreerdeMisdrijvenRaw: 80,
+      MisdaadNaamRaw: "Diefstal/inbraak box/garage/schuur",
+    },
+    {
+      GemeenteRaw: "Utrecht",
+      GeregistreerdeMisdrijvenRaw: 110,
+      MisdaadNaamRaw: "Straatroof",
+    },
+    {
+      GemeenteRaw: "Utrecht",
+      GeregistreerdeMisdrijvenRaw: 90,
+      MisdaadNaamRaw: "Overval",
+    },
+    {
+      GemeenteRaw: "Utrecht",
+      GeregistreerdeMisdrijvenRaw: 60,
+      MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+    },
+    {
+      GemeenteRaw: "Amsterdam",
+      GeregistreerdeMisdrijvenRaw: 200,
+      MisdaadNaamRaw: "Overval",
+    },
+    {
+      GemeenteRaw: "Amsterdam",
+      GeregistreerdeMisdrijvenRaw: 110,
+      MisdaadNaamRaw: "Straatroof",
+    },
+    {
+        GemeenteRaw: "Den Haag",
+        GeregistreerdeMisdrijvenRaw: 200,
+        MisdaadNaamRaw: "Overval",
+      },
+      {
+        GemeenteRaw: "Den Haag",
+        GeregistreerdeMisdrijvenRaw: 110,
+        MisdaadNaamRaw: "Straatroof",
+      },
+      {
+        GemeenteRaw: "Hilversum",
+        GeregistreerdeMisdrijvenRaw: 200,
+        MisdaadNaamRaw: "Overval",
+      },
+      {
+        GemeenteRaw: "Breda",
+        GeregistreerdeMisdrijvenRaw: 110,
+        MisdaadNaamRaw: "Straatroof",
+      },
+    {
+      GemeenteRaw: "Amsterdam",
+      GeregistreerdeMisdrijvenRaw: 150,
+      MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+    },
+    {
+      GemeenteRaw: "Rotterdam",
+      GeregistreerdeMisdrijvenRaw: 90,
+      MisdaadNaamRaw: "Diefstal/inbraak woning",
+    },
+    {
+      GemeenteRaw: "Rotterdam",
+      GeregistreerdeMisdrijvenRaw: 120,
+      MisdaadNaamRaw: "Straatroof",
+    },
+    {
+      GemeenteRaw: "Rotterdam",
+      GeregistreerdeMisdrijvenRaw: 70,
+      MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+    },
+    {
+      GemeenteRaw: "Den Haag",
+      GeregistreerdeMisdrijvenRaw: 85,
+      MisdaadNaamRaw: "Overval",
+    },
+    {
+      GemeenteRaw: "Den Haag",
+      GeregistreerdeMisdrijvenRaw: 50,
+      MisdaadNaamRaw: "Diefstal/inbraak woning",
+    },
+    {
+      GemeenteRaw: "Eindhoven",
+      GeregistreerdeMisdrijvenRaw: 75,
+      MisdaadNaamRaw: "Straatroof",
+    },
+    {
+      GemeenteRaw: "Eindhoven",
+      GeregistreerdeMisdrijvenRaw: 110,
+      MisdaadNaamRaw: "Overval",
+    },
+    {
+      GemeenteRaw: "Groningen",
+      GeregistreerdeMisdrijvenRaw: 65,
+      MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+    },
+    {
+      GemeenteRaw: "Haarlem",
+      GeregistreerdeMisdrijvenRaw: 75,
+      MisdaadNaamRaw: "Straatroof",
+    },
+    {
+      GemeenteRaw: "Haarlem",
+      GeregistreerdeMisdrijvenRaw: 90,
+      MisdaadNaamRaw: "Overval",
+    },
+    {
+        GemeenteRaw: "Eindhoven",
+        GeregistreerdeMisdrijvenRaw: 75,
+        MisdaadNaamRaw: "Straatroof",
+      },
+      {
+        GemeenteRaw: "Eindhoven",
+        GeregistreerdeMisdrijvenRaw: 110,
+        MisdaadNaamRaw: "Overval",
+      },
+      {
+        GemeenteRaw: "Groningen",
+        GeregistreerdeMisdrijvenRaw: 65,
+        MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+      },
+      {
+        GemeenteRaw: "Haarlem",
+        GeregistreerdeMisdrijvenRaw: 75,
+        MisdaadNaamRaw: "Straatroof",
+      },
+      {
+        GemeenteRaw: "Haarlem",
+        GeregistreerdeMisdrijvenRaw: 90,
+        MisdaadNaamRaw: "Overval",
+      },
+      {
+        GemeenteRaw: "Tilburg",
+        GeregistreerdeMisdrijvenRaw: 60,
+        MisdaadNaamRaw: "Diefstal/inbraak woning",
+      },
+      {
+        GemeenteRaw: "Tilburg",
+        GeregistreerdeMisdrijvenRaw: 70,
+        MisdaadNaamRaw: "Overval",
+      },
+      {
+        GemeenteRaw: "Nijmegen",
+        GeregistreerdeMisdrijvenRaw: 40,
+        MisdaadNaamRaw: "Straatroof",
+      },
+      {
+        GemeenteRaw: "Nijmegen",
+        GeregistreerdeMisdrijvenRaw: 55,
+        MisdaadNaamRaw: "Diefstal/inbraak woning",
+      },
+      {
+        GemeenteRaw: "Nijmegen",
+        GeregistreerdeMisdrijvenRaw: 45,
+        MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+      },
+      {
+        GemeenteRaw: "Enschede",
+        GeregistreerdeMisdrijvenRaw: 30,
+        MisdaadNaamRaw: "Straatroof",
+      },
+      {
+        GemeenteRaw: "Enschede",
+        GeregistreerdeMisdrijvenRaw: 40,
+        MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+      },
+      {
+        GemeenteRaw: "Rotterdam",
+        GeregistreerdeMisdrijvenRaw: 120,
+        MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+      },
+      {
+        GemeenteRaw: "Almere",
+        GeregistreerdeMisdrijvenRaw: 150,
+        MisdaadNaamRaw: "Diefstal/inbraak woning",
+      },
+      {
+        GemeenteRaw: "Almere",
+        GeregistreerdeMisdrijvenRaw: 180,
+        MisdaadNaamRaw: "Overval",
+      },
+      {
+        GemeenteRaw: "Almere",
+        GeregistreerdeMisdrijvenRaw: 80,
+        MisdaadNaamRaw: "Diefstal/inbraak box/garage/schuur",
+      },
+      {
+        GemeenteRaw: "Utrecht",
+        GeregistreerdeMisdrijvenRaw: 110,
+        MisdaadNaamRaw: "Straatroof",
+      },
+      {
+        GemeenteRaw: "Utrecht",
+        GeregistreerdeMisdrijvenRaw: 90,
+        MisdaadNaamRaw: "Overval",
+      },
+      {
+        GemeenteRaw: "Utrecht",
+        GeregistreerdeMisdrijvenRaw: 60,
+        MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+      },
+      {
+        GemeenteRaw: "Maastricht",
+        GeregistreerdeMisdrijvenRaw: 200,
+        MisdaadNaamRaw: "Overval",
+      },
+      {
+        GemeenteRaw: "Amsterdam",
+        GeregistreerdeMisdrijvenRaw: 110,
+        MisdaadNaamRaw: "Straatroof",
+      },
+      {
+        GemeenteRaw: "Amsterdam",
+        GeregistreerdeMisdrijvenRaw: 150,
+        MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+      },
+      {
+        GemeenteRaw: "Zundert",
+        GeregistreerdeMisdrijvenRaw: 35,
+        MisdaadNaamRaw: "Overval",
+      },
+      {
+        GemeenteRaw: "Zutphen",
+        GeregistreerdeMisdrijvenRaw: 65,
+        MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+      },
+      {
+        GemeenteRaw: "Zwijndrecht",
+        GeregistreerdeMisdrijvenRaw: 42,
+        MisdaadNaamRaw: "Straatroof",
+      },
+      {
+        GemeenteRaw: "Zwolle",
+        GeregistreerdeMisdrijvenRaw: 120,
+        MisdaadNaamRaw: "Diefstal/inbraak woning",
+      },
+      {
+        GemeenteRaw: "Bunschoten",
+        GeregistreerdeMisdrijvenRaw: 28,
+        MisdaadNaamRaw: "Diefstal/inbraak woning",
+      },
+      {
+        GemeenteRaw: "Buren",
+        GeregistreerdeMisdrijvenRaw: 19,
+        MisdaadNaamRaw: "Overval",
+      },
+      {
+        GemeenteRaw: "Bussum",
+        GeregistreerdeMisdrijvenRaw: 37,
+        MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+      },
+      {
+        GemeenteRaw: "Capelle aan den IJssel",
+        GeregistreerdeMisdrijvenRaw: 68,
+        MisdaadNaamRaw: "Straatroof",
+      },
+      {
+          GemeenteRaw: "Almere",
+          GeregistreerdeMisdrijvenRaw: 76,
+          MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+        },
+        {
+          GemeenteRaw: "Rotterdam",
+          GeregistreerdeMisdrijvenRaw: 110,
+          MisdaadNaamRaw: "Diefstal/inbraak woning",
+        },
+        {
+          GemeenteRaw: "Almere",
+          GeregistreerdeMisdrijvenRaw: 18,
+          MisdaadNaamRaw: "Overval",
+        },
+        {
+          GemeenteRaw: "Lelystad",
+          GeregistreerdeMisdrijvenRaw: 80,
+          MisdaadNaamRaw: "Diefstal/inbraak box/garage/schuur",
+        },
+        {
+          GemeenteRaw: "Utrecht",
+          GeregistreerdeMisdrijvenRaw: 110,
+          MisdaadNaamRaw: "Straatroof",
+        },
+        {
+          GemeenteRaw: "Utrecht",
+          GeregistreerdeMisdrijvenRaw: 90,
+          MisdaadNaamRaw: "Overval",
+        },
+        {
+          GemeenteRaw: "Utrecht",
+          GeregistreerdeMisdrijvenRaw: 60,
+          MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+        },
+        {
+          GemeenteRaw: "Amsterdam",
+          GeregistreerdeMisdrijvenRaw: 200,
+          MisdaadNaamRaw: "Overval",
+        },
+        {
+          GemeenteRaw: "Amsterdam",
+          GeregistreerdeMisdrijvenRaw: 110,
+          MisdaadNaamRaw: "Straatroof",
+        },
+        {
+          GemeenteRaw: "Amsterdam",
+          GeregistreerdeMisdrijvenRaw: 150,
+          MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+        },
+        {
+          GemeenteRaw: "Zwolle",
+          GeregistreerdeMisdrijvenRaw: 85,
+          MisdaadNaamRaw: "Overval",
+        },
+        {
+          GemeenteRaw: "Zwolle",
+          GeregistreerdeMisdrijvenRaw: 67,
+          MisdaadNaamRaw: "Diefstal/inbraak woning",
+        },
+        {
+          GemeenteRaw: "Zwolle",
+          GeregistreerdeMisdrijvenRaw: 42,
+          MisdaadNaamRaw: "Straatroof",
+        },
+        {
+          GemeenteRaw: "Zwolle",
+          GeregistreerdeMisdrijvenRaw: 31,
+          MisdaadNaamRaw: "Diefstal/inbraak box/garage/schuur",
+        },
+        {
+            GemeenteRaw: "Huizen",
+            GeregistreerdeMisdrijvenRaw: 188,
+            MisdaadNaamRaw: "Straatroof",
+          },
+          {
+            GemeenteRaw: "Bilthoven",
+            GeregistreerdeMisdrijvenRaw: 103,
+            MisdaadNaamRaw: "Overval",
+          },
+          {
+            GemeenteRaw: "Nijmegen",
+            GeregistreerdeMisdrijvenRaw: 155,
+            MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+          },
+          {
+            GemeenteRaw: "Katwijk",
+            GeregistreerdeMisdrijvenRaw: 44,
+            MisdaadNaamRaw: "Overval",
+          },
+          {
+            GemeenteRaw: "Leeuwarden",
+            GeregistreerdeMisdrijvenRaw: 110,
+            MisdaadNaamRaw: "Straatroof",
+          },
+          {
+            GemeenteRaw: "Delft",
+            GeregistreerdeMisdrijvenRaw: 99,
+            MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+          },
+          {
+            GemeenteRaw: "Arnhem",
+            GeregistreerdeMisdrijvenRaw: 199,
+            MisdaadNaamRaw: "Overval",
+          },
+          {
+            GemeenteRaw: "Nieuwegein",
+            GeregistreerdeMisdrijvenRaw: 67,
+            MisdaadNaamRaw: "Diefstal/inbraak woning",
+          },
+          {
+            GemeenteRaw: "Apeldoorn",
+            GeregistreerdeMisdrijvenRaw: 101,
+            MisdaadNaamRaw: "Straatroof",
+          },
+          {
+            GemeenteRaw: "Zwolle",
+            GeregistreerdeMisdrijvenRaw: 31,
+            MisdaadNaamRaw: "Diefstal/inbraak box/garage/schuur",
+          },
+        {
+          GemeenteRaw: "Zwijndrecht",
+          GeregistreerdeMisdrijvenRaw: 24,
+          MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
+        },
+        {
+          GemeenteRaw: "Zwijndrecht",
+          GeregistreerdeMisdrijvenRaw: 19,
+          MisdaadNaamRaw: "Overval",
+        },
+        {
+          GemeenteRaw: "Zwijndrecht",
+          GeregistreerdeMisdrijvenRaw: 38,
+          MisdaadNaamRaw: "Diefstal/inbraak woning",
+        },
+        {
+          GemeenteRaw: "Zwijndrecht",
+          GeregistreerdeMisdrijvenRaw: 12,
+          MisdaadNaamRaw: "Diefstal/inbraak box/garage/schuur",
+        },
+  ];
 
 function findMostFrequentCrime(data) {
     const result = {};
@@ -133,8 +543,8 @@ async function loadDataAndRenderMap() {
 
   const colorScale = d3
     .scaleLinear()
-    .domain([minValue, maxValue])
-    .range(d3.schemeBlues[3]); // Specify your desired color range
+    .domain([0, 250])
+    .range(d3.schemeGreens[3]); // Specify your desired color range
 
   try {
     municipalitiesDataCache =
@@ -219,7 +629,14 @@ export async function resetMapView() {
         .duration(750)
         .call(zoom.transform, d3.zoomIdentity);
     setMapSize(true);
-    setFocusArea("NL");
+    setFocusArea("Nederland");
+    // Reset the flag
+    municipalityClicked = false;
+
+    // Hide municipalities
+    municipalitiesGroup.style("display", "none");
+    
+    setMapSize(true);
 
   if (!municipalitiesDataCache) {
     console.error("No municipalities data available for reset.");
