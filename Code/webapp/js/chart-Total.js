@@ -136,7 +136,7 @@ function totaalMisdaden(array) {
       d3.select(this)
         .on("mouseover", function (event, d) {
           const bar = d3.select(this);
-          bar.transition().duration(150).attr("fill", "orange");
+          bar.transition().duration(150).attr("fill", "black");
 
           const tooltip = d3.select("#tooltip");
           tooltip.transition().duration(150).style("opacity", 0.9);
@@ -155,7 +155,7 @@ function totaalMisdaden(array) {
         })
         .on("mousemove", function (event, d) {
           const bar = d3.select(this);
-          bar.transition().duration(50).attr("fill", "orange");
+          bar.transition().duration(50).attr("fill", "black");
 
           const tooltip = d3.select("#tooltip");
           tooltip.transition().duration(50).style("opacity", 0.9);

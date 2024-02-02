@@ -106,9 +106,9 @@ function frequentieMisdaden(data) {
       if (first === "1" || first === 1) {
         return "fill", "green";
       } else if (first === "2" || first === 2) {
-        return "fill", "red";
+        return "fill", "orange";
       } else if (first === "3" || first === 3) {
-        return "fill", "blue"
+        return "fill", "red"
       } else {return "fill", "black"}
     })
     .attr("stroke", "white") // Add white border
@@ -124,7 +124,7 @@ function frequentieMisdaden(data) {
         .select("rect")
         .transition()
         .duration(150)
-        .attr("fill", "orange");
+        .attr("fill", "black");
       const tooltip = d3.select("#tooltip");
       tooltip.transition().duration(150).style("opacity", 0.9);
       const name = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(5);
@@ -172,9 +172,9 @@ function frequentieMisdaden(data) {
           if (first === "1" || first === 1) {
             return "fill", "green";
           } else if (first === "2" || first === 2) {
-            return "fill", "red";
+            return "fill", "orange";
           } else if (first === "3" || first === 3) {
-            return "fill", "blue"
+            return "fill", "red"
           } else {return "fill", "black"}
         });
 
