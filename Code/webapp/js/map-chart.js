@@ -288,7 +288,7 @@ export function resetMapView() {
     .style("opacity", 1);
 
   setMapSize(true);
-  setFocusArea("NL");
+  setFocusArea("Nederland");
   provincesGroup.selectAll(".province-name").style("display", null);
 }
 

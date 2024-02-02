@@ -208,13 +208,13 @@ async function fetchTSVData(url) {
       return null;
     }
   }
-
+  
   export async function fetchDataAndProcess(startDate, endDate, regionCode, crimeCodeList, wait = 200) {
     // Add your code to do something before calling the function here
     setLoading(true);
 
-    // Convert the regionCode to its corresponding key using the dataAreaDict dictionary
-    const regionKey = Object.keys(dataAreaDict).find(key => dataAreaDict[key] === regionCode);
+    // Find the regionKey that contains the provided regionCode
+    const regionKey = Object.keys(dataAreaDict).find(key => dataAreaDict[key].includes(regionCode));
 
     if (!regionKey) {
         console.error(`Region code '${regionCode}' not found in the dataAreaDict dictionary.`);
@@ -254,54 +254,7 @@ async function fetchTSVData(url) {
 }
 
 
-
-
 window.onload = () => {
     fetchDataAndProcess("2012MM01", "2023MM12", "Nederland", ["0.0.0"]);
 };
 
-
-//
-//
-// function createDictionaryFromTSV(tsvData, dateCodeList, regionCode, crimeCodeList) {
-//     // Split the TSV data into lines
-//     const lines = tsvData.split('\n');
-//
-//     // Extract headers
-//     const headers = lines[0].split('\t');
-//
-//     // Find the index of the required columns
-//     const periodenIndex = headers.indexOf('Perioden');
-//     const wijkenEnBuurtenIndex = headers.indexOf('WijkenEnBuurten');
-//     const soortMisdrijfIndex = headers.indexOf('SoortMisdrijf');
-//
-//     // Initialize the dictionary
-//     const dictionary = {};
-//
-//     // Process each line
-//     lines.slice(1).forEach(line => {
-//         const columns = line.split('\t');
-//
-//         // Apply filters
-//         if (dateCodeList.includes(columns[periodenIndex]) &&
-//             columns[wijkenEnBuurtenIndex] === regionCode &&
-//             crimeCodeList.includes(columns[soortMisdrijfIndex])) {
-//
-//             // Add to the dictionary
-//             dictionary[columns[0]] = {
-//                 SoortMisdrijf: columns[soortMisdrijfIndex],
-//                 WijkenEnBuurten: columns[wijkenEnBuurtenIndex],
-//                 Perioden: columns[periodenIndex],
-//                 GeregistreerdeMisdrijven: columns[4]
-//             };
-//         }
-//     });
-//
-//     return dictionary;
-// }
-//
-//
-//
-//
-//
-//
