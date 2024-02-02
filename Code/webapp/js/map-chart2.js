@@ -203,7 +203,7 @@ export async function resetMapView() {
         .duration(750)
         .call(zoom.transform, d3.zoomIdentity);
     setMapSize(true);
-    setFocusArea("NL");
+    setFocusArea("Nederland");
 
   if (!municipalitiesDataCache) {
     console.error("No municipalities data available for reset.");
