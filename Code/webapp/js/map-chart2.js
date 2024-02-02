@@ -84,7 +84,7 @@ async function drawAndLoadMap(municipalityData, svg = svg, zoom = zoom, municipa
 
     const [minValue, maxValue] = d3.extent(
       aggregatedData,
-      (entry) => entry.GeregistreerdeMisdrijven
+      (entry) => entry["GeregistreerdeMisdrijven"]
     );
 
     const colorScale = d3
@@ -123,9 +123,9 @@ async function drawAndLoadMap(municipalityData, svg = svg, zoom = zoom, municipa
         .on("mouseover", function (event, d) {
           const tooltip = d3.select("#tooltip");
           const entry = aggregatedData.find(
-            (entry) => entry.GemeenteRaw === d.properties.name
+            (entry) => entry["WijkenEnBuurten"] === d.properties.name
           );
-          const value = entry ? entry.GeregistreerdeMisdrijvenRaw : 0;
+          const value = entry ? entry["GeregistreerdeMisdrijven"] : 0;
           const y = event.pageY - 28;
           tooltip.transition().duration(200).style("opacity", 0.9);
           tooltip
@@ -141,17 +141,13 @@ async function drawAndLoadMap(municipalityData, svg = svg, zoom = zoom, municipa
           d3.select(this)
             .append("path")
             .attr("d", path)
-            .attr("fill", function () {
-              console.log(aggregatedData, d.properties.name)
-              const entry = aggregatedData.find(
-                (entry) => entry["WijkenEnBuurtenRaw"] === d.properties.name
+              .attr("fill", function () {
+                  const entry = aggregatedData.find(
+                      (entry) => entry["WijkenEnBuurtenRaw"] === d.properties.name
               );
-              console.log("ENTRY " + entry["WijkenenBuurtenRaw"])
-              try {
-                const value = entry ? entry["GeregistreerdeMisdrijven"] : 0;
-                return colorScale(value);
-              } catch (error) {return colorScale(0)}
-            })
+                  const value = entry ? entry["GeregistreerdeMisdrijven"] : 0;
+                  return colorScale(value);
+              })
             .attr("stroke", "#000000")
             .attr("stroke-width", 0.3)
             .style("cursor", "pointer")
@@ -226,9 +222,9 @@ export async function resetMapView() {
     .on("mouseover", function (event, d) {
       const tooltip = d3.select("#tooltip");
       const entry = aggregatedData.find(
-        (entry) => entry.WijkenEnBuurtenRaw === d.properties.name
+        (entry) => entry["WijkenEnBuurtenRaw"] === d.properties.name
       );
-      const value = entry ? entry.GeregistreerdeMisdrijven : 0;
+      const value = entry ? entry["GeregistreerdeMisdrijven"] : 0;
       const y = event.pageY - 28;
       tooltip.transition().duration(200).style("opacity", 0.9);
       tooltip
@@ -246,9 +242,9 @@ export async function resetMapView() {
         .attr("d", path)
         .attr("fill", function () {
           const entry = aggregatedData.find(
-            (entry) => entry.WijkenEnBuurtenRaw === d.properties.name
+            (entry) => entry["WijkenEnBuurtenRaw"] === d.properties.name
           );
-          const value = entry ? entry.GeregistreerdeMisdrijven : 0;
+          const value = entry ? entry["GeregistreerdeMisdrijven"] : 0;
           return colorScale(value);
         })
         .attr("stroke", "#000000")
