@@ -1,3 +1,6 @@
+import { data, focusArea } from "./index.js";
+import { eventEmitter } from "./event-emitter.js";
+
 function responsivefy(svg) {
   // get container + svg aspect ratio
   var container = d3.select(svg.node().parentNode),
@@ -26,102 +29,120 @@ function responsivefy(svg) {
   }
 }
 
-function createAreaChart(data) {
-  const margin = { top: 20, right: 20, bottom: 50, left: 50 };
+function frequentieMisdaden(data) {
+  const margin = { top: 30, right: 20, bottom: 50, left: 20 };
   const width = 600 - margin.left - margin.right;
   const height = 300 - margin.top - margin.bottom;
 
-  // SVG element
   const svg = d3
-    .select("#square-area-chart")
+    .select("#frequentieMisdaden")
     .append("svg")
     .attr("viewBox", `0 0 600 300`)
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`)
-    .call(responsivefy);
+    .style("font", "40px times")
+    .call(responsivefy)
+    .attr("id", "frequentieMisdaden-svg");
 
-  // title
   svg
     .append("text")
     .attr("x", width / 2)
-    .attr("y", -10)
+    .attr("y", -15)
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
     .style("font-weight", "bold")
-    .attr("fill", "black")
-    .text("Meest voorkomende misdaden");
+    .text("A breakdown of the most common crimes in " + focusArea);
 
-  const root = d3.hierarchy({ children: data }).sum((d) => d.aantal);
-  const treemap = d3.treemap().size([width, height]).padding(1).round(true);
+  const root = d3.hierarchy({ children: data }).sum((d) => d.Total);
+  console.log(root)
+
+  // Create a treemap layout
+  const treemap = d3.treemap().size([width, height]);
+
+  // Apply the treemap layout to the data
   treemap(root);
 
-  // Create treemap cells
+  // Create a group for each leaf node
   const cells = svg
     .selectAll("g")
     .data(root.leaves())
     .enter()
     .append("g")
+    .style("font-size", "12px")
     .attr("transform", (d) => `translate(${d.x0},${d.y0})`);
 
+  // Create rectangles for each leaf node
+cells
+  .append("rect")
+  .attr("width", 0) // Initialize width to 0
+  .attr("height", (d) => d.y1 - d.y0)
+  .attr("fill", "black")
+  .attr("stroke", "white") // Add white border
+  .attr("stroke-width", 2) // Adjust border width as needed
+  .transition() // Apply a transition
+  .duration(1000) // Set the duration of the animation (in milliseconds)
+  .attr("width", (d) => d.x1 - d.x0); // Update width during the transition
 
   cells
-    .append("rect")
-    .attr("width", 0)
-    .attr("height", 0)
-    .transition()
-    .duration(1500) // Duration of the rectangle growth effect
+  .on("mouseover", function (d) {
+    // Change color on hover
+    d3.select(this).select("rect").transition().duration(150).attr("fill", "orange");
+  })
+  .on("mouseout", function () {
+    // Reset color on mouseout
+    d3.select(this).select("rect").transition().duration(150).attr("fill", "black");
+  });
+
+  const foreignObjects = cells
+    .append("foreignObject")
     .attr("width", (d) => d.x1 - d.x0)
-    .attr("height", (d) => d.y1 - d.y0)
-    .attr("fill", "black");
+    .attr("height", (d) => d.y1 - d.y0);
 
-  cells
-    .append("text")
-    .attr("x", 5)
-    .attr("y", 15)
-    .attr("fill", "white")
-    .text((d) => d.data.misdrijf)
-    .on("mousemove", function (event, d) {
-        const cell = d3.select(this);
-        const tooltip = d3.select("#tooltip");
-  
-        // Outline the hovered cell
-        cell.transition().duration(150).attr("stroke", "white").attr("stroke-width", 5);
-  
-        // Fancy animation for the tooltip
-        tooltip.transition().duration(150).style("opacity", 0.9);
-  
-        // Tooltip content
-        const tooltipContent = `Hoeveelheid ${d.data.misdrijf}: \n${d.data.aantal}`;
-  
-        // Position the tooltip
-        tooltip
-          .html(tooltipContent)
-          .style("left", event.pageX + "px")
-          .style("top", event.pageY - 28 + "px");
-      })
-      .on("mouseout", function () {
-        const cell = d3.select(this);
-        const tooltip = d3.select("#tooltip");
-  
-        // Remove outline from the cell
-        cell.transition().duration(200).attr("stroke", "none");
-  
-        // Fade out the tooltip
-        tooltip.transition().duration(500).style("opacity", 0);
-      });
+  // Add a div inside foreignObject to contain the text
+  foreignObjects
+    .append("xhtml:div")
+    .style("width", "100%")
+    .style("height", "100%")
+    .style("display", "flex")
+    .style("align-items", "center")
+    .style("justify-content", "center")
+    .html(
+      (d) =>
+        `<div style="color: white; margin-left: 10px; margin-right: 10px;">${d.data.SoortMisdrijfRaw}: ${d.data.Total}</div>`
+    );
 }
 
-const data2 = [
-  { misdrijf: "Diefstal", aantal: 20 },
-  { misdrijf: "Inbraak", aantal: 30 },
-  { misdrijf: "Vandalisme", aantal: 15 },
-  { misdrijf: "Fraude", aantal: 25 },
-  { misdrijf: "Geweld", aantal: 18 },
-  { misdrijf: "Drugsbezit", aantal: 12 },
-  { misdrijf: "Verkeersovertreding", aantal: 28 },
-  { misdrijf: "Stalking", aantal: 22 },
-  { misdrijf: "Cybercriminaliteit", aantal: 17 },
-  { misdrijf: "Moord", aantal: 35 },
-];
+function calculateCrimesByType(data) {
+  const result = [];
+  const groupedByCrime = {};
+  for (const key in data) {
+    const crimeType = data[key].SoortMisdrijfRaw;
+    console.log(crimeType)
+    const totalCrimes = parseFloat(data[key].GeregistreerdeMisdrijven);
+    if (!groupedByCrime[crimeType]) {
+      groupedByCrime[crimeType] = 0;
+    }
+    groupedByCrime[crimeType] += totalCrimes;
+  }
+  for (const crimeType in groupedByCrime) {
+    result.push({
+      SoortMisdrijfRaw: crimeType,
+      Total: groupedByCrime[crimeType],
+    });
+  }
 
-createAreaChart(data2);
+  return result;
+}
+
+function removePreviousGraph() {
+  // Select the container and remove its content
+  d3.select("#frequentieMisdaden-svg").node().parentNode.remove();
+}
+
+frequentieMisdaden(calculateCrimesByType(data));
+
+// Every time there's an update, remove the previous graph and load the page
+eventEmitter.on("update", () => {
+  removePreviousGraph();
+  frequentieMisdaden(calculateCrimesByType(data));
+});
