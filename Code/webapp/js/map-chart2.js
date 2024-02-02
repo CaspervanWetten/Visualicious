@@ -1,10 +1,10 @@
 import {
-  focusArea,
-  setFocusArea,
-  hoverArea,
-  setHoverArea,
-  setMapSize,
-  mapData,
+    focusArea,
+    setFocusArea,
+    hoverArea,
+    setHoverArea,
+    setMapSize,
+    mapData, data,
 } from "./index.js";
 import { eventEmitter } from "./event-emitter.js";
 
@@ -16,18 +16,21 @@ var svg = d3
 .append("svg")
 .attr("width", "100%")
 .attr("height", "100%");
+
 var projection = d3
 .geoMercator()
 .center([5.05, 53.0])
 .scale(8250)
 .translate([width / 2, height / 2]);
 var path = d3.geoPath().projection(projection);
+
 var municipalitiesGroup = svg.append("g");
 var municipalitiesDataCache = null;
 svg.on("mousemove", function (event) {
     const [x, y] = d3.pointer(event, svg.node());
     tooltip.style("left", x - 100 + "px").style("top", y - 20 + "px");
 });
+
 var zoom = d3
 .zoom()
 .scaleExtent([1, 8])
@@ -88,10 +91,10 @@ var municipalityData = [
     MisdaadNaamRaw: "Diefstal/inbraak bedrijven enz.",
   },
 ];
+
 const sleep = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
 await sleep(500)
 console.log(typeof mapData)
-loadDataAndRenderMap(municipalityData)
 
 function findMostFrequentCrime(data) {
     const result = {};
@@ -135,8 +138,8 @@ async function loadDataAndRenderMap(municipalityData) {
         "Diefstal/inbraak bedrijven enz.": "../../Data/icons/Icon-Bedrijf.png",
         "Winkeldiefstal": "../../Data/icons/Icon-Winkel.png"
       }
-      
-    const mostFrequentCrimes = findMostFrequentCrime(municipalityData);
+
+      const mostFrequentCrimes = findMostFrequentCrime(municipalityData);
   const aggregatedData = Array.from(d3.rollup(municipalityData,(v) => ({GemeenteRaw: v[0].GemeenteRaw,GeregistreerdeMisdrijvenRaw: d3.sum(v,(d) => d.GeregistreerdeMisdrijvenRaw),}),(d) => d.GemeenteRaw).values()
   );
   const [minValue, maxValue] = d3.extent(
@@ -230,8 +233,13 @@ async function loadDataAndRenderMap(municipalityData) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  await loadDataAndRenderMap(); // Load and render the map
+// document.addEventListener("DOMContentLoaded", async () => {
+//   await loadDataAndRenderMap(); // Load and render the map
+// });
+
+eventEmitter.on("map data updated", async () => {
+    // @ CASPER HIER MOET JE DUS DAN DE VAR mapData inknallen
+    await loadDataAndRenderMap(mapData);
 });
 
 export async function resetMapView() {

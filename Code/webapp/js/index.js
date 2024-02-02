@@ -58,7 +58,7 @@ export function setData(newData, newRegionData) {
   regionData = newRegionData
   console.log("New data loaded");
   console.log(data);
-  eventEmitter.emit('updated');
+  eventEmitter.emit('data updated');
 }
 
 export var mapData = {}; // Change this based on your logic
@@ -66,7 +66,7 @@ export function setMapData(newData) {
   mapData = newData;
   console.log("New map data loaded");
   console.log(mapData);
-  eventEmitter.emit('mapupdated');
+  eventEmitter.emit('map data updated');
 }
 
 // Set the crime types
