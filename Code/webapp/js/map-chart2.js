@@ -109,7 +109,6 @@ export async function resetMapView() {
         .duration(750)
         .call(zoom.transform, d3.zoomIdentity);
     setMapSize(true);
-    setFocusArea("NL");
 
     if (!municipalitiesDataCache) {
         console.error("No municipalities data available for reset.");
@@ -126,7 +125,6 @@ export async function resetMapView() {
         .style("cursor", "pointer");
 }
 
-d3.select("#resetButton").on("click", resetMapView);
 d3.select("#sizeToggleButton").on("click", makeMapBiggerIfNeeded);
 
 function makeMapBiggerIfNeeded() {

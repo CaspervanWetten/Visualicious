@@ -1,7 +1,20 @@
 import { fetchDataAndMapData } from './data-fetch.js';
 import { eventEmitter } from './event-emitter.js';
+import { resetMapView } from './map-chart2.js';
 
-// import { generateCheckboxes, updateCheckboxStates } from './type-crime.js';
+function resetFilters() {
+  resetMapView();
+  focusArea = "Nederland";
+  crimeCodeList = ['0.0.0'];
+  startDate = "2012MM01";
+  startDateText = "January 2012";
+  endDate = "2023MM12";
+  endDateText = "December 2023";
+
+  update();
+}
+
+d3.select("#resetButton").on("click", resetFilters);
 
 const crimeDictionary = {
   "0.0.0": "Totaal misdrijven",
