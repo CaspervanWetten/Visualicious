@@ -278,7 +278,7 @@ function removePreviousGraph() {
 // frequentieMisdaden(calculateCrimesByType(data));
 
 // Every time there's an update, remove the previous graph and load the page
-eventEmitter.on("updated", () => {
+eventEmitter.on("data updated", () => {
   removePreviousGraph();
   frequentieMisdaden(calculateCrimesByType(data));
 });
