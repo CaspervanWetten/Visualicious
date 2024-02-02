@@ -49,7 +49,6 @@ function findMostFrequentCrime(data) {
       } catch (error) {
       }
   });
-console.log(result);
   return result;
 }
 
@@ -81,12 +80,14 @@ async function drawAndLoadMap(municipalityData, svg = svg, zoom = zoom, municipa
     
 
     const mostFrequentCrimes = findMostFrequentCrime(municipalityData);
-    const aggregatedData = Array.from(d3.rollup(municipalityData,(v) => ({GemeenteRaw: v[0].GemeenteRaw,GeregistreerdeMisdrijvenRaw: d3.sum(v,(d) => d.GeregistreerdeMisdrijvenRaw),}),(d) => d.GemeenteRaw).values()
+    const aggregatedData = Array.from(d3.rollup(mapData,(v) => ({WijkenEnBuurtenRaw: v[0].WijkenEnBuurtenRaw,GeregistreerdeMisdrijven: d3.sum(v,(d) => d.GeregistreerdeMisdrijven),}),(d) => d.WijkenEnBuurtenRaw).values()
     );
+
     const [minValue, maxValue] = d3.extent(
       aggregatedData,
-      (entry) => entry.GeregistreerdeMisdrijvenRaw
+      (entry) => entry.GeregistreerdeMisdrijven
     );
+
     const colorScale = d3
     .scaleLinear()
     .domain([minValue, maxValue])
