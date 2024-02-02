@@ -8,6 +8,21 @@ import {
 } from "./index.js";
 import { eventEmitter } from "./event-emitter.js";
 
+const zoom = d3
+.zoom()
+.scaleExtent([1, 8])
+.on("zoom", function (event) {
+    municipalitiesGroup.attr("transform", event.transform);
+});
+
+
+const svg = d3.select("#map-chart-container")
+        .append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%");
+    svg.call(zoom).on("dblclick.zoom", null);  
+const municipalitiesGroup = svg.append("g");
+
 
 function findMostFrequentCrime(data) {
   const result = {};
@@ -44,7 +59,7 @@ console.log(result);
 
 
 
-async function drawAndLoadMap(municipalityData) {
+async function drawAndLoadMap(municipalityData, svg = svg, zoom = zoom, municipalitiesGroup = municipalitiesGroup) {
   console.log(municipalityData)
     const width = 800;
     const height = 600;
@@ -76,20 +91,8 @@ async function drawAndLoadMap(municipalityData) {
     .scaleLinear()
     .domain([minValue, maxValue])
     .range(d3.schemeBlues[3]);
-
-    const zoom = d3
-    .zoom()
-    .scaleExtent([1, 8])
-    .on("zoom", function (event) {
-        municipalitiesGroup.attr("transform", event.transform);
-    });
-
     // Create an SVG container
-    const svg = d3.select("#map-chart-container")
-        .append("svg")
-        .attr("width", "100%")
-        .attr("height", "100%");
-    svg.call(zoom).on("dblclick.zoom", null);  
+    
 
     // Create a projection
     const projection = d3.geoMercator()
@@ -104,7 +107,6 @@ async function drawAndLoadMap(municipalityData) {
 
     // Create a path generator
     const path = d3.geoPath().projection(projection);
-    const municipalitiesGroup = svg.append("g");
     // Load GeoJSON data
     try {
         const municipalitiesDataCache = await d3.json("../../Data/newer_municipalities.geojson");
@@ -190,7 +192,7 @@ async function drawAndLoadMap(municipalityData) {
 
 // Call the function to draw and load the map
 eventEmitter.on("map data updated", () => {
-  drawAndLoadMap(mapData);
+  drawAndLoadMap(mapData, svg, zoom, municipalitiesGroup);
 })
 
 
