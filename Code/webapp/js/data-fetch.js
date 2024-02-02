@@ -234,7 +234,7 @@ async function fetchTSVData(url) {
 
     // Construct the tsvUrl using the trimmedRegionKey and other provided parameters
     const tsvUrl = `https://visualicious.bjornkoemans.nl/data.php?area=${trimmedRegionKey}&start=${startDate}&end=${endDate}&crime=[${crimeRange}]`;
-    console.log(tsvUrl);
+    // console.log(tsvUrl);
 
     // Delay for 1000ms (1 second)
     await new Promise(resolve => setTimeout(resolve, wait));
@@ -262,7 +262,7 @@ export async function fetchMapDataAndProcess(startDate, endDate, crimeCodeList, 
 
     // Construct the tsvUrl using the trimmedRegionKey and other provided parameters
     const tsvUrl = `https://visualicious.bjornkoemans.nl/mapdata.php?start=${startDate}&end=${endDate}&crime=[${crimeRange}]`;
-    console.log(tsvUrl);
+    // console.log(tsvUrl);
 
     // Delay for 1000ms (1 second)
     await new Promise(resolve => setTimeout(resolve, wait));
