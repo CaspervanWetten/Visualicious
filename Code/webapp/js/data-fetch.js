@@ -150,111 +150,161 @@ const timeDict = {
     "December 2023": "2023MM12",
 }
 
-export function firstLoad(wait = 200) {
-    eventEmitter.emit('firstLoad');
-}
+async function fetchTSVData(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const tsvData = await response.text();
+      
+      // Split the TSV data into lines
+      const lines = tsvData.split('\n');
+      
+      // Initialize an empty array to store the objects
+      const data = [];
+      
+      // Extract column names from the first line (assuming the first line contains headers)
+      const headers = lines[0].split('\t');
+      
+      // Iterate over the remaining lines
+      for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split('\t');
+        const obj = {};
+        
+        // Create an object for each line, using column names as keys
+        for (let j = 0; j < headers.length; j++) {
+          obj[headers[j]] = values[j];
+        }
+        
+        data.push(obj);
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Error fetching and parsing TSV data:', error);
+      return null;
+    }
+  }
+  
+  // Example usage:
+  const tsvUrl = 'https://visualicious.bjornkoemans.nl/data.php?area=NL00&date=["2012MM01","2012MM03"]&crime=0.0.0';
+  fetchTSVData(tsvUrl).then(data => {
+    if (data) {
+      console.log('TSV data:', data);
+    } else {
+      console.log('Failed to fetch TSV data.');
+    }
+  });
 
-function fetchTSVDataOnLoad(url) {
-    setLoading(true);
-    fetch(url)
-        .then(response => response.text())
-        .then(tsvData => {
-            globalTSVData = tsvData;
-            console.log("Dataset loaded");
-            setLoading(false);
-            firstLoad();
+  
 
-            // Set the initial data which is NL00, 0.0.0, 2012MM01, 2023MM12
-            // @bjornkoemans Klopt het dat dit begint bij 2018-2020?
-            filterTSVData("2018MM01", "2020MM06", 'NL00', ['0.0.0']);
+// export function firstLoad(wait = 200) {
+//     eventEmitter.emit('firstLoad');
+// }
+
+// function fetchTSVDataOnLoad(url) {
+//     setLoading(true);
+//     fetch(url)
+//         .then(response => response.text())
+//         .then(tsvData => {
+//             globalTSVData = tsvData;
+//             console.log("Dataset loaded");
+//             setLoading(false);
+//             firstLoad();
+
+//             // Set the initial data which is NL00, 0.0.0, 2012MM01, 2023MM12
+//             // @bjornkoemans Klopt het dat dit begint bij 2018-2020?
+//             filterTSVData("2018MM01", "2020MM06", 'NL00', ['0.0.0']);
             
-        })
-        .catch(error => {
-            console.error('Error fetching TSV:', error);
-            setLoading(false);
-        });
-}
+//         })
+//         .catch(error => {
+//             console.error('Error fetching TSV:', error);
+//             setLoading(false);
+//         });
+// }
 
-function createDictionaryFromTSV(tsvData, dateCodeList, regionCode, crimeCodeList) {
-    // Split the TSV data into lines
-    const lines = tsvData.split('\n');
+// function createDictionaryFromTSV(tsvData, dateCodeList, regionCode, crimeCodeList) {
+//     // Split the TSV data into lines
+//     const lines = tsvData.split('\n');
 
-    // Extract headers
-    const headers = lines[0].split('\t');
+//     // Extract headers
+//     const headers = lines[0].split('\t');
 
-    // Find the index of the required columns
-    const periodenIndex = headers.indexOf('Perioden');
-    const wijkenEnBuurtenIndex = headers.indexOf('WijkenEnBuurten');
-    const soortMisdrijfIndex = headers.indexOf('SoortMisdrijf');
+//     // Find the index of the required columns
+//     const periodenIndex = headers.indexOf('Perioden');
+//     const wijkenEnBuurtenIndex = headers.indexOf('WijkenEnBuurten');
+//     const soortMisdrijfIndex = headers.indexOf('SoortMisdrijf');
 
-    // Initialize the dictionary
-    const dictionary = {};
+//     // Initialize the dictionary
+//     const dictionary = {};
 
-    // Process each line
-    lines.slice(1).forEach(line => {
-        const columns = line.split('\t');
+//     // Process each line
+//     lines.slice(1).forEach(line => {
+//         const columns = line.split('\t');
 
-        // Apply filters
-        if (dateCodeList.includes(columns[periodenIndex]) &&
-            columns[wijkenEnBuurtenIndex] === regionCode &&
-            crimeCodeList.includes(columns[soortMisdrijfIndex])) {
+//         // Apply filters
+//         if (dateCodeList.includes(columns[periodenIndex]) &&
+//             columns[wijkenEnBuurtenIndex] === regionCode &&
+//             crimeCodeList.includes(columns[soortMisdrijfIndex])) {
 
-            // Add to the dictionary
-            dictionary[columns[0]] = {
-                SoortMisdrijf: columns[soortMisdrijfIndex],
-                WijkenEnBuurten: columns[wijkenEnBuurtenIndex],
-                Perioden: columns[periodenIndex],
-                GeregistreerdeMisdrijven: columns[4]
-            };
-        }
-    });
+//             // Add to the dictionary
+//             dictionary[columns[0]] = {
+//                 SoortMisdrijf: columns[soortMisdrijfIndex],
+//                 WijkenEnBuurten: columns[wijkenEnBuurtenIndex],
+//                 Perioden: columns[periodenIndex],
+//                 GeregistreerdeMisdrijven: columns[4]
+//             };
+//         }
+//     });
 
-    return dictionary;
-}
-
-
-export async function filterTSVData(startDate, endDate, regionCode, crimeCodeList, wait) {
-    if (!globalTSVData) {
-        console.error('TSV data not loaded yet');
-        return;
-    }
-
-    setLoading(true);
-
-    // Defer the processing to allow the UI update
-    setTimeout(() => {
-        const data = createDictionaryFromTSV(globalTSVData, getDateCodeList(startDate, endDate), regionCode, crimeCodeList);
-        console.log(data)
-        setData(data);
-        setLoading(false);
-    }, wait);
-}
+//     return dictionary;
+// }
 
 
-export function getDateCodeList(startDate, endDate) {
-    const dateCodeList = [];
-    let addToList = false;
+// export async function filterTSVData(startDate, endDate, regionCode, crimeCodeList, wait) {
+//     if (!globalTSVData) {
+//         console.error('TSV data not loaded yet');
+//         return;
+//     }
 
-    for (const key in timeDict) {
-        if (timeDict[key] === startDate) {
-            addToList = true;
-        }
-        if (addToList) {
-            dateCodeList.push(timeDict[key]);
-        }
-        if (timeDict[key] === endDate) {
-            break;
-        }
-    }
+//     setLoading(true);
 
-    return dateCodeList;
-}
+//     // Defer the processing to allow the UI update
+//     setTimeout(() => {
+//         const data = createDictionaryFromTSV(globalTSVData, getDateCodeList(startDate, endDate), regionCode, crimeCodeList);
+//         console.log(data)
+//         setData(data);
+//         setLoading(false);
+//     }, wait);
+// }
 
-// Example usage
-window.onload = () => {
-    const url = 'http://visualicious.bjornkoemans.nl/crimes_theft.tsv'; // Replace with the actual URL
-    const url2 = '../../../Data/crimes_theft_shortened.tsv'
-    fetchTSVDataOnLoad(url2);
-};
+
+// export function getDateCodeList(startDate, endDate) {
+//     const dateCodeList = [];
+//     let addToList = false;
+
+//     for (const key in timeDict) {
+//         if (timeDict[key] === startDate) {
+//             addToList = true;
+//         }
+//         if (addToList) {
+//             dateCodeList.push(timeDict[key]);
+//         }
+//         if (timeDict[key] === endDate) {
+//             break;
+//         }
+//     }
+
+//     return dateCodeList;
+// }
+
+// // Example usage
+// window.onload = () => {
+//     const url = 'http://visualicious.bjornkoemans.nl/crimes_theft.tsv'; // Replace with the actual URL
+//     const url2 = '../../../Data/crimes_theft_shortened.tsv'
+//     fetchTSVDataOnLoad(url2);
+// };
 
 
