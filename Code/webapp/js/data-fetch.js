@@ -209,7 +209,7 @@ async function fetchTSVData(url) {
     }
   }
   
-  export async function fetchDataAndProcess(startDate, endDate, regionCode, crimeCodeList, wait = 200) {
+export async function fetchDataAndProcess(startDate, endDate, regionCode, crimeCodeList, wait = 200) {
     // Add your code to do something before calling the function here
     setLoading(true);
 
@@ -235,6 +235,7 @@ async function fetchTSVData(url) {
 
     // Construct the tsvUrl using the trimmedRegionKey and other provided parameters
     const tsvUrl = `https://visualicious.bjornkoemans.nl/data.php?area=${trimmedRegionKey}&start=${startDate}&end=${endDate}&crime=[${crimeRange}]`;
+    const regionlessUrl = `https://visualicious.bjornkoemans.nl/data.php?start=${startDate}&end=${endDate}&crime=[${crimeRange}]`;
     console.log(tsvUrl);
 
     // Delay for 1000ms (1 second)
@@ -242,10 +243,11 @@ async function fetchTSVData(url) {
 
     // Call the fetchTSVData function
     const responseData = await fetchTSVData(tsvUrl);
+    const responseRegionData = await fetchTSVData(regionlessUrl);
 
     // Add your code to do something after the function finishes here
     if (responseData) {
-        setData(responseData);
+        setData(responseData, responseRegionData);
         setLoading(false);
     } else {
         console.log('Failed to fetch TSV data.');

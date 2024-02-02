@@ -40,8 +40,10 @@ export function setLoading(bool) {
 
 // Set the data dictionary
 export var data = {}; // Change this based on your logic
-export function setData(newData) {
+export var regionData = {};
+export function setData(newData, newRegionData) {
   data = newData;
+  regionData = newRegionData
   console.log("New data loaded");
   console.log(data);
   eventEmitter.emit('updated');
