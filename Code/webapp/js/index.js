@@ -44,6 +44,7 @@ export function setData(newData) {
   data = newData;
   console.log("New data loaded");
   console.log(data);
+  eventEmitter.emit('updated');
 }
 
 // Set the crime types
