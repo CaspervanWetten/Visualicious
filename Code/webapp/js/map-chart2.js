@@ -263,11 +263,7 @@ export async function resetMapView() {
         })
         .attr("stroke", "#000000")
         .attr("stroke-width", 0.3)
-        .style("cursor", "pointer")
-        .append("title")
-        .text((d) => d.properties.name);
-    });
-  svg.selectAll("image").remove();
+        .style("cursor", "pointer");
 }
 
 d3.select("#resetButton").on("click", resetMapView);
@@ -280,3 +276,4 @@ function makeMapBiggerIfNeeded() {
 }
 
 export { municipalitiesGroup };
+
