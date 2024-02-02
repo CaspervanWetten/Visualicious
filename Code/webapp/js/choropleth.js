@@ -1,11 +1,27 @@
 import { eventEmitter } from './event-emitter.js';
 import { crimeCodeList } from './index.js';
+import { municipalitiesGroup } from './map-chart2.js';
+
+fetch('http://visualicious.bjornkoemans.nl/crimes_theft.tsv')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text(); // or response.json() if it's JSON data
+  })
+  .then(data => {
+    // Process your data here
+  })
+  .catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
+  });
+
 
 // Assume you have a global variable to store the current type of crime selected by the user
 var currentCrimeType = "Bicycle Theft"; // Example crime type
 
 // Load the processed crime data
-d3.json("http://visualicious.bjornkoemans.nl/crimes_theft.tsv").then(function(crimeData) {
+d3.tsv("http://visualicious.bjornkoemans.nl/crimes_theft.tsv").then(function(crimeData) {
     // Example structure of crimeData: {'Amsterdam': {'Bicycle Theft': 120, 'Burglary': 50, ...}, ...}
 
     // Define a color scale for your crime data
@@ -50,8 +66,8 @@ d3.json("http://visualicious.bjornkoemans.nl/crimes_theft.tsv").then(function(cr
 // Assume crimeData is your fetched or preloaded crime data structured by municipality and crime type
 let crimeData = {}; // Placeholder for actual crime data loading logic
 
-// Function to update the choropleth map based on the selected crime types
-export function updateChoroplethForSelectedCrimes() {
+// Adjust the function to accept municipalities data as well
+export function updateChoroplethForSelectedCrimes(municipalitiesGroup, municipalities) {
     const selectedCrimeData = {};
 
     // Filter the crime data based on selected crime codes in crimeCodeList
@@ -60,14 +76,17 @@ export function updateChoroplethForSelectedCrimes() {
     }
 
     // Recalculate color scale based on the filtered data...
-    // (This part depends on how your crime data is structured and how you want to aggregate it)
+    // Assume you do the necessary aggregation here
 
-    // Update the map's municipality colors based on the new data...
-    // (This would involve selecting the municipality paths and setting their fill color based on the updated data)
+    // Ensure municipalities data is used to update the map's municipality colors
+    municipalitiesGroup.selectAll("path")
+        .data(municipalities.features) // Use municipalities data passed as an argument
+        .join("path")
+        .attr("fill", d => {
+            const crimeStats = selectedCrimeData[d.properties.WijkenEnBuurtenRaw];
+            return crimeStats ? colorScale(crimeStats.value) : "#ccc"; // Example, adjust according to your data structure
+        });
 }
 
 // Listen for updates to the crime type selection and update the choropleth accordingly
 eventEmitter.on('update', updateChoroplethForSelectedCrimes);
-
-// Initial map update for the default selection
-updateChoroplethForSelectedCrimes();
