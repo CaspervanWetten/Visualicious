@@ -215,9 +215,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 export async function resetMapView() {
-  svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
-  setMapSize(true);
-  setFocusArea("NL");
+    svg.transition()
+        .duration(750)
+        .call(zoom.transform, d3.zoomIdentity);
+    setMapSize(true);
+    setFocusArea("NL");
 
   if (!municipalitiesDataCache) {
     console.error("No municipalities data available for reset.");
@@ -263,10 +265,13 @@ export async function resetMapView() {
         })
         .attr("stroke", "#000000")
         .attr("stroke-width", 0.3)
-        .style("cursor", "pointer");
+        .style("cursor", "pointer")
+        .append("title")
+        .text((d) => d.properties.name);
+    });
+  svg.selectAll("image").remove();
 }
 
-d3.select("#resetButton").on("click", resetMapView);
 d3.select("#sizeToggleButton").on("click", makeMapBiggerIfNeeded);
 
 function makeMapBiggerIfNeeded() {
@@ -276,4 +281,3 @@ function makeMapBiggerIfNeeded() {
 }
 
 export { municipalitiesGroup };
-
