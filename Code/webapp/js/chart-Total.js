@@ -45,16 +45,13 @@ function totaalMisdaden(array) {
     .call(responsivefy)
     .attr("id", "totaalMisdaden-svg");
 
-
-  let text
+  let text;
   if (changed) {
     text =
-      "Sum of all selected crimes, normalized per year, over the selected time period " +
-      focusArea;
+      "Sum of all selected crimes, normalized per year,";
   } else {
     text =
-      "Sum of all selected crimes over the selected time period in " +
-      focusArea;
+      "Sum of all selected crimes";
   }
 
   svg
@@ -65,6 +62,15 @@ function totaalMisdaden(array) {
     .style("font-size", "16px")
     .style("font-weight", "bold")
     .text(text);
+
+    svg
+    .append("text")
+    .attr("x", width / 2)
+    .attr("y", 5)
+    .attr("text-anchor", "middle")
+    .style("font-size", "16px")
+    .style("font-weight", "bold")
+    .text(" over the selected time period " + focusArea);
 
   const periods = Object.keys(data); // Extracting the periods from the keys
   const x = d3.scaleBand().domain(periods).range([0, width]).padding(0.1);
@@ -108,7 +114,19 @@ function totaalMisdaden(array) {
     .attr("x", (d) => x(d[0]))
     .attr("y", height)
     .attr("width", x.bandwidth())
-    .attr("fill", "black")
+    .attr("fill", function (d, i) {
+      // Check if current value is lower than the previous value
+      if(i===0){return "green"}
+      if (
+        i > 0 &&
+        d[1].GeregistreerdeMisdrijven <
+          data[Object.keys(data)[i - 1]].GeregistreerdeMisdrijven
+      ) {
+        return "green"; // Turn it green
+      } else {
+        return "red"; // Fill it red
+      }
+    })
     .attr("height", 0)
     .transition()
     .duration(1000)
@@ -156,7 +174,21 @@ function totaalMisdaden(array) {
         })
         .on("mouseout", function () {
           const bar = d3.select(this);
-          bar.transition().duration(200).attr("fill", "black");
+          bar
+            .transition()
+            .duration(200)
+            .attr("fill", function (d, i) {
+              const periode = parseInt(d[1].Periode);
+              const current = d[1].GeregistreerdeMisdrijven;
+              if (periode === 2012) {return "green"}
+              const prev = data[periode - 1].GeregistreerdeMisdrijven;
+              if (current < prev
+              ) {
+                return "green"; // Turn it green
+              } else {
+                return "red"; // Fill it red
+              }
+            });
 
           const tooltip = d3.select("#tooltip");
           tooltip.transition().duration(500).style("opacity", 0);

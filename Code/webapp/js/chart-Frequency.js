@@ -1,4 +1,10 @@
-import { data, focusArea, startDateText, endDateText, crimeCodeList, regionData } from "./index.js";
+import {
+  data,
+  focusArea,
+  startDateText,
+  endDateText,
+  crimeCodeList,
+} from "./index.js";
 import { eventEmitter } from "./event-emitter.js";
 
 function responsivefy(svg) {
@@ -30,7 +36,6 @@ function responsivefy(svg) {
 }
 
 function frequentieMisdaden(data) {
-  console.log(regionData)
   const margin = { top: 30, right: 20, bottom: 50, left: 20 };
   const width = 600 - margin.left - margin.right;
   const height = 300 - margin.top - margin.bottom;
@@ -45,28 +50,25 @@ function frequentieMisdaden(data) {
     .call(responsivefy)
     .attr("id", "frequentieMisdaden-svg");
 
-  if (crimeCodeList.includes("0.0.0")){
+  if (crimeCodeList.includes("0.0.0")) {
     svg
-    .append("text")
-    .attr("x", width / 2)
-    .attr("y", -19)
-    .attr("text-anchor", "middle")
-    .style("font-size", "16px")
-    .style("font-weight", "bold")
-    .text("The relative frequency of the 6 most common crimes between ");
-
+      .append("text")
+      .attr("x", width / 2)
+      .attr("y", -19)
+      .attr("text-anchor", "middle")
+      .style("font-size", "16px")
+      .style("font-weight", "bold")
+      .text("The relative frequency of the 6 most common crimes between ");
   } else {
     svg
-    .append("text")
-    .attr("x", width / 2)
-    .attr("y", -19)
-    .attr("text-anchor", "middle")
-    .style("font-size", "16px")
-    .style("font-weight", "bold")
-    .text("The relative frequency of the selected crimes between ");
-
+      .append("text")
+      .attr("x", width / 2)
+      .attr("y", -19)
+      .attr("text-anchor", "middle")
+      .style("font-size", "16px")
+      .style("font-weight", "bold")
+      .text("The relative frequency of the selected crimes between ");
   }
-
 
   svg
     .append("text")
@@ -99,7 +101,16 @@ function frequentieMisdaden(data) {
     .append("rect")
     .attr("width", 0) // Initialize width to 0
     .attr("height", (d) => d.y1 - d.y0)
-    .attr("fill", "black")
+    .attr("fill", function (d) {
+      const first = d.data.SoortMisdrijfRaw.slice(0, 1);
+      if (first === "1" || first === 1) {
+        return "fill", "green";
+      } else if (first === "2" || first === 2) {
+        return "fill", "red";
+      } else if (first === "3" || first === 3) {
+        return "fill", "blue"
+      } else {return "fill", "black"}
+    })
     .attr("stroke", "white") // Add white border
     .attr("stroke-width", 2) // Adjust border width as needed
     .transition() // Apply a transition
@@ -116,7 +127,9 @@ function frequentieMisdaden(data) {
         .attr("fill", "orange");
       const tooltip = d3.select("#tooltip");
       tooltip.transition().duration(150).style("opacity", 0.9);
-      const tooltipContent = `Aantal: ${d.srcElement.__data__.data.Total}`;
+      const name = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(5);
+      const total = d.srcElement.__data__.data.Total;
+      const tooltipContent = "Aantal " + name + ": " + total;
       let tooltipX = d.pageX + 10;
       const tooltipY = d.pageY - 28;
       const tooltipWidth = tooltip.node().offsetWidth;
@@ -132,7 +145,9 @@ function frequentieMisdaden(data) {
     .on("mousemove", function (d) {
       const tooltip = d3.select("#tooltip");
       tooltip.transition().duration(150).style("opacity", 0.9);
-      const tooltipContent = `Aantal ${d.srcElement.__data__.data.SoortMisdrijfRaw}: ${d.srcElement.__data__.data.Total}`;
+      const name = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(5);
+      const total = d.srcElement.__data__.data.Total;
+      const tooltipContent = "Aantal " + name + ": " + total;
       let tooltipX = d.pageX + 10;
       const tooltipY = d.pageY - 28;
       const tooltipWidth = tooltip.node().offsetWidth;
@@ -145,13 +160,23 @@ function frequentieMisdaden(data) {
         .style("left", tooltipX + "px")
         .style("top", tooltipY + "px");
     })
-    .on("mouseout", function () {
+    .on("mouseout", function (d) {
+      const first = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(0,1);
       // Reset color on mouseout
       d3.select(this)
         .select("rect")
         .transition()
         .duration(150)
-        .attr("fill", "black");
+        .attr("fill", function (d) {
+          const first = d.data.SoortMisdrijfRaw.slice(0, 1);
+          if (first === "1" || first === 1) {
+            return "fill", "green";
+          } else if (first === "2" || first === 2) {
+            return "fill", "red";
+          } else if (first === "3" || first === 3) {
+            return "fill", "blue"
+          } else {return "fill", "black"}
+        });
 
       const tooltip = d3.select("#tooltip");
       tooltip.transition().duration(500).style("opacity", 0);
@@ -172,15 +197,18 @@ function frequentieMisdaden(data) {
     .style("justify-content", "center")
     .html(
       (d) =>
-        `<div style="color: white; margin-left: 10px; margin-right: 10px;">${d.data.SoortMisdrijfRaw}</div>`
+        `<div style="color: white; margin-left: 10px; margin-right: 10px;">${d.data.SoortMisdrijfRaw.slice(
+          5
+        )}</div>`
     );
 
-    foreignObjects
+  foreignObjects
     .on("mouseover", function (d) {
-      console.log(d.srcElement.__data__)
       const tooltip = d3.select("#tooltip");
       tooltip.transition().duration(150).style("opacity", 0.9);
-      const tooltipContent = `Aantal ${d.srcElement.__data__.data.SoortMisdrijfRaw}: ${d.srcElement.__data__.data.Total}`;
+      const name = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(5);
+      const total = d.srcElement.__data__.data.Total;
+      const tooltipContent = "Aantal " + name + ": " + total;
       let tooltipX = d.pageX + 10;
       const tooltipY = d.pageY - 28;
       const tooltipWidth = tooltip.node().offsetWidth;
@@ -196,7 +224,9 @@ function frequentieMisdaden(data) {
     .on("mousemove", function (d) {
       const tooltip = d3.select("#tooltip");
       tooltip.transition().duration(150).style("opacity", 0.9);
-      const tooltipContent = `Aantal ${d.srcElement.__data__.data.SoortMisdrijfRaw}: ${d.srcElement.__data__.data.Total}`;
+      const name = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(5);
+      const total = d.srcElement.__data__.data.Total;
+      const tooltipContent = "Aantal " + name + ": " + total;
       let tooltipX = d.pageX + 10;
       const tooltipY = d.pageY - 28;
       const tooltipWidth = tooltip.node().offsetWidth;
@@ -232,8 +262,8 @@ function calculateCrimesByType(data) {
       Total: groupedByCrime[crimeType],
     });
   }
-  result.sort((a,b) => b.Total - a.Total)
-  return result.slice(0,6);
+  result.sort((a, b) => b.Total - a.Total);
+  return result.slice(0, 6);
 }
 
 function removePreviousGraph() {

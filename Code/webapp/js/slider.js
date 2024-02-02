@@ -330,13 +330,11 @@ eventEmitter.on('update', () => {
       to: timeArray.slice(-1)[0]
     })
     selectedEnd.text(endDateText);
-    console.log("Updated end date to: " + endDate)
   }
   if (startDateText !== selectedStart.text()){
     slider.update({
       from: timeArray[0]
     })
     selectedStart.text(startDateText);
-    console.log("Updated start date to: " + startDate)
   }
 });
