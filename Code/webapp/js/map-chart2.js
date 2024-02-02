@@ -27,7 +27,7 @@ var projection = d3
 var path = d3.geoPath().projection(projection);
 
 const IconDictonary = {
-    "../../Data/Icon-x.png": "Totaal misdrijven",
+    "../../Data/Icon-Misdrijven.png": "Totaal misdrijven",
     "../../Data/Icon-Home.png": "Diefstal/inbraak woning",
     "../../Data/Icon-Garage.png": "Diefstal/inbraak box/garage/schuur",
     "../../Data/Icon-Voertuig1.png": "Diefstal uit/vanaf motorvoertuigen",
@@ -36,10 +36,10 @@ const IconDictonary = {
     "../../Data/Icon-Zakkenrollerij.png": "Zakkenrollerij",
     "../../Data/Icon-OV.png": "Diefstal af/uit/van ov. voertuigen",
     "../../Data/Icon-Straatroof.png": "Straatroof",
-    "../../Data/Icon-x.png": "Overval",
+    "../../Data/Icon-Overval.png": "Overval",
     "../../Data/Icon-Boot.png": "Diefstallen (water)",
-    "../../Data/Icon-x.png": "Diefstal/inbraak bedrijven enz.",
-    "../../Data/Icon-x.png": "Winkeldiefstal"
+    "../../Data/Icon-Bedrijf.png": "Diefstal/inbraak bedrijven enz.",
+    "../../Data/Icon-Winkel.png": "Winkeldiefstal"
   }
 
 // Flag to determine if a municipality was clicked
