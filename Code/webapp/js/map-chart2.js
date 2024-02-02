@@ -56,7 +56,6 @@ function findMostFrequentCrime(data) {
                 }
             }
         } catch (error) {
-            console.error("Error processing crime data", error);
         }
     });
     return result;
