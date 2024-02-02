@@ -1,4 +1,4 @@
-import { data, focusArea } from "./index.js";
+import { data, focusArea, endDateText, startDateText } from "./index.js";
 import { eventEmitter } from "./event-emitter.js";
 
 function responsivefy(svg) {
@@ -70,7 +70,7 @@ function totaalMisdaden(array) {
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
     .style("font-weight", "bold")
-    .text(" over the selected time period " + focusArea);
+    .text(" between " +startDateText + " " + " and " + endDateText +  " in " + focusArea);
 
   const periods = Object.keys(data); // Extracting the periods from the keys
   const x = d3.scaleBand().domain(periods).range([0, width]).padding(0.1);
@@ -250,8 +250,10 @@ function removePreviousGraph() {
   }
 }
 
+
+
 // Every time there's an update, remove the previous graph and load the page
-eventEmitter.on("data updated", () => {
+eventEmitter.on("update", () => {
   removePreviousGraph();
   totaalMisdaden(combineYears(data));
 });
