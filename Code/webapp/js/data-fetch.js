@@ -227,6 +227,7 @@ export async function fetchDataAndProcess(startDate, endDate, regionCode, crimeC
     // Add your code to do something after the function finishes here
     if (data) {
         console.log('TSV data:', data);
+        setData(data);
         setLoading(false);
     } else {
         console.log('Failed to fetch TSV data.');
