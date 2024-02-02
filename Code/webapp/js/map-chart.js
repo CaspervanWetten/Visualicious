@@ -1,4 +1,4 @@
-import { focusArea, setFocusArea, hoverArea, setHoverArea, setMapSize, data} from "./index.js";
+import { focusArea, setFocusArea, hoverArea, setHoverArea, setMapSize, regionData} from "./index.js";
 
 const tooltip = d3.select("#tooltip");
 
@@ -19,9 +19,40 @@ var path = d3.geoPath()
 var municipalitiesGroup = svg.append("g");
 var municipalitiesDataCache = null;
 
+
+
+function combineYears(data) {
+  const newData = {};
+  const shortKeyDict = {};
+
+  for (let key in data) {
+    let shortKey = data[key].WijkenEnBuurtenRaw;
+    for (let misdrijf in data[key].SoortMisdrijfRaw) {
+      if (!(shortKey in shortKeyDict)) {
+        shortKeyDict[shortKey] = parseFloat(data[key]["GeregistreerdeMisdrijven"]);
+      } else {
+        shortKeyDict[shortKey] += parseFloat(data[key]["GeregistreerdeMisdrijven"]);
+      }
+      console.log(shortKeyDict[shortKey] + data[key]["GeregistreerdeMisdrijven"])
+    }
+  }
+
+  for (let key in shortKeyDict) {
+    newData[key] = {
+      GeregistreerdeMisdrijven: Math.round(shortKeyDict[key]),
+      Periode: key,
+    };
+  }
+console.log(newData)
+  return newData;
+}
+
 // Placeholder for municipality data
 // This needs to be replaced or filled with actual data
-var municipalityData = {}; // Example: {"Amsterdam": 100, "Rotterdam": 200}
+var municipalityData = d3.tsv("../../Data/crime_theft.tsv")
+  combineYears(regionData)
+// Example: {"Amsterdam": 100, "Rotterdam": 200}
+
 
 // Color scale setup
 var colorScale = d3.scaleSequential()
