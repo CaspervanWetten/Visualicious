@@ -29,7 +29,8 @@ function responsivefy(svg) {
   }
 }
 
-function totaalMisdaden(data) {
+function totaalMisdaden(array) {
+  const [data, changed] = array;
   const margin = { top: 20, right: 20, bottom: 50, left: 50 };
   const width = 600 - margin.left - margin.right;
   const height = 300 - margin.top - margin.bottom;
@@ -44,17 +45,30 @@ function totaalMisdaden(data) {
     .call(responsivefy)
     .attr("id", "totaalMisdaden-svg");
 
+
+  let text
+  if (changed) {
+    text =
+      "Sum of all selected crimes, normalized per year, over the selected time period " +
+      focusArea;
+  } else {
+    text =
+      "Sum of all selected crimes over the selected time period in " +
+      focusArea;
+  }
+
   svg
     .append("text")
     .attr("x", width / 2)
-    .attr("y", 15)
+    .attr("y", -10)
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
     .style("font-weight", "bold")
-    .text("Totale hoeveelheid misdrijven in " + focusArea);
+    .text(text);
 
   const periods = Object.keys(data); // Extracting the periods from the keys
   const x = d3.scaleBand().domain(periods).range([0, width]).padding(0.1);
+
   const y = d3
     .scaleLinear()
     .domain([
@@ -64,10 +78,25 @@ function totaalMisdaden(data) {
     .nice()
     .range([height, 0]);
 
-  svg
+  const xAxis = svg
     .append("g")
     .attr("transform", `translate(0, ${height})`)
     .call(d3.axisBottom(x));
+
+  // apply alternating offsets if changed
+  if (!changed) {
+    xAxis
+      .selectAll("text")
+      .style("text-anchor", "middle")
+      .attr("dy", function (d, i) {
+        const yOffset = i % 2 === 0 ? 5 : 20;
+        return yOffset;
+      });
+    xAxis.selectAll("line").attr("y2", function (d, i) {
+      const yOffset = i % 2 === 0 ? 4 : 15;
+      return yOffset;
+    });
+  }
 
   svg.append("g").call(d3.axisLeft(y));
 
@@ -89,11 +118,12 @@ function totaalMisdaden(data) {
       d3.select(this)
         .on("mouseover", function (event, d) {
           const bar = d3.select(this);
-          const tooltip = d3.select("#tooltip");
           bar.transition().duration(150).attr("fill", "orange");
+
+          const tooltip = d3.select("#tooltip");
           tooltip.transition().duration(150).style("opacity", 0.9);
           const tooltipContent = `Totaal aantal misdaden: \n${d[1].GeregistreerdeMisdrijven}`;
-          let tooltipX = event.pageX + 10;
+          const tooltipX = event.pageX + 10;
           const tooltipY = event.pageY - 28;
           const tooltipWidth = tooltip.node().offsetWidth;
           const rightBoundary = window.innerWidth - 5;
@@ -107,8 +137,9 @@ function totaalMisdaden(data) {
         })
         .on("mousemove", function (event, d) {
           const bar = d3.select(this);
-          const tooltip = d3.select("#tooltip");
           bar.transition().duration(50).attr("fill", "orange");
+
+          const tooltip = d3.select("#tooltip");
           tooltip.transition().duration(50).style("opacity", 0.9);
           const tooltipContent = `Totaal aantal misdaden: \n${d[1].GeregistreerdeMisdrijven}`;
           let tooltipX = event.pageX + 10;
@@ -125,49 +156,56 @@ function totaalMisdaden(data) {
         })
         .on("mouseout", function () {
           const bar = d3.select(this);
-          const tooltip = d3.select("#tooltip");
           bar.transition().duration(200).attr("fill", "black");
+
+          const tooltip = d3.select("#tooltip");
           tooltip.transition().duration(500).style("opacity", 0);
         });
     });
 
   // Draw axes
-  svg.append("g").attr("transform", "translate(0,300)").call(d3.axisBottom(x));
-
   svg.append("g").call(d3.axisLeft(y));
 }
 
 function combineYears(data) {
-  console.log("dATA IN COMBINE YEARS: " + data)
+  const uniquePerioden = Array.from(new Set(data.map((item) => item.Perioden)));
   const newData = {};
-  if (Object.keys(data).length > 18) {
+  if (uniquePerioden.length > 12) {
     const shortKeyDict = {};
     const freqDict = {};
     for (let key in data) {
       let shortKey = data[key].Perioden.substring(0, 4);
-      console.log(data[key]["GeregistreerdeMisdrijven"])
-      
       if (!(shortKey in shortKeyDict)) {
-        shortKeyDict[shortKey] = parseFloat(data[key]["GeregistreerdeMisdrijven"]);
+        shortKeyDict[shortKey] = parseFloat(
+          data[key]["GeregistreerdeMisdrijven"]
+        );
       } else {
-        shortKeyDict[shortKey] += parseFloat(data[key]["GeregistreerdeMisdrijven"]);
+        shortKeyDict[shortKey] += parseFloat(
+          data[key]["GeregistreerdeMisdrijven"]
+        );
       }
+
       if (!(shortKey in freqDict)) {
         freqDict[shortKey] = 1;
       } else {
         freqDict[shortKey] += 1;
       }
-      console.log("freqDicxt "+ shortKeyDict[shortKey])
     }
     for (let key in shortKeyDict) {
       newData[key] = {
-        GeregistreerdeMisdrijven: Math.round(shortKeyDict[key] / freqDict[key]),
+        GeregistreerdeMisdrijven: Math.round(shortKeyDict[key]),
         Periode: key,
       };
     }
-    return newData;
+    return [newData, true];
   } else {
-    return data;
+    for (let key in data) {
+      newData[data[key].PeriodenRaw] = {
+        GeregistreerdeMisdrijven: data[key].GeregistreerdeMisdrijven,
+        Periode: data[key].PeriodenRaw,
+      };
+    }
+    return [newData, false];
   }
 }
 
@@ -184,5 +222,4 @@ function removePreviousGraph() {
 eventEmitter.on("updated", () => {
   removePreviousGraph();
   totaalMisdaden(combineYears(data));
-  console.log(data)
 });
