@@ -1,9 +1,6 @@
 # Visualicious: Meaningful Vizualization Group 1
 
 This is the repository for the Visualicious project, a project created for the course Meaningful Visualisation.
-
-<style>img{width:10px;height:10px;}</style>
-
 ---
 
 ## Project aims
