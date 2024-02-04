@@ -119,7 +119,6 @@ function frequentieMisdaden(data) {
 
   cells
     .on("mouseover", function (d) {
-      // Change color on hover
       d3.select(this)
         .select("rect")
         .transition()
@@ -201,48 +200,6 @@ function frequentieMisdaden(data) {
           5
         )}</div>`
     );
-
-  foreignObjects
-    .on("mouseover", function (d) {
-      const tooltip = d3.select("#tooltip");
-      tooltip.transition().duration(150).style("opacity", 0.9);
-      const name = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(5);
-      const total = d.srcElement.__data__.data.Total;
-      const tooltipContent = "Aantal " + name + ": " + total;
-      let tooltipX = d.pageX + 10;
-      const tooltipY = d.pageY - 28;
-      const tooltipWidth = tooltip.node().offsetWidth;
-      const rightBoundary = window.innerWidth - 5;
-      if (tooltipX + tooltipWidth > rightBoundary) {
-        tooltipX = rightBoundary - tooltipWidth;
-      }
-      tooltip
-        .html(tooltipContent)
-        .style("left", tooltipX + "px")
-        .style("top", tooltipY + "px");
-    })
-    .on("mousemove", function (d) {
-      const tooltip = d3.select("#tooltip");
-      tooltip.transition().duration(150).style("opacity", 0.9);
-      const name = d.srcElement.__data__.data.SoortMisdrijfRaw.slice(5);
-      const total = d.srcElement.__data__.data.Total;
-      const tooltipContent = "Aantal " + name + ": " + total;
-      let tooltipX = d.pageX + 10;
-      const tooltipY = d.pageY - 28;
-      const tooltipWidth = tooltip.node().offsetWidth;
-      const rightBoundary = window.innerWidth - 5;
-      if (tooltipX + tooltipWidth > rightBoundary) {
-        tooltipX = rightBoundary - tooltipWidth;
-      }
-      tooltip
-        .html(tooltipContent)
-        .style("left", tooltipX + "px")
-        .style("top", tooltipY + "px");
-    })
-    .on("mouseout", function () {
-      const tooltip = d3.select("#tooltip");
-      tooltip.transition().duration(500).style("opacity", 0);
-    });
 }
 
 function calculateCrimesByType(data) {

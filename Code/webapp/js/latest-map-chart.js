@@ -23,15 +23,13 @@ const IconDictonary = {
 // Helper functions
 function aggregateData(data) {
   const wijkCrimeDict = {};
-  for (const entry in data) {
-    if (!(data[entry].WijkenEnBuurten in wijkCrimeDict)) {
-      wijkCrimeDict[data[entry].WijkenEnBuurtenRaw] = parseInt(
-        data[entry].GeregistreerdeMisdrijven
-      );
+  for (const i in data) {
+    let gemeente = data[i].WijkenEnBuurtenRaw
+    let misdaad = data[i].GeregistreerdeMisdrijven
+    if (!(gemeente in wijkCrimeDict)) {
+      wijkCrimeDict[gemeente] = parseInt(misdaad);
     } else {
-      wijkCrimeDict[data[entry].WijkenEnBuurtenRaw] += parseInt(
-        data[entry].GeregistreerdeMisdrijven
-      );
+      wijkCrimeDict[gemeente] = wijkCrimeDict[gemeente] + parseInt(misdaad);
     }
   }
   return wijkCrimeDict;
@@ -46,7 +44,6 @@ function findMostFrequentCrime(gemeente) {
     }
     return freqDict[d3.max(Object.keys(freqDict))];
 }
-
 
 async function drawMap(data) {
   let municipalitiesGroup;
@@ -132,7 +129,8 @@ async function drawMap(data) {
     firstRun = false;
   }
 
-  municipalitiesGroup
+  try {
+    municipalitiesGroup
     .selectAll("path")
     .attr("fill", function (d) {
       return colorScale(data[d.properties.name]) ?? "rgb(255,255,255)";
@@ -153,7 +151,6 @@ async function drawMap(data) {
         svg.transition().duration(750).call(zoom.transform,d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
 
         // add Icons to all munincipalities
-        
         municipalitiesGroup.selectAll("path").each(function (d) {
             let iconPath = IconDictonary[findMostFrequentCrime(d.properties.name)]
             if (iconPath === undefined) {
@@ -182,9 +179,10 @@ async function drawMap(data) {
                     else {return path.centroid(d)[1] - 2}
                 } );
             }
-            
         })
     });
+  } catch (error) {console.log(error)}
+  
 
 }
 
@@ -199,7 +197,30 @@ export async function resetMapView() {
     setFocusArea("Nederland");
 }
 
+let test = [
+  {WijkenEnBuurtenRaw: "Almelo", GeregistreerdeMisdrijven: 1},
+  {WijkenEnBuurtenRaw: "Almelo", GeregistreerdeMisdrijven: 2},
+  {WijkenEnBuurtenRaw: "Almelo", GeregistreerdeMisdrijven: 3},
+  {WijkenEnBuurtenRaw: "Almelo", GeregistreerdeMisdrijven: 4},
+  {WijkenEnBuurtenRaw: "Almelo", GeregistreerdeMisdrijven: 5},
+  {WijkenEnBuurtenRaw: "AA en Huuze", GeregistreerdeMisdrijven: 1},
+  {WijkenEnBuurtenRaw: "AA en Huuze", GeregistreerdeMisdrijven: 2},
+  {WijkenEnBuurtenRaw: "AA en Huuze", GeregistreerdeMisdrijven: 3},
+  {WijkenEnBuurtenRaw: "AA en Huuze", GeregistreerdeMisdrijven: 4},
+  {WijkenEnBuurtenRaw: "AA en Huuze", GeregistreerdeMisdrijven: 5},
+]
+
 eventEmitter.on("map data updated", () => {
-  const aggragated = aggregateData(mapData);
-  drawMap(aggragated);
+  console.log(aggregateData(test))
+  if(firstRun){
+    const aggragated = aggregateData(mapData);
+    drawMap(aggragated);
+  }
+});
+
+eventEmitter.on("update", () => {
+  if(!firstRun){
+    const aggragated = aggregateData(mapData);
+    drawMap(aggragated);
+  }
 });
