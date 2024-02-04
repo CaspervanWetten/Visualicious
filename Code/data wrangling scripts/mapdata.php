@@ -247,7 +247,7 @@ foreach ($filteredData as $index => $row) {
     $wijkRaw = $fields[5];
 
     // Check if the combination of 'WijkenEnBuurten' and 'SoortMisdrijf' exists in the sums array
-    $key = $wijk . '-' . $soortMisdrijf . '-' . $wijkRaw . '-' . $soortMisdrijfRaw;
+    $key = $wijk . '>' . $soortMisdrijf . '>' . $wijkRaw . '>' . $soortMisdrijfRaw;
     if (isset($sums[$key])) {
         // Add the 'GeregistreerdeMisdrijven' to the existing sum
         $sums[$key] += $misdrijven;
@@ -261,7 +261,7 @@ foreach ($filteredData as $index => $row) {
 $aggregatedData[] = "WijkenEnBuurten\tSoortMisdrijf\tGeregistreerdeMisdrijven\tWijkenEnBuurtenRaw\tSoortMisdrijfRaw"; // Add the column headers
 
 foreach ($sums as $key => $sum) {
-    list($wijk, $soortMisdrijf, $wijkRaw, $soortMisdrijfRaw) = explode('-', $key);
+    list($wijk, $soortMisdrijf, $wijkRaw, $soortMisdrijfRaw) = explode('>', $key);
 
     // Create a new row with the aggregated values
     $aggregatedRow = [
