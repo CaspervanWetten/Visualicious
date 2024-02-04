@@ -1,12 +1,4 @@
-import {
-    focusArea,
-    setFocusArea,
-    hoverArea,
-    setHoverArea,
-    setMapSize,
-    mapData,
-    data,
-} from "./index.js";
+import { focusArea, setFocusArea, hoverArea, setHoverArea, setMapSize, mapData, data, } from "./index.js";
 import { eventEmitter } from "./event-emitter.js";
 
 // Initialize zoom behavior
@@ -75,22 +67,55 @@ function findMostFrequentCrime(data) {
     return result;
 }
 
-async function drawAndLoadMap() {
+function aggregateData(data) {
+    const wijkCrimeDict = {}
+    for(const entry in data) {
+        if (!(data[entry].WijkenEnBuurten in wijkCrimeDict)) {
+            wijkCrimeDict[data[entry].WijkenEnBuurtenRaw] = parseInt(data[entry].GeregistreerdeMisdrijven)
+        } else {
+            wijkCrimeDict[data[entry].WijkenEnBuurtenRaw] += parseInt(data[entry].GeregistreerdeMisdrijven)
+        }
+    }
+    // console.log(wijkCrimeDict)
+    return wijkCrimeDict
+}
+
+
+async function drawAndLoadMap(aggragated) {
     const width = 800;
     const height = 600;
+    const IconDictonary = {
+        "Totaal misdrijven": "../../Data/icons/Icon-Misdrijven.png",
+        "Diefstal/inbraak woning": "../../Data/icons/Icon-Home.png",
+        "Diefstal/inbraak box/garage/schuur": "../../Data/icons/Icon-Garage.png",
+        "Diefstal uit/vanaf motorvoertuigen": "../../Data/icons/Icon-Voertuig1.png",
+        "Diefstal van motorvoertuigen": "../../Data/icons/Icon-Voertuig2.png",
+        "Diefstal van brom-, snor-, fietsen": "../../Data/icons/Icon-Fietsen.png",
+        "Zakkenrollerij": "../../Data/icons/Icon-Zakkenrollerij.png",
+        "Diefstal af/uit/van ov. voertuigen": "../../Data/icons/Icon-OV.png",
+        "Straatroof": "../../Data/icons/Icon-Straatroof.png",
+        "Overval": "../../Data/icons/Icon-Overval.png",
+        "Diefstallen (water)": "../../Data/icons/Icon-Boot.png",
+        "Diefstal/inbraak bedrijven enz.": "../../Data/icons/Icon-Bedrijf.png",
+        "Winkeldiefstal": "../../Data/icons/Icon-Winkel.png"
+      }
 
     // Define the color scale
+    const values = Object.values(aggragated ?? "")
+    const [minKey, maxKey] = d3.extent(values ?? [])
     const colorScale = d3.scaleLinear()
-        .domain([0, 10]) // Placeholder domain, adjust based on your data
-        .range(["#ffffcc", "#800026"]);
-
+    .domain([minKey, maxKey]) // Placeholder domain, adjust based on your data
+    .range(["#ffffcc", "#800026"]);
+    
     // Define the projection
     const projection = d3.geoMercator()
-        .center([5.05, 53.0]) // Adjust the center based on your GeoJSON coordinates
-        .scale(8250)
-        .translate([width / 2, height / 2]);
-
+    .center([5.05, 53.0]) // Adjust the center based on your GeoJSON coordinates
+    .scale(8250)
+    .translate([width / 2, height / 2]);
+    
     const path = d3.geoPath().projection(projection);
+    
+
 
     try {
         const municipalitiesDataCache = await d3.json("../../Data/newer_municipalities.geojson");
@@ -100,8 +125,6 @@ async function drawAndLoadMap() {
             .enter().append("path")
             .attr("d", path)
             .attr("fill", function (d) {
-                // Placeholder logic for assigning fill based on data
-                // Replace with your actual logic to determine fill based on the municipality's data
                 return colorScale(Math.random() * 10); // Example: random fill for demonstration
             })
             .attr("stroke", "black")
@@ -122,7 +145,9 @@ async function drawAndLoadMap() {
 
 // Setup and event listeners remain unchanged
 eventEmitter.on("map data updated", () => {
-    drawAndLoadMap(mapData, svg, zoom, municipalitiesGroup);
+    const aggragated = aggregateData(mapData)
+    // console.log(mapData)
+    drawAndLoadMap(aggragated);
 });
 
 d3.select("#sizeToggleButton").on("click", function() {

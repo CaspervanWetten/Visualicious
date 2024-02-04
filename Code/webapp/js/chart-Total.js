@@ -1,4 +1,4 @@
-import { data, focusArea, endDateText, startDateText } from "./index.js";
+import { data, focusArea, endDateText, startDateText, crimeCodeList } from "./index.js";
 import { eventEmitter } from "./event-emitter.js";
 
 function responsivefy(svg) {
@@ -34,6 +34,7 @@ function totaalMisdaden(array) {
   const margin = { top: 20, right: 20, bottom: 50, left: 50 };
   const width = 600 - margin.left - margin.right;
   const height = 300 - margin.top - margin.bottom;
+  let prevColor
 
   const svg = d3
     .select("#totaalMisdaden")
@@ -48,10 +49,10 @@ function totaalMisdaden(array) {
   let text;
   if (changed) {
     text =
-      "Sum of all selected crimes, normalized per year,";
+      "Summed frequency of selected crimes, divided per year,";
   } else {
     text =
-      "Sum of all selected crimes";
+      "Summed frequency of selected crimes";
   }
 
   svg
@@ -77,10 +78,7 @@ function totaalMisdaden(array) {
 
   const y = d3
     .scaleLinear()
-    .domain([
-      0,
-      d3.max(Object.values(data).map((d) => d.GeregistreerdeMisdrijven)),
-    ])
+    .domain([0,d3.max(Object.values(data).map((d) => d.GeregistreerdeMisdrijven * 1.2)),])
     .nice()
     .range([height, 0]);
 
@@ -136,6 +134,7 @@ function totaalMisdaden(array) {
       d3.select(this)
         .on("mouseover", function (event, d) {
           const bar = d3.select(this);
+          prevColor = bar.attr("fill")
           bar.transition().duration(150).attr("fill", "black");
 
           const tooltip = d3.select("#tooltip");
@@ -177,18 +176,7 @@ function totaalMisdaden(array) {
           bar
             .transition()
             .duration(200)
-            .attr("fill", function (d, i) {
-              const periode = parseInt(d[1].Periode);
-              const current = d[1].GeregistreerdeMisdrijven;
-              if (periode === 2012) {return "green"}
-              const prev = data[periode - 1].GeregistreerdeMisdrijven;
-              if (current < prev
-              ) {
-                return "green"; // Turn it green
-              } else {
-                return "red"; // Fill it red
-              }
-            });
+            .attr("fill", prevColor);
 
           const tooltip = d3.select("#tooltip");
           tooltip.transition().duration(500).style("opacity", 0);
@@ -202,7 +190,7 @@ function totaalMisdaden(array) {
 function combineYears(data) {
   const uniquePerioden = Array.from(new Set(data.map((item) => item.Perioden)));
   const newData = {};
-  if (uniquePerioden.length > 12) {
+  if (uniquePerioden.length > 18) {
     const shortKeyDict = {};
     const freqDict = {};
     for (let key in data) {
@@ -225,7 +213,7 @@ function combineYears(data) {
     }
     for (let key in shortKeyDict) {
       newData[key] = {
-        GeregistreerdeMisdrijven: Math.round(shortKeyDict[key]),
+        GeregistreerdeMisdrijven: parseInt(Math.round(shortKeyDict[key])),
         Periode: key,
       };
     }
@@ -249,8 +237,6 @@ function removePreviousGraph() {
     container.node().parentNode.remove();
   }
 }
-
-
 
 // Every time there's an update, remove the previous graph and load the page
 eventEmitter.on("update", () => {
