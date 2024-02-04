@@ -158,6 +158,7 @@ $timeDict = array(
     "December 2023" => "2023MM12"
 );
 
+
 // Function to generate date codes between start and end dates
 function getDateCodes($startDate, $endDate) {
     global $timeDict;
@@ -225,14 +226,10 @@ foreach ($rows as $index => $row) {
     }
 }
 
-
-// Initialize an array to store the aggregated data
-$aggregatedData = [];
-
-// Initialize an associative array to keep track of the sums for each 'WijkenEnBuurten' and 'SoortMisdrijf' combination
+// Initialize an associative array to store the sums for each 'WijkenEnBuurten'
 $sums = [];
 
-// Process and aggregate the data based on 'WijkenEnBuurten' and 'SoortMisdrijf'
+// Process and aggregate the data based on 'WijkenEnBuurten'
 foreach ($filteredData as $index => $row) {
     // Skip the first row (column headers)
     if ($index === 0) {
@@ -240,36 +237,28 @@ foreach ($filteredData as $index => $row) {
     }
 
     $fields = explode("\t", $row);
-    $wijk = $fields[2];
+    $wijk = $fields[5];
     $misdrijven = (float)$fields[4]; // Convert to float for summing
-    $soortMisdrijf = $fields[1];
-    $soortMisdrijfRaw = $fields[6];
-    $wijkRaw = $fields[5];
 
-    // Check if the combination of 'WijkenEnBuurten' and 'SoortMisdrijf' exists in the sums array
-    $key = $wijk . '>' . $soortMisdrijf . '>' . $wijkRaw . '>' . $soortMisdrijfRaw;
-    if (isset($sums[$key])) {
+    // Check if the 'WijkenEnBuurten' exists in the sums array
+    if (isset($sums[$wijk])) {
         // Add the 'GeregistreerdeMisdrijven' to the existing sum
-        $sums[$key] += $misdrijven;
+        $sums[$wijk] += $misdrijven;
     } else {
         // Initialize the sum if it doesn't exist
-        $sums[$key] = $misdrijven;
+        $sums[$wijk] = $misdrijven;
     }
 }
 
 // Construct the aggregated data
-$aggregatedData[] = "WijkenEnBuurten\tSoortMisdrijf\tGeregistreerdeMisdrijven\tWijkenEnBuurtenRaw\tSoortMisdrijfRaw"; // Add the column headers
+$aggregatedData[] = "WijkenEnBuurtenRaw\tGeregistreerdeMisdrijven"; // Add the column headers
 
-foreach ($sums as $key => $sum) {
-    list($wijk, $soortMisdrijf, $wijkRaw, $soortMisdrijfRaw) = explode('>', $key);
-
+foreach ($sums as $wijk => $sum) {
     // Create a new row with the aggregated values
     $aggregatedRow = [
-        $wijk, 
-        $soortMisdrijf,
+        $wijk,
         $sum,
-        $wijkRaw, // You can add the WijkenEnBuurtenRaw value here
-        $soortMisdrijfRaw, // You can add the SoortMisdrijfRaw value here
+        // You can add the WijkenEnBuurtenRaw value here if needed
     ];
 
     // Add the aggregated row to the result
@@ -283,4 +272,3 @@ header('Content-Disposition: attachment; filename="aggregated_data.tsv"');
 // Output the aggregated TSV data
 echo implode("\n", $aggregatedData);
 ?>
-
