@@ -39,6 +39,10 @@ function findMostFrequentCrime(gemeente) {
     const freqDict = {}
     for (const entry in mapData){
         if(mapData[entry].WijkenEnBuurtenRaw === gemeente){
+            let gem = mapData[entry].WijkenEnBuurtenRaw
+            let soort = mapData[entry].SoortMisdrijfRaw.slice(6)
+            let aantal = parseInt(mapData[entry].GeregistreerdeMisdrijven)
+            if (gem === "Groningen"){console.log ("Groningen: " + soort + " : " + aantal)}
             freqDict[parseFloat(mapData[entry].GeregistreerdeMisdrijven)] = mapData[entry].SoortMisdrijfRaw.slice(6) 
         }
     }
@@ -197,21 +201,8 @@ export async function resetMapView() {
     setFocusArea("Nederland");
 }
 
-let test = [
-  {WijkenEnBuurtenRaw: "Almelo", GeregistreerdeMisdrijven: 1},
-  {WijkenEnBuurtenRaw: "Almelo", GeregistreerdeMisdrijven: 2},
-  {WijkenEnBuurtenRaw: "Almelo", GeregistreerdeMisdrijven: 3},
-  {WijkenEnBuurtenRaw: "Almelo", GeregistreerdeMisdrijven: 4},
-  {WijkenEnBuurtenRaw: "Almelo", GeregistreerdeMisdrijven: 5},
-  {WijkenEnBuurtenRaw: "AA en Huuze", GeregistreerdeMisdrijven: 1},
-  {WijkenEnBuurtenRaw: "AA en Huuze", GeregistreerdeMisdrijven: 2},
-  {WijkenEnBuurtenRaw: "AA en Huuze", GeregistreerdeMisdrijven: 3},
-  {WijkenEnBuurtenRaw: "AA en Huuze", GeregistreerdeMisdrijven: 4},
-  {WijkenEnBuurtenRaw: "AA en Huuze", GeregistreerdeMisdrijven: 5},
-]
 
 eventEmitter.on("map data updated", () => {
-  console.log(aggregateData(test))
   if(firstRun){
     const aggragated = aggregateData(mapData);
     drawMap(aggragated);

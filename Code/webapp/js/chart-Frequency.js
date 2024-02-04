@@ -39,6 +39,8 @@ function frequentieMisdaden(data) {
   const margin = { top: 30, right: 20, bottom: 50, left: 20 };
   const width = 600 - margin.left - margin.right;
   const height = 300 - margin.top - margin.bottom;
+  console.log("TREEMAP DATA: ")
+  console.log(data)
 
   const svg = d3
     .select("#frequentieMisdaden")
@@ -211,7 +213,7 @@ function calculateCrimesByType(data) {
     if (!groupedByCrime[crimeType]) {
       groupedByCrime[crimeType] = 0;
     }
-    groupedByCrime[crimeType] += totalCrimes;
+    groupedByCrime[crimeType] = groupedByCrime[crimeType] + totalCrimes;
   }
   for (const crimeType in groupedByCrime) {
     result.push({
